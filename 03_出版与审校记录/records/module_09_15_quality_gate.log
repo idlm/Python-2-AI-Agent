@@ -1,0 +1,122 @@
+===== 09-llm-contract-client: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/09-llm-contract-client
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.2
+collected 33 items
+
+tests/test_core.py ............                                          [ 36%]
+tests/test_evaluation.py .....                                           [ 51%]
+tests/test_openai_transport.py ....                                      [ 63%]
+tests/test_structured.py ............                                    [100%]
+
+============================== 33 passed in 0.50s ==============================
+===== 09-llm-contract-client: mypy =====
+Success: no issues found in 6 source files
+===== 09-llm-contract-client: ruff =====
+[1;32mAll checks passed![0m
+===== 10-rag-contract-workbench: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/10-rag-contract-workbench
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.2
+collected 37 items
+
+tests/test_answer_evaluation.py ....                                     [ 10%]
+tests/test_answering.py ........                                         [ 32%]
+tests/test_cli.py ....                                                   [ 43%]
+tests/test_core.py ............                                          [ 75%]
+tests/test_evaluation.py .....                                           [ 89%]
+tests/test_openai_answer_transport.py ....                               [100%]
+
+============================== 37 passed in 0.54s ==============================
+===== 10-rag-contract-workbench: mypy =====
+Success: no issues found in 7 source files
+===== 10-rag-contract-workbench: ruff =====
+[1;32mAll checks passed![0m
+===== 11-bounded-agent-core: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/11-bounded-agent-core
+configfile: pyproject.toml
+testpaths: tests
+collected 23 items
+
+tests/test_cli.py .....                                                  [ 21%]
+tests/test_core.py ...........                                           [ 69%]
+tests/test_evaluation.py ......                                          [ 95%]
+tests/test_events.py .                                                   [100%]
+
+============================== 23 passed in 0.05s ==============================
+===== 11-bounded-agent-core: mypy =====
+Success: no issues found in 5 source files
+===== 11-bounded-agent-core: ruff =====
+[1;32mAll checks passed![0m
+===== 12-framework-adoption-kit: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/12-framework-adoption-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 17 items
+
+tests/test_contracts.py .........                                        [ 52%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 17 passed in 0.04s ==============================
+===== 12-framework-adoption-kit: mypy =====
+Success: no issues found in 4 source files
+===== 12-framework-adoption-kit: ruff =====
+[1;32mAll checks passed![0m
+===== 13-delegation-contract-kit: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/13-delegation-contract-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 15 items
+
+tests/test_core.py .......                                               [ 46%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 15 passed in 0.04s ==============================
+===== 13-delegation-contract-kit: mypy =====
+Success: no issues found in 4 source files
+===== 13-delegation-contract-kit: ruff =====
+[1;32mAll checks passed![0m
+===== 14-evaluation-gate-kit: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/14-evaluation-gate-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 14 items
+
+tests/test_core.py ......                                                [ 42%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 14 passed in 0.04s ==============================
+===== 14-evaluation-gate-kit: mypy =====
+Success: no issues found in 4 source files
+===== 14-evaluation-gate-kit: ruff =====
+[1;32mAll checks passed![0m
+===== 15-operational-readiness-kit: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/15-operational-readiness-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 17 items
+
+tests/test_core.py .........                                             [ 52%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 17 passed in 0.05s ==============================
+===== 15-operational-readiness-kit: mypy =====
+Success: no issues found in 4 source files
+===== 15-operational-readiness-kit: ruff =====
+[1;32mAll checks passed![0m

@@ -1,0 +1,46 @@
+[
+  {
+    "case_id": "all-controls-complete",
+    "environment": "staging",
+    "app_version": "v1",
+    "required_secret_states": ["active"],
+    "drain_supported": true,
+    "drill_state": "verified",
+    "compatible_versions": ["v1"],
+    "runbook_complete": true,
+    "expected": "approved"
+  },
+  {
+    "case_id": "expired-secret-blocks",
+    "environment": "staging",
+    "app_version": "v1",
+    "required_secret_states": ["expired"],
+    "drain_supported": true,
+    "drill_state": "verified",
+    "compatible_versions": ["v1"],
+    "runbook_complete": true,
+    "expected": "rejected"
+  },
+  {
+    "case_id": "unverified-recovery-blocks",
+    "environment": "staging",
+    "app_version": "v1",
+    "required_secret_states": ["active"],
+    "drain_supported": true,
+    "drill_state": "not_verified",
+    "compatible_versions": ["v1"],
+    "runbook_complete": true,
+    "expected": "rejected"
+  },
+  {
+    "case_id": "incomplete-runbook-blocks",
+    "environment": "staging",
+    "app_version": "v1",
+    "required_secret_states": ["active"],
+    "drain_supported": true,
+    "drill_state": "verified",
+    "compatible_versions": ["v1"],
+    "runbook_complete": false,
+    "expected": "rejected"
+  }
+]

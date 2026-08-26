@@ -1,0 +1,17 @@
+{
+  "recorded_at": "2026-08-26T00:00:00+08:00",
+  "purpose": "单次最小严格 JSON Schema 烟雾验收；不是质量、事实性、安全或生产容量证明。",
+  "model_catalog_refreshed": true,
+  "catalog_file": "records/module_09_live_model_catalog.json",
+  "model": "gpt-5-mini",
+  "request_id": "module-09-structured-smoke",
+  "attempts": 1,
+  "input_chars": 47,
+  "input_tokens": 137,
+  "output_tokens": 362,
+  "key_point_count": 4,
+  "uncertainty": "low",
+  "schema_validated_locally": true,
+  "stored_prompt_or_response_body": false,
+  "stored_api_key": false
+}

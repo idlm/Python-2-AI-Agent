@@ -1,0 +1,11 @@
+# Reader feedback consistency audit
+reader_review_protocol.md 12
+reader_review_pilot_packet.md 11
+reader_feedback_ledger.md 12
+publication_quality_gate.md 6
+course_table_of_contents.md 10
+# Required links
+pilot->protocol=ok
+gate->pilot=ok
+pilot->ledger=missing
+toc->pilot=ok

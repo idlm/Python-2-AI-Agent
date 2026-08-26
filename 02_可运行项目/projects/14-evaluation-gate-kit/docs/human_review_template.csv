@@ -1,0 +1,2 @@
+case_id,baseline_version,candidate_version,risk_level,automated_decision,human_decision,reason_category,reviewer_id,reviewed_at
+# 仅记录受控标识、版本、风险与决定；禁止任务正文、提示词、参数、trace 原文、工具结果、个人数据和密钥。

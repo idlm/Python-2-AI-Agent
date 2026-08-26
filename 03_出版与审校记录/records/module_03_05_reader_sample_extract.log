@@ -1,0 +1,400 @@
+===== module_03_chapter_3_1.md =====
+# 第 3.1 章：文件系统与路径——程序如何定位真实世界的数据
+
+## 1. 本章目标
+理解文件、目录、绝对路径、相对路径和当前工作目录，并能安全定位练习文件。
+
+## 2. 为什么学习
+自动化的对象通常是文件；路径错误可能导致读不到数据或操作错误位置。
+
+## 3. Agent 中的作用
+RAG 文档、日志、检查点和工具输出都需可靠路径与存储边界。
+
+## 4. 前置知识
+完成模块 0 的终端与工作目录章节。
+
+## 5. 概念解释
+文件保存内容，目录组织文件；绝对路径从根位置开始，相对路径从当前工作目录开始。
+
+## 6. 生活化比喻
+路径像地址；相对路径像“从你当前位置向左”，绝对路径像完整街道和门牌。
+
+## 7. 原理分析
+相同相对路径在不同 CWD 可能指向不同位置；自动化脚本必须显式确认根目录与目标路径。
+
+## 8. 最小示例
+```python
+from pathlib import Path
+project_root = Path.cwd()
+print(project_root)
+print((project_root / "examples").exists())
+```
+
+## 9. 逐行解释
+`Path.cwd()` 读取 CWD；`/` 组合路径；`exists()` 检查目标是否存在而不修改文件。
+
+## 10. 常见错误
+不要把个人绝对路径写死；不要根据文件名猜测目标路径；不要在未确认位置执行批量移动。
+
+## 11. Traceback 分析
+`FileNotFoundError` 表明程序请求的路径不存在；先打印 CWD 和完整路径。
+
+## 12. 错误案例
+归档脚本在错误目录运行，把练习文件当成待移动文件。
+
+## 13. 改进方案
+使用项目根目录、相对路径、Dry Run 和操作前路径检查。
+
+## 14. 工程实践
+路径使用 `pathlib`；每次文件操作记录来源、目标和结果。
+--- mapping ---
+### 本章项目映射
+
+本章的课后项目应落到 `projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读路径验证和归档目标计算，区分用户输入、允许根目录和真实文件系统。
+
+```bash
+cd projects/03-auto-archive && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 为路径遍历或缺失目录添加测试，确保在任何移动前受控拒绝。
+
+完成后在项目 README 或学习记录中写明：改动的输入/输出合同、一个失败案例、测试结果，以及为何该改动不扩大未授权的文件、网络、秘密或日志暴露面。
+
+## References
+===== module_03_chapter_3_4.md =====
+# 第 3.4 章：日志、调试与异常处理——让自动化在失败时可诊断
+
+## 1. 本章目标
+使用日志记录关键事件，区分调试信息与用户提示，并为可预期失败设计异常边界。
+
+## 2. 为什么学习
+自动化失败不可避免；没有证据，就无法安全恢复或改进。
+
+## 3. Agent 中的作用
+Agent 轨迹、工具错误、重试和状态恢复都依赖可关联的日志与异常策略。
+
+## 4. 前置知识
+完成第 0.3 章与模块 3 前三章。
+
+## 5. 概念解释
+日志记录运行事实；调试定位错误原因；异常处理决定预期失败如何传递、转换或恢复。
+
+## 6. 生活化比喻
+日志像飞行记录器，异常处理像应急流程；两者都不能在事故后临时编写。
+
+## 7. 原理分析
+捕获过宽异常会掩盖缺陷；应在知道如何处理的位置捕获特定异常，记录上下文后决定重试、跳过或停止。
+
+## 8. 最小示例
+```python
+import logging
+logging.basicConfig(level=logging.INFO)
+try:
+    text = open("missing.txt", encoding="utf-8").read()
+except FileNotFoundError:
+    logging.warning("输入文件不存在")
+```
+
+## 9. 逐行解释
+配置日志级别；尝试读取；仅捕获缺失文件；记录可读警告而不伪造成功。
+
+## 10. 常见错误
+不要使用空 `except`；不要把密钥写入日志；不要把 `print` 当唯一生产诊断工具。
+
+## 11. Traceback 分析
+未处理异常保留 Traceback；处理后仍应记录文件、操作和错误类型，以便复现。
+
+## 12. 错误案例
+归档失败后捕获所有异常并继续，最终报告“全部成功”，但部分文件未移动。
+
+## 13. 改进方案
+为每项操作记录成功、跳过和失败；汇总结果；对可恢复错误给出重试或回滚策略。
+
+--- mapping ---
+### 本章项目映射
+
+本章的课后项目应落到 `projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读日志和异常映射，比较面向用户的失败摘要与开发者调试信息。
+
+```bash
+cd projects/03-auto-archive && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 新增一个失败类别；CLI 只输出受控错误，日志只保存必要元数据，不保存路径正文或文件内容。
+
+完成后在项目 README 或学习记录中写明：改动的输入/输出合同、一个失败案例、测试结果，以及为何该改动不扩大未授权的文件、网络、秘密或日志暴露面。
+
+## References
+===== module_04_chapter_4_4.md =====
+# 第 4.4 章：插件配置、加载与项目收束——让扩展能力可控上线
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/04-plugin-system/`（安全文本插件系统，版本 0.2.0）
+
+## 1. 本章目标
+
+本章将插件注册、JSON 配置、允许列表、命令行、审计日志、错误处理与测试收束为一个可运行项目。完成后，你能解释“配置化”与“允许配置任意执行代码”的根本差异，并能为 Agent 的工具配置建立最小安全边界。
+
+## 2. 前置知识
+
+你已完成对象、数据类、协议、组合、装饰器、生成器和上下文管理器。本章不新增神秘框架，而是把这些普通 Python 能力组合为一个明确的工程边界：配置只选择已经审查的能力，不能直接决定要运行哪段代码。
+
+## 3. 从 Agent 倒推能力
+
+在 Agent 中，插件可对应工具、检索器、记忆后端或后处理器。若用户或配置能直接指定模块路径、命令或表达式，系统就可能把“选择工具”变成“执行任意代码”。因此 Agent 不等于工具列表：它还必须具有允许列表、输入校验、权限、可观测性、失败策略和评测。本项目只讲其中的受控插件加载，不把它夸大成完整沙箱。
+
+## 4. 核心词汇与边界
+
+**插件注册表（plugin registry）**是允许能力的受控映射；**允许列表（allowlist）**表示明确允许、其余默认拒绝；**配置契约（configuration contract）**规定字段、类型和范围；**动态导入（dynamic import）**是在运行时按名字装载代码。动态导入本身是 Python 合法功能，但对不可信配置直接启用，会扩大执行边界；本项目故意不这样做。
+
+| 问题 | 受控答案 | 不接受的捷径 |
+|---|---|---|
+| 能用哪些插件？ | 代码中明确允许的 `prefix` 工厂。 | 配置任意写模块路径。 |
+| 传什么参数？ | Schema 检查 `type`、`name`、`prefix`。 | 把未知字段悄悄忽略。 |
+| 名称不存在怎么办？ | `UnknownPluginError`，停止执行。 | 回退导入同名模块。 |
+| 怎样追踪执行？ | 日志和脱敏 JSON Lines 审计。 | 写入用户完整文本。 |
+
+## 5. 威胁建模：先问“谁能改配置”
+
+学习项目常把 JSON 当成“只是数据”。现实中配置可能来自用户上传、环境变量、版本库、后台管理页或被入侵的存储。只要攻击者能改变配置，他就会尝试把它变成代码执行、路径访问、网络请求或密钥泄露。故本项目的威胁模型是假设配置**不自动可信**；程序必须先验证结构，再映射到代码中预先允许的类型。
+
+## 6. 不安全的反例
+
+```python
+# 文件：examples/module_04/unsafe_dynamic_import.py
+# 仅用于识别风险；不要在项目中运行或模仿。
+import importlib
+
+
+def build_from_config(config: dict):
+    module = importlib.import_module(config["module"])
+    factory = getattr(module, config["factory"])
+    return factory(**config["arguments"])
+```
+
+它看起来“扩展性很强”，实际把模块名、属性名和参数交给配置。配置一旦被篡改，代码审查就无法只看仓库源代码来判断实际执行范围。问题不在 `importlib` 这个工具本身，而在**不可信输入跨越了代码执行边界**。
+
+--- mapping ---
+### 本章项目映射
+
+本章直接对应 `projects/04-plugin-system/`。从 `src/safe_plugin_system/`、允许类型配置、CLI 和测试阅读 Protocol、冻结数据、注册表、字段闭集、脱敏审计与受控退出码：
+
+```bash
+cd projects/04-plugin-system
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 为一个已有的内置允许类型增加字段闭集拒绝测试，并验证审计记录只保存长度和状态。不要新增 `python_module`、可调用对象、动态导入、任意路径、秘密、网络、shell 或真实账户字段；配置文件是数据，不是代码或权限边界。
+
+完成后记录允许列表、输入/输出、异常、日志最小化和回归命令。该项目只验证固定本地插件合同，不构成任意扩展执行、插件供应链安全、真实环境读取或副作用授权。
+
+## 参考资料
+
+[1]: https://docs.python.org/3/library/logging.html "Python logging documentation"
+[2]: https://docs.python.org/3/glossary.html#term-context-manager "Python Glossary: context manager"
+[3]: https://docs.python.org/3/library/json.html "Python json documentation"
+===== module_05_chapter_5_1.md =====
+# 第 5.1 章：工程化的第一条边界——项目、虚拟环境与可复现运行
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/05-cli-tool-platform/`（将在本模块逐步建立）
+
+## 1. 本章目标
+
+理解“能在我的电脑运行”与“任何人能按说明复现运行”的差异；能创建、使用和删除项目专属虚拟环境；能区分 Python 解释器、第三方依赖、项目源代码与运行命令。
+
+## 2. 为什么工程化从环境开始
+
+同一段代码在不同机器失败，常不是算法错误，而是解释器版本、安装位置或依赖版本不同。工程化不是把目录变复杂，而是让输入、版本、命令和输出可以被别人验证。
+
+## 3. 从生产 Agent 倒推
+
+生产 Agent 依赖模型 SDK、数据库客户端、检索库和观测工具。若环境不可复现，部署和评测就无法可信。虚拟环境不能解决密钥、网络和数据问题，但它先把“这个项目使用哪些 Python 包”从机器全局状态中分离出来。
+
+## 4. 核心概念
+
+| 术语 | 含义 | 不要混用 |
+|---|---|---|
+| 项目根目录 | 包含项目配置、源代码、测试与文档的顶层目录。 | 不等于当前终端一定所在目录。 |
+| 虚拟环境 | 项目专属的隔离 Python 与包安装位置。 | 不等于容器或完整操作系统隔离。 |
+| 依赖 | 项目运行或开发所需要的外部包。 | 不把标准库当成必须安装的第三方依赖。 |
+| 可复现运行 | 他人按明确版本与命令能得到可验证结果。 | 不等于“我以前运行过一次”。 |
+
+## 5. 官方推荐的最小命令
+
+PyPA 文档建议在项目目录中创建 `.venv`，并推荐在使用第三方包时采用虚拟环境。[1]
+
+```bash
+cd projects/05-cli-tool-platform
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip --version
+```
+
+预期最后一行的路径包含 `.venv`。退出环境使用 `deactivate`；删除 `.venv` 不会删除项目源代码，却会删除该环境安装的包。
+
+## 6. 为什么使用 `python -m pip`
+
+直接输入 `pip` 可能调用另一个解释器对应的安装器。`python -m pip` 的 `python` 明确指定解释器，因此安装与运行更容易保持一致。即使不激活环境，也可使用 `.venv/bin/python -m pip install ...` 和 `.venv/bin/python -m pytest`。
+
+## 7. 最小可运行环境快照
+
+```python
+# 文件：examples/module_05/environment_check.py
+# 版本：1.0.0
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/05-cli-tool-platform/` 中完成可运行练习。先执行：从 `pyproject.toml`、`src/` 与 README 的安装步骤验证项目根目录和解释器边界。
+
+```bash
+cd projects/05-cli-tool-platform && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 在临时目录复现一次从错误工作目录运行的失败，再在 README 中说明为何项目根目录是合同的一部分。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/ "PyPA: Install packages in a virtual environment using pip and venv"
+[2]: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/ "PyPA: Writing your pyproject.toml"
+===== module_05_chapter_5_4.md =====
+# 第 5.4 章：配置与日志——让系统可调整、可诊断而不泄露
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/05-cli-tool-platform/`（版本 0.2.0）
+
+## 1. 本章目标
+
+完成本章后，你能够区分代码、配置、环境变量、日志、用户输出和异常；能设计明确配置优先级；能用 `tomllib` 读取受限 TOML；能用模块级 logger 记录脱敏事件；能解释为什么“能动态配置”不等于“允许配置执行任意代码”。
+
+## 2. 为什么配置与日志要一起学
+
+配置回答“程序在当前环境应怎样运行”，日志回答“程序实际上发生了什么”。若把配置写死在代码中，每次环境改变都要改代码；若把日志和用户输出混在一起，用户会看到无意义的内部细节，开发者又缺少诊断证据。两者都属于系统边界，而非装饰性功能。
+
+## 3. 从生产级 Agent 倒推
+
+Agent 常需配置模型名、超时、工具允许列表、检索阈值和日志级别；还需要记录请求 ID、工具名称、延迟、错误类型和评测版本。配置不能承载用户可执行代码，日志不能默认记录提示词、文件全文、API key 或个人信息。模型、工具、记忆、状态、工作流与评测都应分别配置和观测，不能由一个“万能 config” 混在一起。
+
+## 4. 五类信息不要混用
+
+| 类别 | 示例 | 应放在哪里 | 不应放在哪里 |
+|---|---|---|---|
+| 源代码 | `load_settings()` 规则 | 版本控制的 `.py` 文件。 | 用户可改的 TOML。 |
+| 非敏感运行配置 | `log_level = "INFO"` | 受控 TOML 或环境变量。 | 硬编码在业务函数里。 |
+| 密钥 | API key、数据库密码 | 密钥管理系统或运行环境注入。 | Git、日志、示例配置、Traceback。 |
+| 用户输出 | CLI 环境摘要。 | `print()` 或 API 响应。 | 日志解析工具。 |
+| 诊断事件 | “配置加载成功”、错误类型。 | `logging`。 | 随意的 `print()`。 |
+
+Python Logging HOWTO 明确区分普通 CLI 输出、运行事件、可处理警告和应抛出的错误。[1]
+
+## 5. 本项目的配置优先级
+
+`cli_tool_platform.settings.load_settings()` 使用由低到高的规则：**安全默认值 → 显式指定的受控 TOML 文件 → 显式环境变量**。高优先级只覆盖同名字段，不创建隐藏来源。
+
+```text
+内置默认值：app_name=cli-tool-platform，log_level=INFO
+        ↓
+可选 --config settings.toml
+        ↓
+COURSE_APP_NAME、COURSE_LOG_LEVEL
+        ↓
+经验证的 Settings 不可变对象
+```
+
+优先级必须写进文档和测试。若用户不知道“到底哪个值生效”，配置就不是可维护性，而是新的不确定性。
+
+## 6. 受控 TOML 配置示例
+
+```toml
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/05-cli-tool-platform/` 中完成可运行练习。先执行：阅读 TOML 字段闭集、环境变量优先级和 stderr 最小诊断，定位配置/日志边界。
+
+```bash
+cd projects/05-cli-tool-platform && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 新增一个非敏感设置项；拒绝未知字段，并写测试证明日志不输出完整配置或环境变量。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://docs.python.org/3/howto/logging.html "Python Logging HOWTO"
+[2]: https://docs.python.org/3/library/tomllib.html "Python tomllib documentation"
+[3]: https://docs.python.org/3/library/os.html#os.environ "Python os.environ documentation"
+[4]: https://docs.python.org/3/library/logging.config.html "Python logging.config documentation"
+===== module_05_chapter_5_5.md =====
+# 第 5.5 章：从遗留脚本到可维护项目——迁移、回归与发布门禁
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/01-task-manager/`、`projects/02-text-analyzer/`、`projects/03-auto-archive/`、`projects/04-plugin-system/`、`projects/05-cli-tool-platform/`
+
+## 1. 本章目标
+
+完成本章后，你能够把一个可运行的单文件脚本迁移为可安装、可测试的 `src` 布局项目；能决定何时保留兼容层；能解释单元测试、命令行端到端测试、类型检查、静态检查和 CI 各自防止什么失败；能建立不自动发布、不接触密钥的最小质量门禁。
+
+## 2. 为什么“脚本能跑”还不够
+
+脚本能在作者电脑运行，只证明一个特定路径、解释器、输入和当时环境曾经成功。它没有说明其他人如何安装，如何避免本地缓存遮蔽导入错误，如何复现失败，如何验证重构未改变行为，也没有说明配置和日志是否泄露数据。工程化并非给目录套一层复杂工具，而是把这些隐含前提改成**可执行、可审查的契约**。
+
+## 3. 从生产级 Agent 倒推
+
+Agent 服务最终要组合模型、工具、记忆、状态、工作流和评测。任何一个单文件原型若没有导入边界、接口、测试和可观察性，都会在接入模型调用或外部工具时放大成不可定位的故障。本章的迁移规则因此不是“为了使用某个框架”，而是为后续把可替换工具、状态存储、模型适配器和评测器装进同一系统准备骨架。
+
+## 4. 迁移不是重写：先保护行为
+
+开始前先写下旧程序的外部契约：接受哪些输入、产生哪些输出、创建或移动哪些文件、怎样失败、退出码是什么、日志是否含敏感信息。然后用测试固定这些行为，再改变目录。若一边“顺手优化”一边迁移，就无法区分新 Bug 是旧逻辑、重构还是新功能引入的。
+
+| 问题 | 迁移前的回答 | 迁移后的可验证证据 |
+|---|---|---|
+| 用户怎样运行？ | `python script.py ...`。 | `[project.scripts]` 声明安装后的命令。 |
+| 核心逻辑在哪里？ | CLI、文件读写和计算混在一起。 | 包内 `core.py`，CLI 仅解析参数和映射退出码。 |
+| 输入不合法会怎样？ | 可能出现 Traceback。 | 领域异常、稳定错误消息和受控退出码。 |
+| 改动会不会破坏旧用法？ | 只能人工猜测。 | 兼容层与回归测试。 |
+| 新机器如何复现？ | 依赖作者口头说明。 | `pyproject.toml`、`.venv`、可编辑安装和 CI。 |
+
+## 5. 反向设计一个迁移目标
+
+不要从“我要建几个目录”开始，而要从失败后必须回答的问题倒推。若用户说“自动归档把文件移动错了”，你至少需要知道：计划是否默认 Dry Run、真实移动是否显式确认、清单是否已写、冲突是否拒绝、命令和版本是什么。`03-auto-archive` 因而把计划、执行、清单和回滚放进 `auto_archive.core`，把参数解析放进 `auto_archive.cli`。
+
+## 6. 最小标准项目结构
+
+```text
+my-project/
+├── pyproject.toml
+├── README.md
+├── .gitignore
+├── .github/workflows/quality.yml
+├── src/
+│   └── my_package/
+│       ├── __init__.py
+│       ├── core.py
+│       └── cli.py
+└── tests/
+    ├── test_core.py
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/01-task-manager/ 与 projects/05-cli-tool-platform/` 中完成可运行练习。先执行：比较历史脚本与 `src` 布局迁移后的安装、兼容层、测试和入口职责。
+
+```bash
+cd projects/01-task-manager && .venv/bin/python -m pytest && cd ../05-cli-tool-platform && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 为一个旧入口设计薄兼容层，只委托新包逻辑；写回归测试避免两套实现分叉。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/ "PyPA: Writing your pyproject.toml"
+[2]: https://docs.pytest.org/en/stable/getting-started.html "pytest: Get Started"
+[3]: https://docs.python.org/3/howto/logging.html "Python Logging HOWTO"
+[4]: https://docs.github.com/actions/guides/building-and-testing-python "GitHub Docs: Building and testing Python"
+[5]: https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F "Pro Git: What is Git?"
+[6]: https://git-scm.com/docs/gitignore "Git documentation: gitignore"

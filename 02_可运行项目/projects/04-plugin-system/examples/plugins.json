@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    {
+      "type": "prefix",
+      "name": "task",
+      "prefix": "任务："
+    },
+    {
+      "type": "prefix",
+      "name": "agent_note",
+      "prefix": "Agent 备注："
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Markdown table and link-text re-audit
+table_separator_without_header=0
+inline_bare_urls=0
+empty_link_text=0

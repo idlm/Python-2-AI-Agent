@@ -1,0 +1,61 @@
+"""具备受控 HTTP、礼貌并发、恢复记录与脱敏日志的教学 API 采集器。"""
+
+from .client import (
+    ClientPolicy,
+    CollectionError,
+    EndpointRejectedError,
+    InvalidJsonResponseError,
+    ResponseTooLargeError,
+    RetryPolicy,
+    SafeApiClient,
+    UnexpectedContentTypeError,
+    UpstreamResponseError,
+    UpstreamTransportError,
+    build_async_client,
+)
+from .crawler import (
+    CollectedPage,
+    CrawlPolicy,
+    PageRequest,
+    RequestPacer,
+    RobotsDeniedError,
+    RobotsGuard,
+    collect_pages,
+)
+from .store import (
+    CollectionStore,
+    RecordSchemaError,
+    StorageError,
+    StorageLimitError,
+    StoragePathError,
+    StoredRecord,
+    WriteResult,
+)
+
+__all__ = [
+    "ClientPolicy",
+    "CollectedPage",
+    "CollectionError",
+    "CollectionStore",
+    "CrawlPolicy",
+    "EndpointRejectedError",
+    "InvalidJsonResponseError",
+    "PageRequest",
+    "RecordSchemaError",
+    "RequestPacer",
+    "ResponseTooLargeError",
+    "RetryPolicy",
+    "RobotsDeniedError",
+    "RobotsGuard",
+    "SafeApiClient",
+    "StorageError",
+    "StorageLimitError",
+    "StoragePathError",
+    "StoredRecord",
+    "UnexpectedContentTypeError",
+    "UpstreamResponseError",
+    "UpstreamTransportError",
+    "WriteResult",
+    "build_async_client",
+    "collect_pages",
+]

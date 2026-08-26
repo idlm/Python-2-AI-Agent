@@ -1,0 +1,580 @@
+===== module_09_chapter_9_1.md =====
+# 第 9.1 章：模型调用不是魔法——最小可观察 LLM 客户端、消息合同与安全边界
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/09-llm-contract-client/`（版本 0.1.0）
+
+## 1. 本章目标
+
+完成本章后，你能够解释语言模型调用的输入、输出与不确定性；能区分模型、系统指令、用户文本、token、传输层和应用业务规则；能用允许列表、字符/token 上限、固定任务、有限重试和最小日志实现一个可测试客户端；并能说明模型文字为什么既不等于事实，也不等于可执行命令、权限或 Agent。
+
+## 2. 先纠正三个误解
+
+“调用 LLM”通常被误解成：把问题交给一个知道答案的函数；让用户自己写 prompt；或把输出直接交给系统执行。三种理解都危险。模型调用是一项受成本、延迟、速率限制、概率输出、供应商失败、输入攻击和隐私约束影响的外部服务操作。应用必须先定义合同，才调用模型。
+
+> **本章结论：** LLM 是产生候选文本或结构化候选数据的组件；它不是事实数据库、授权系统、代码执行器、工作流引擎或安全边界。
+
+## 3. 从生产级 Agent 倒推
+
+一个生产级 Agent 可能有模型、工具、记忆、状态、工作流、评测和人工介入。但第一步不是安装 Agent 框架，而是建立一个能回答以下问题的最小客户端：调用了哪个模型？任务输入边界是什么？结果是什么形状？失败是否可重试？成本/长度是否可观察？日志是否泄露正文？输出是否会产生副作用？项目 9 先实现这条窄边界，后续才把它接入检索和工具。
+
+## 4. 一次最小调用的组成
+
+```text
+受控 PromptRequest
+    │ task + text + request_id
+    ▼
+LlmClient
+    │ 固定系统指令、模型允许列表、长度与重试策略
+    ▼
+LlmTransport Protocol
+    │ 可注入；真实 SDK 或无网络假传输
+    ▼
+模型服务
+    │ 生成候选文本与可选 usage
+    ▼
+CompletionResult
+    │ 文本 + request_id + 尝试数 + 长度/token 摘要
+    ▼
+应用后续验证、展示或人工复核
+```
+
+每一层都有不同责任。把它们揉在 CLI、API 路径或全局变量中，会让测试和安全审计变得困难。
+
+--- mapping ---
+### 本章项目映射
+
+本章对应 `09-llm-contract-client`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定模型/任务、严格 JSON Schema、本地重复验证、静态夹具和最小报告读取“模型只提议、应用才验证”的合同。
+
+```bash
+cd projects/09-llm-contract-client
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 为一个无效候选补充本地 Schema 拒绝测试；不得把提示词、模型输出或一次烟雾当作权限边界或质量证明。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: `records/module_09_live_model_catalog.json`（本次写作获取的受控实时目录）与 `/home/ubuntu/skills/builtin-llm-models/SKILL.md`（代理调用形状与模型族参数）。
+[2]: https://developers.openai.com/api/docs/guides/structured-outputs "OpenAI: Structured model outputs"
+[3]: https://developers.openai.com/api/docs/guides/rate-limits "OpenAI: Rate limits"
+[4]: https://developers.openai.com/api/docs/guides/safety-best-practices "OpenAI: Safety best practices"
+===== module_09_chapter_9_3.md =====
+# 第 9.3 章：不要用一次成功代替质量——离线评测、提示注入与人工复核
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/09-llm-contract-client/`（版本 0.3.0）
+  
+**前置章节：** 第 9.1 章的最小可观察客户端，以及第 9.2 章的严格结构化摘要与本地验证。
+
+## 1. 本章目标
+
+完成本章后，你能够区分单元测试、烟雾测试和模型质量评测；能设计少量可复现的静态夹具；能把结构有效性、关键词、预期复核信号、尝试次数和 token 预算组合成可解释的质量门；能理解提示注入为何是数据与权限问题；还能说明人工复核何时不可省略。
+
+> **本章结论：** 一个模型调用“没有报错”只说明某条链路在某次输入上运行过；可靠性必须通过明确案例、可复现规则、失败证据和人工责任逐步建立。
+
+## 2. 三种检查不能混为一谈
+
+项目 9 故意把三种活动分开。单元测试验证代码合同；烟雾测试验证当前环境的接线；评测则验证在一组定义好的案例上，输出是否满足可声明的质量门。把它们混为“测试通过”会夸大系统能力。
+
+| 活动 | 主要问题 | 输入来源 | 是否调用真实模型 | 本项目的结论边界 |
+|---|---|---|---|---|
+| 单元测试 | 代码是否按合同处理边界？ | 假传输与静态对象。 | 否。 | 证明本地逻辑可重复。 |
+| 烟雾测试 | 凭据、SDK、代理和请求形状是否接通？ | 一条最小课程文本。 | 是，且仅一次。 | 不证明质量、事实性或容量。 |
+| 静态评测 | 已定义案例是否通过明确质量门？ | 课程自制公开夹具。 | 否。 | 只说明这些案例与规则的结果。 |
+| 生产监控 | 真实流量是否出现异常模式？ | 经治理的运行元数据。 | 可能。 | 需要隐私、权限、告警和运营设计。 |
+
+## 3. 为什么从离线静态夹具开始
+
+刚学习模型时，读者常想“多调用几次看看”。这会产生不可控成本、时间变化和难以复现的结果，还可能把私密输入写入记录。项目先用公开、静态、课程自制夹具，让质量规则与失败行为可以在断网环境中反复运行。
+
+夹具不是世界的缩影。四条案例只覆盖：基础概念、信息不足、包含提示注入语句的文本、资源边界。它们的价值是建立**评测机制**，不是宣布模型已安全或准确地理解了所有中文材料。
+
+## 4. 夹具的两半：规格与候选
+
+`tests/fixtures/evaluation_cases.json` 定义每个案例的输入、期望关键词、预期不确定性、尝试上限、输出 token 预算和标签。`evaluation_candidates.json` 则给出一个固定的假模型结构化候选及其 token 计数。两份文件以 `case_id` 一一对应。
+
+| 夹具部分 | 保存什么 | 不用于什么 |
+|---|---|---|
+| 案例规格 | 课程输入、质量门、标签。 | 生产用户数据或真实对话日志。 |
+| 候选输出 | 假传输回放的 JSON 对象和 token 摘要。 | 宣称模型在任何时间都会产生相同结果。 |
+| 公开报告 | ID、标签、通过/失败、关键词计数/覆盖率和元数据。 | 复述输入、摘要、关键点、关键词字面量、系统提示或完整 JSON。 |
+
+评测代码在内存读取夹具，但持久化报告从设计上不包含正文。这使“可追溯”不等于“收集一切”。
+
+--- mapping ---
+### 本章项目映射
+
+本章对应 `09-llm-contract-client`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定模型/任务、严格 JSON Schema、本地重复验证、静态夹具和最小报告读取“模型只提议、应用才验证”的合同。
+
+```bash
+cd projects/09-llm-contract-client
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 运行静态夹具评测并记录门结果；离线覆盖率不是事实性、模型安全、成本、容量或生产可用性认证。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://developers.openai.com/api/docs/guides/safety-best-practices "OpenAI: Safety best practices"
+[2]: https://developers.openai.com/api/docs/guides/rate-limits "OpenAI: Rate limits"
+[3]: https://developers.openai.com/api/docs/guides/structured-outputs "OpenAI: Structured model outputs"
+===== module_10_chapter_10_1.md =====
+# 第 10.1 章：RAG 不是“上传文件就懂了”——受控语料、切块、向量与来源合同
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/10-rag-contract-workbench/`（版本 0.5.0）  
+**前置章节：** 模块 9 的受控模型调用、严格结构化输出、离线评测与提示注入边界。
+
+## 1. 本章目标
+
+完成本章后，你能够把检索增强生成（Retrieval-Augmented Generation，RAG）拆为语料、切块、嵌入、索引、检索、来源和后续生成等可验证步骤；能解释向量相似度为何只用于候选排序；能用公开教学文本建立一个离线、可测试、带来源的最小检索器；并能说明为什么检索到的文档仍是不可信数据。
+
+> **本章结论：** RAG 的第一步不是调用聊天模型，也不是安装框架，而是证明系统能在受控语料中稳定地取回有限、可追溯的候选片段，并在没有足够证据时返回空结果。
+
+## 2. 先纠正三个误解
+
+第一个误解是“把 PDF 上传到某个平台，模型就永久学会了内容”。检索通常是在查询时从索引中找候选片段，而不是重新训练模型。第二个误解是“相似度最高就是真相”。相似度只是一种排序信号。第三个误解是“文档是可信内部资料，所以其中的指令可以执行”。文档可能过时、错误、越权或被注入恶意文字。
+
+OpenAI 将语义搜索描述为用嵌入找出语义相关文本，即使关键词匹配很少；检索结果仍应被理解为候选，不是事实认证。[1]
+
+## 3. 从生产级问答系统倒推
+
+一个生产级知识问答系统可能有文件接收、权限、解析、切块、嵌入、向量数据库、过滤、重排、引用、模型生成、评测、反馈、监控和人工复核。初学者若一次把这些都引入，任何错误都会被“框架内部”掩盖。
+
+模块 10 先缩小为一条可画出的管线：
+
+```text
+公开 CourseDocument
+      │ 允许 collection、ID、版本、文本上限
+      ▼
+chunk_document()
+      │ 块 ID、字符范围、源版本、内容指纹
+      ▼
+EmbeddingProvider Protocol
+      │ 离线确定性测试替身
+      ▼
+InMemoryVectorIndex
+      │ 原子快照、维度核验、余弦排序
+      ▼
+RetrievedChunk
+      │ 来源 + 分数 + 片段
+      ▼
+后续章节的受控回答与引用（本章不生成答案）
+```
+--- mapping ---
+### 本章项目映射
+
+本章对应 `10-rag-contract-workbench`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从公开语料合同、稳定切块、教学嵌入替身、内存检索、来源约束与离线评测读取 RAG 的证据边界。
+
+```bash
+cd projects/10-rag-contract-workbench
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 为一个文档/切块合同错误添加静态测试；哈希嵌入只是教学替身，不得推断真实 embedding 能力、维度、费用或语义质量。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://developers.openai.com/api/docs/guides/retrieval "OpenAI: Retrieval"
+[2]: https://developers.openai.com/api/docs/guides/embeddings "OpenAI: Vector embeddings"
+[3]: https://developers.openai.com/api/docs/guides/tools-file-search "OpenAI: File search"
+[4]: https://developers.openai.com/api/docs/guides/safety-best-practices "OpenAI: Safety best practices"
+[5]: https://openai.com/index/prompt-injections/ "OpenAI: Understanding prompt injections: a frontier security challenge"
+===== module_10_chapter_10_4.md =====
+# 第 10.4 章：检索命中不等于回答可信——回答支持度评测、人工复核与报告隐私
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/10-rag-contract-workbench/`（v0.5.0）  
+**前置章节：** 第 9.3 章的离线模型评测；第 10.1–10.3 章的检索评测、来源约束回答与严格 JSON。
+
+## 1. 本章目标
+
+本章把评测从“是否取回正确块”推进到“候选回答是否遵守状态、引用和复核合同”。你将能区分检索评测与回答评测；设计公开静态夹具；检查回答状态、引用子集、术语覆盖和人工复核信号；生成不含问题、来源、回答或术语字面量的报告；并正确解释一次真实烟雾调用的范围。
+
+> **核心原则：** 回答评测可以发现合同破坏和已知案例中的支持不足，但不能自动认证事实、来源权威、权限、适用性或安全。
+
+## 2. 为什么检索评测之后还要测回答
+
+检索评测关注目标块是否在 `top_k`、噪声比例、来源字段和空结果。即使这些都通过，模型仍可能忽略关键限制、错误概括、漏掉引用、选择不相关块、把“不足”说成“已回答”，或者错误关闭人工复核。
+
+| 层 | 问题 | 典型门 |
+|---|---|---|
+| 切块/索引 | 文档是否稳定可追溯？ | ID、范围、版本、维度。 |
+| 检索 | 正确来源是否被返回？ | 召回、精度、阈值、空结果。 |
+| 回答合同 | 输出是否符合来源约束？ | 状态、JSON、引用白名单、长度。 |
+| 回答支持度 | 已知案例是否保留必要概念和复核？ | 术语计数、来源子集、复核标记。 |
+| 人工判断 | 结论是否正确、完整、适用和可行动？ | 专业审查、升级流程、责任边界。 |
+
+## 3. 静态夹具是可重复起点
+
+项目的 `tests/fixtures/answer_evaluation.json` 是课程自制公开夹具。每个案例只定义案例 ID、非内容标签、期望状态、允许引用 ID、是否要求人工复核和最低术语集合。它不包含真实用户问题、私有语料或供应商响应。
+
+静态夹具不是现实分布的完整样本，也不是基准排行榜。它的价值是每次改代码、提示、模型适配器或索引参数时，都能用同一合同发现退化。
+
+## 4. 回答状态必须先匹配
+
+评测首先比较实际 `AnswerStatus` 和案例 `expected_status`。例如，语料外案例应是 `not_enough_evidence`；如果候选回答声称 `answered`，即使文字流畅也失败。反过来，有充分证据却一律拒答也需要被发现。
+
+状态评测的前提是产品已经明确定义状态。不能用“置信度高”代替状态，因为置信度来源、含义、校准和展示责任都未定义。
+
+## 5. 引用子集是必要而非充分条件
+
+评测计算实际引用 ID 是否为该案例允许引用集合的子集。未知引用立刻失败；空证据不应带引用；有证据的回答至少应带一个允许引用。这复用了第 10.3 章的模型外白名单原则。
+
+```python
+actual_ids = {citation.chunk_id for citation in answer.citations}
+--- mapping ---
+### 本章项目映射
+
+本章对应 `10-rag-contract-workbench`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从公开语料合同、稳定切块、教学嵌入替身、内存检索、来源约束与离线评测读取 RAG 的证据边界。
+
+```bash
+cd projects/10-rag-contract-workbench
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 扩展离线支持度案例并记录人工复核；不调用模型、端点或真实向量服务，也不将离线门禁称为生产验收。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://developers.openai.com/api/docs/guides/evaluation-best-practices "OpenAI: Evaluation best practices"
+[2]: https://openai.com/index/prompt-injections/ "OpenAI: Understanding prompt injections: a frontier security challenge"
+===== module_11_chapter_11_1.md =====
+# 第 11.1 章：Agent 不是“会自己做事”——状态、工具、预算与审批合同
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/11-bounded-agent-core/`（v0.1.0）  
+**前置章节：** 模块 8 的状态机；模块 9 的受控模型输出；模块 10 的不可信数据、来源与评测。
+
+## 1. 本章目标
+
+本章建立第一个无框架 Agent 的可检查定义：任务状态、固定动作、纯工具、步骤预算、审批暂停、最小事件和受控停止。读者完成后应能解释：模型提出下一步，不等于系统可以执行下一步。
+
+## 2. 先区分 workflow 与 Agent
+
+工作流由代码预先规定路径；Agent 允许模型在受控状态和工具集合中动态选择过程。[1] 两者都需要输入、状态、错误、预算、日志和评测。先实现 workflow 和状态机，再增加有限选择，比先安装框架更容易审计。
+
+## 3. 为什么不从框架开始
+
+框架能隐藏循环、工具调用和记忆细节。隐藏不等于不存在。官方资料建议先采用简单、可组合模式，仅在复杂性确有可测量价值时增加 Agentic 系统。[3]
+
+## 4. 最小 Agent 的六个部件
+
+| 部件 | 最小职责 | 不负责 |
+|---|---|---|
+| 任务 | 保存受控目标与 ID。 | 保存任意用户资料。 |
+| 状态 | 限制生命周期。 | 自动持久化。 |
+| 动作 | 从小枚举选择候选。 | 授予权限。 |
+| 工具 | 执行固定合同。 | 执行任意文本。 |
+| 预算 | 限制步骤。 | 保证质量。 |
+| 事件 | 记录最小摘要。 | 保存正文或秘密。 |
+
+## 5. 有限状态是第一道边界
+
+项目使用 `ready`、`running`、`waiting_for_approval`、`completed`、`stopped` 和 `failed`。每个状态都只有明确入口和出口。状态不是字符串标签，而是外部行为的合同。
+
+## 6. 任务先启动，再执行
+
+```python
+task = agent.start(AgentTask(task_id="task-1", goal="公开事实查询"))
+```
+
+只有 `ready` 任务能启动。重复启动、已停止任务继续运行或在等待审批时调用工具都受控失败。
+
+## 7. 动作是候选，不是命令
+--- mapping ---
+### 本章项目映射
+
+本章对应 `11-bounded-agent-core`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从有限状态、固定纯工具、独立预算、审批暂停、最小事件和静态回放理解无框架受限 Agent。
+
+```bash
+cd projects/11-bounded-agent-core
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 为非法状态转换或越过步骤预算增加夹具；Agent 状态机不是框架、模型调用或真实工具执行。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://developers.openai.com/api/docs/guides/agents "OpenAI: Agents SDK"
+[2]: https://developers.openai.com/api/docs/guides/agent-builder-safety "OpenAI: Safety in building agents"
+[3]: https://www.anthropic.com/engineering/building-effective-agents "Anthropic: Building effective agents"
+===== module_12_chapter_12_4.md =====
+# 第 12.4 章：先证明控制有效，再扩大复杂度——框架评测、追踪与采用门禁
+
+**适用版本：** Python 3.11+  
+**前置章节：** 第 12.1–12.3 章的框架边界、恢复语义与受控工具包装。  
+**本章边界：** 设计离线质量门和采用清单；不启动真实长运行服务或副作用工具。
+
+## 1. 本章目标
+
+本章给出引入 Agent 框架前后的评测与发布门禁。重点不是画出更复杂的图，而是证明状态、审批、恢复、工具控制与数据最小化没有退化。
+
+## 2. 为什么框架也要评测
+
+框架迁移可能改变状态合并、重试、并行、序列化、中断恢复和日志行为。即使功能演示成功，也不能证明原有合同仍成立。[1]
+
+## 3. 先写不变量
+
+不变量是每次运行都必须成立的断言，例如未知工具不执行、审批前无副作用、预算不会增加、停止任务不恢复运行、报告不含正文。
+
+## 4. 以模块 11 为基线
+
+无框架核心的静态夹具与 23 项测试提供基线。框架对照实现必须首先重现这些状态和拒绝路径，而不是用更漂亮的 trace 掩盖行为差异。
+
+## 5. 迁移测试矩阵
+
+为每个无框架合同列出框架映射、输入、期望状态、期望事件、禁止调用和风险。例如审批拒绝应停止，且任何工具包装器调用数必须为零。
+
+## 6. 状态快照评测
+
+测试开始、每次迁移、中断和恢复后的状态视图，检查字段闭集、版本、计数、停止原因与租户边界。不要仅断言最终 `completed`。
+
+## 7. 重放评测
+
+让中断前节点被重复执行，验证它没有副作用，或同一幂等键只产生一次受控外部请求。若无法证明，不能把节点放在可恢复路径。
+
+## 8. 审批评测
+
+案例至少覆盖批准、拒绝、过期、审批 ID 错配、审批人无权、资源范围改变和参数编辑。批准应只覆盖固定动作及其经验证范围。
+
+## 9. 工具目录评测
+
+案例覆盖未知工具、工具版本不匹配、额外参数、超限参数、跨租户资源、只读/写入混淆、预算耗尽和策略更新。所有拒绝必须发生在调用前。
+
+--- mapping ---
+### 本章项目映射
+
+本章对应 `12-framework-adoption-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从候选字段闭集、工具目录、最小 checkpoint、审批恢复绑定、迁移夹具和无正文报告学习框架采用前合同。
+
+```bash
+cd projects/12-framework-adoption-kit
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 运行静态迁移质量门；报告只含公开 ID/计数/门结果，不含正文、秘密、端点或生产 trace。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://docs.langchain.com/oss/python/langgraph/overview "LangGraph overview"
+[2]: https://developers.openai.com/api/docs/guides/agent-builder-safety "OpenAI: Safety in building agents"
+[3]: https://docs.langchain.com/oss/python/langgraph/interrupts "LangGraph interrupts"
+===== module_13_chapter_13_3.md =====
+# 第 13.3 章：汇总不是复制粘贴——冲突、证据、追踪与人工复核
+
+**适用版本：** Python 3.11+  
+**前置章节：** 第 13.1–13.2 章的任务分割、消息 Schema、预算和故障传播。  
+**本章边界：** 只评估结构化 worker 结果；不访问真实来源、不调用模型或工具。
+
+## 1. 本章目标
+
+本章说明协调者如何安全汇总多个 worker 的结果。重点是区分完成、支持、冲突和缺失，并把追踪和人工复核限制在最小必要数据。
+
+## 2. 汇总者不是更高权限的 worker
+
+汇总者负责检查和组合受控结果，而不是获得所有底层工具、全部原始上下文或修改 worker 历史。最小权限同样适用于协调层。
+
+## 3. 结果 Schema 的最小字段
+
+结果至少应含委派 ID、父任务 ID、角色、输入引用版本、状态、结果类别、受控引用 ID、计数和错误/停止类别。不要默认保存自然语言思考、完整工具返回或提示。
+
+## 4. 引用不等于事实认证
+
+worker 返回的来源引用只说明它声称依赖某个受控输入。汇总者还需检查引用存在、版本匹配、范围允许和支持关系；引用本身不自动证明事实正确。
+
+## 5. 先检查身份与范围
+
+汇总前验证委派 ID、父任务、角色、输入版本和输出 Schema。来自错误父任务、过期输入或越权角色的结果必须拒绝，即使文字看起来有用。
+
+## 6. 稳定排序的意义
+
+并发完成顺序不可预测。按预定义角色优先级、委派 ID 或输入顺序排序，使报告、测试和人工复核可重复；不要让网络速度决定最终结论。
+
+## 7. 重复结果如何处理
+
+相同去重键的 worker 结果应被识别：可保留一个、标记重复或作为对照，但不能重复计入覆盖率、成本或“多数意见”。
+
+## 8. 冲突类别
+
+将冲突至少分为：输入版本不同、范围不同、来源不一致、状态不一致、结论不一致和信息不足。分类比把两段文本交给模型“选一个”更可审查。
+
+## 9. 冲突不是多数投票
+
+三个相同错误不会成为正确答案。高风险或事实型冲突应回到受控来源、补证任务或人工复核；投票只可能是某些明确主观任务的受限策略。
+
+--- mapping ---
+### 本章项目映射
+
+本章对应 `13-delegation-contract-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定角色、最小工具集合、字段闭集委派、预算、去重、取消和稳定汇总理解权限不扩散。
+
+```bash
+cd projects/13-delegation-contract-kit
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 为取消传播或冲突汇总添加稳定断言；取消不等于已经撤销外部副作用或已知最终结果。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://www.anthropic.com/engineering/multi-agent-research-system "Anthropic: How we built our multi-agent research system"
+[2]: https://developers.openai.com/api/docs/guides/agent-builder-safety "OpenAI: Safety in building agents"
+[3]: https://developers.openai.com/api/docs/guides/responses-multi-agent "OpenAI: Multi-agent"
+===== module_14_chapter_14_4.md =====
+# 第 14.4 章：把评测做成维护系统——报告、复核、Runbook 与 ADR
+
+**适用版本：** Python 3.11+  
+**前置章节：** 第 14.1–14.3 章的离线评测、最小追踪、发布门禁、影子模式与回滚。  
+**本章边界：** 建立可复现本地评测工程；不部署服务、不接入模型、追踪平台、外部工具或生产数据。
+
+## 1. 本章目标
+
+本章把评测从零散脚本整理为可维护工程：固定输入、可复现命令、最小报告、人工复核模板、Runbook、ADR、CI 与发布证据。
+
+## 2. 为什么评测也会腐化
+
+案例会过时，grader 会漂移，报告会泄露，阈值会被临时降低，脚本会依赖本机状态。没有工程质量门，评测系统本身会成为不可靠的生产依赖。
+
+## 3. 评测仓库的最小结构
+
+应分离：公开夹具、Schema/解析器、确定性 grader、基线、报告写入器、人工复核模板、Runbook、ADR、CLI、测试和 CI。每层只保存最低必要数据。
+
+## 4. 可复现命令
+
+README 应给出虚拟环境、可编辑安装、pytest、类型检查、lint、静态评测和报告生成命令。默认 CLI 不应执行模型、工具、网络或写任意路径。
+
+## 5. 固定输入与固定时钟
+
+离线评测使用版本化夹具、固定随机种子（适用时）、显式时钟和确定性替身，避免当前时间、网络、账户或缓存让回归结果不可比较。
+
+## 6. 夹具字段闭集
+
+案例解析器应拒绝未知字段、重复 ID、非法类型、空案例、未知 grader 和无效期望。宽松 JSON 解析会把未审查数据带进评测和报告。
+
+## 7. 基线文件的保护
+
+基线更新必须经过评审，记录变更理由、版本和影响。不要允许测试运行自动重写基线，否则失败可能被“更新快照”静默吞掉。
+
+## 8. 最小公开报告
+
+报告通常只需案例 ID、套件/基线版本、预期/实际类别、通过标记、计数、阻断项和发布决定。不要输出夹具正文、提示、参数、trace、原始响应或密钥。
+
+## 9. 原子报告写入
+
+先写同目录临时文件，再原子替换目标；失败时保留旧报告或明确失败。路径必须固定或受控，避免用户输入写入任意位置。
+
+--- mapping ---
+### 本章项目映射
+
+本章对应 `14-evaluation-gate-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从离线案例、最小 trace、基线/候选比较、硬阻断、软阈值与人工复核学习评测发布门禁。
+
+```bash
+cd projects/14-evaluation-gate-kit
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 运行离线门禁报告并安排人工复核；不调用真实模型、追踪平台、外部评测 API 或发布服务。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://developers.openai.com/api/docs/guides/agent-evals "OpenAI: Evaluate agent workflows"
+[2]: https://developers.openai.com/api/docs/guides/trace-grading "OpenAI: Trace grading"
+[3]: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents "Anthropic: Demystifying evals for AI agents"
+[4]: https://developers.openai.com/api/docs/guides/agent-builder-safety "OpenAI: Safety in building agents"
+===== module_15_chapter_15_4.md =====
+# 第 15.4 章：准备好运行才谈上线——运维门禁、Runbook 与分阶段采用
+
+**适用版本：** Python 3.11+  
+**前置章节：** 第 15.1–15.3 章的配置、秘密、健康、停止、恢复、备份与事故响应。  
+**本章边界：** 建立离线运行准备门禁与运维材料；不启动、发布、部署、监控或连接任何真实生产服务。
+
+## 1. 本章目标
+
+本章把前面的技术合同整合为运行准备决定。你将建立责任、最小可观察性、告警、Runbook、演练、分阶段采用和停止条件，而不是把“CI 全绿”误作生产就绪。
+
+## 2. 什么是运行准备
+
+运行准备是系统、人员、流程和证据共同满足进入下一阶段的条件：配置、秘密、评测、健康、恢复、观测、支持、暂停、回滚、责任和通信都必须可执行。
+
+## 3. 代码通过不代表运行准备
+
+单元测试不验证部署身份、配置差异、秘密轮换、监控覆盖、恢复速度、值班联系、外部依赖、数据保留或事故响应。质量门是必要条件，不是充分条件。
+
+## 4. 最小运行准备清单
+
+清单至少包括版本清单、评测门禁、配置验证、秘密元数据、健康/drain、恢复演练、最小事件、告警阈值、暂停/回滚、Runbook、责任人和复审日期。
+
+## 5. 责任不是一个名字
+
+每项风险要说明执行者、批准者、被咨询者和被通知者。没有责任边界时，事故中会出现“谁有权限暂停”“谁能访问备份”“谁确认外部结果”的空白。
+
+## 6. 最小可观察性
+
+最小可观察性应让团队判断版本、存活、就绪、容量、错误类别、预算耗尽、审批暂停、恢复状态和门禁结果。它不要求、也不允许默认采集所有正文和秘密。
+
+## 7. 指标、日志和 trace 的边界
+
+指标用于聚合趋势，日志用于诊断事件，trace 用于关联单次受控路径。它们的目的、字段、保留、访问和导出边界不同，不能用“便于排障”合并成数据黑洞。
+
+## 8. 遥测管道也是部署对象
+
+OpenTelemetry 将 receiver、processor、exporter、connector 与启用 pipeline 分开，处理顺序会影响数据。[1] 因此遥测配置要审查、验证、版本化、最小权限和可关闭。
+
+## 9. 告警的设计
+
+告警应基于用户影响和可行动性，而不是每个异常都通知。每个告警要有阈值、去重、升级路径、Runbook、静默窗口、责任人和复盘条件。
+
+--- mapping ---
+### 本章项目映射
+
+本章对应 `15-operational-readiness-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从离线部署 profile、无秘密值元数据、drain、恢复演练、版本兼容和 Runbook 学习运行准备合同。
+
+```bash
+cd projects/15-operational-readiness-kit
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check src tests
+```
+
+**主题化扩展：** 运行静态 Runbook/报告门；不得启动服务、端口、云、容器、数据库、遥测、模型、工具或真实部署。
+
+上述命令只运行项目内的离线测试和静态检查；不要设置凭据、运行真实烟雾、调用网络/模型/数据库/文件系统/工具/账户，或把通过结果理解为真实能力、生产安全、部署、恢复、成本、容量、合规或副作用授权。
+
+## 参考资料
+
+[1]: https://opentelemetry.io/docs/collector/configuration/ "OpenTelemetry: Configuration"
+[2]: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/ "Kubernetes: Pod Lifecycle"
+[3]: https://kubernetes.io/docs/concepts/configuration/secret/ "Kubernetes: Secrets"
+[4]: https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html "OWASP: Secrets Management Cheat Sheet"

@@ -1,0 +1,10 @@
+# Module 2.5 reader-path recheck
+26:from text_analyzer.core import format_report
+29:# 预期输出：字符数：3；词数：2；行数：1
+32:这段代码要求先进入 `projects/02-text-analyzer/`，再用该项目的虚拟环境执行 `.venv/bin/python -m pip install --editable ".[dev]"`；若尚未安装，请先使用本章末尾的项目测试命令验证环境。实际兼容入口仍可使用 `projects/02-text-analyzer.py`，但新练习应优先使用安装后的标准包。
+sections=25
+references=1
+......                                                                   [100%]
+6 passed in 0.02s
+Success: no issues found in 3 source files
+[1;32mAll checks passed![0m

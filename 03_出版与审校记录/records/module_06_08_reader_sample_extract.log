@@ -1,0 +1,404 @@
+===== module_06_chapter_6_1.md =====
+# 第 6.1 章：Web 服务不是函数调用——HTTP、资源与 API 合同
+
+**适用版本：** Python 3.11+  
+**项目连接：** `examples/module_06/http_contract.py` 与 `tests/module_06/test_http_contract.py`
+
+## 1. 本章目标
+
+完成本章后，你能够解释浏览器、脚本或 Agent 工具为何不能直接调用另一台机器上的 Python 函数；能区分 HTTP 方法、路径、请求体、响应体、状态码与日志；能先写出一个可测试的 API 合同，再在下一章把它交给 FastAPI；能避免把用户正文、内部异常和任意配置泄露给调用方。
+
+## 2. 先纠正一个误解：API 不是“远程函数名”
+
+本地函数调用发生在同一进程中：调用者直接传入 Python 对象，并立即得到返回值或异常。HTTP API 则跨越进程与网络边界。调用者只能发送字节形式的请求；服务必须明确接受哪种方法、哪条路径、哪些数据、什么格式和怎样的失败结果。**API 合同（API Contract）**就是双方对这些可观察行为的约定。
+
+## 3. 从生产级 Agent 倒推
+
+Agent 使用工具时也在遵守合同：工具名称像路径，输入 Schema 像请求体，结构化结果像响应体，失败类型和重试条件像状态码。Agent 不是 LangChain、LangGraph 或任一框架；无论以后是否引入框架，它都必须有模型、工具、记忆、状态、工作流和评测的边界。本章的 HTTP 合同是“工具调用合同”的第一个非模型版本。
+
+## 4. 一次 HTTP 交互的最小结构
+
+| 部分 | 示例 | 回答的问题 |
+|---|---|---|
+| 方法（method） | `GET`、`POST`。 | 调用者想读取还是创建资源？ |
+| 路径（path） | `/notes`、`/notes/1`。 | 调用者操作哪个资源集合或实例？ |
+| 请求头（headers） | `Content-Type: application/json`。 | 请求如何编码、认证或缓存？ |
+| 请求体（body） | `{"title": "HTTP", "content": "定义边界"}`。 | 创建或更新时交给服务的数据是什么？ |
+| 状态码（status code） | `200`、`201`、`404`、`422`。 | 结果成功、资源缺失还是输入不合法？ |
+| 响应体（response body） | JSON 对象。 | 调用者可安全使用的结果或错误是什么？ |
+
+HTTP 的路径也常被称为 endpoint 或 route；方法与路径一起选择服务端的路径操作（path operation）。FastAPI 官方教程用 `@app.get()`、`@app.post()` 等装饰器把这两件事关联到函数。[1]
+
+## 5. 资源先于 URL
+
+不要先凭感觉写 `/do_task`、`/process` 之类动作路径。先问“系统要保存、读取或管理的名词是什么”。本章选择知识笔记 `note`：集合是 `/notes`，单条是 `/notes/{id}`。资源设计并不禁止动作；当动作确实是领域概念（例如归档计划、评测运行）时，可把它建模成可查询、可审计的资源，而不是隐藏在模糊命令中。
+
+## 6. 用方法表达主要意图
+
+| 方法 | 本章约定 | 典型成功状态 | 不表示什么 |
+|---|---|---|---|
+| `GET` | 读取 `/notes` 或 `/notes/{id}`。 | `200 OK`。 | 不应创建或修改笔记。 |
+| `POST` | 向 `/notes` 创建一条笔记。 | `201 Created`。 | 不应把客户端给的 ID 当成可信主键。 |
+| `PUT` / `PATCH` | 后续章节用于完整替换或部分更新。 | 常为 `200` 或 `204`。 | 不是“任何更新都随便选一个”。 |
+| `DELETE` | 后续章节用于显式删除。 | 常为 `204`。 | 不应绕过认证、审计或恢复策略。 |
+
+这些是清晰的团队约定，而不是 FastAPI 强制规则。框架允许把任意方法绑定到函数，但可预测的约定会让人、测试和 Agent 工具更容易推理。[1]
+
+## 7. 请求体不是任意字典
+
+创建笔记的请求体只允许两个字段：`title` 与 `content`。标题不能为空且最长 100 字符；正文不能为空且最长 2,000 字符；缺失、额外或类型错误均返回受控错误。这样做同时防止拼写被静默忽略、字段不断膨胀和未审查数据进入业务层。
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/06-knowledge-api/` 中完成可运行练习。先执行：从 API 模型和测试读取路径、方法、请求/响应 Schema、状态码与公开错误之间的合同。
+
+```bash
+cd projects/06-knowledge-api && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 增加一个只读端点的 Schema 测试；未知字段或错误方法必须落到受控 4xx，而不暴露内部异常。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://fastapi.tiangolo.com/tutorial/first-steps/ "FastAPI: First Steps"
+[2]: https://fastapi.tiangolo.com/tutorial/body/ "FastAPI: Request Body"
+[3]: https://fastapi.tiangolo.com/tutorial/handling-errors/ "FastAPI: Handling Errors"
+[4]: https://docs.python.org/3/howto/logging.html "Python Logging HOWTO"
+[5]: https://fastapi.tiangolo.com/tutorial/dependencies/ "FastAPI: Dependencies"
+===== module_06_chapter_6_4.md =====
+# 第 6.4 章：异步不是加速咒语——并发、超时、取消与结构化收尾
+
+**适用版本：** Python 3.11+  
+**项目连接：** `examples/module_06/async_reliability.py` 与 `tests/module_06/test_async_reliability.py`
+
+## 1. 本章目标
+
+完成本章后，你能够区分同步、并发、并行、协程、Task 与 Future；能解释直接调用协程为什么不会执行；能以 `TaskGroup` 管理一组相关任务；能用 `asyncio.timeout()` 给出时间预算；能正确传播 `CancelledError` 并在 `finally` 清理；能避免“fire-and-forget”任务和日志泄露结果正文。
+
+## 2. 先纠正一个误解：`async` 不等于更快
+
+`async def` 只定义协程函数。它可能提升多个**等待 I/O**任务的重叠能力，但不会让 CPU 密集计算自动并行，也不会把阻塞的文件、数据库或第三方同步调用变成非阻塞。Python 官方将 asyncio 定位为以 `async`/`await` 写并发 I/O 的库，特别适合 I/O 密集的结构化网络代码。[1] 性能结论必须来自工作负载、测量与瓶颈分析，而非关键字数量。
+
+## 3. 从生产级 Agent 倒推
+
+Agent 会等待模型、工具、检索、数据库、审批和网络。任何一个慢调用都可能占住用户请求；任何一个失败的并行任务都可能留下半完成状态；任何一个无追踪后台任务都可能产生不可见异常。Agent 不是一个异步框架名称，而是有模型、工具、记忆、状态、工作流和评测边界的系统。异步只处理其中“等待与协调”的部分，不能替代状态机、工具允许列表或评测。
+
+## 4. 四个容易混淆的词
+
+| 术语 | 简明定义 | 本章例子 |
+|---|---|---|
+| 同步 | 当前操作完成前，调用流程不能继续。 | 逐条等待两个任务，总耗时为延时之和。 |
+| 并发 | 多个任务在等待点交替推进。 | 两个 `asyncio.sleep()` 共同等待。 |
+| 并行 | 多个计算在多个 CPU 核或执行单元同时运行。 | 本章不把协程误称为并行 CPU 计算。 |
+| 协程 | 由 `async def` 定义、可在 `await` 处挂起和恢复的可等待对象。 | `run_job()`。 |
+| Task | 由事件循环调度的协程执行单元。 | `TaskGroup.create_task()` 返回的任务。 |
+| 取消 | 向任务请求停止，通常在下一可取消等待点注入 `CancelledError`。 | 超时取消慢任务。 |
+
+## 5. 调用协程不会运行它
+
+```python
+async def fetch() -> str:
+    return "结果"
+
+fetch()             # 只得到协程对象，未安排执行。
+await fetch()       # 在另一协程中等待执行。
+asyncio.run(fetch())  # 在顶层启动一次事件循环运行。
+```
+
+Python 官方文档明确说明，直接调用协程不会把它安排执行；顶层可用 `asyncio.run()`，协程内部可 `await`，也可以创建 Task。[2] 漏掉 `await` 往往得到“coroutine was never awaited”警告，而不是可靠的后台工作。
+
+## 6. `await` 是礼让点，不是线程切换
+
+当协程执行 `await asyncio.sleep(...)`、等待网络响应或等待受支持的异步库时，它暂停自己，让事件循环运行其他就绪任务。若协程在 `await` 之间执行长循环、同步 HTTP 请求、大量 JSON 处理或同步 SQLite 调用，其他协程仍会饥饿。项目 6 的 SQLite 仓储是同步的，因此没有被机械塞进 `async def`；下一阶段应在真实负载和驱动能力下决定线程池、异步驱动或队列策略。
+
+## 7. 本章可运行示例
+
+```bash
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/06-knowledge-api/ 与 examples/module_06/async_reliability.py` 中完成可运行练习。先执行：对照异步示例与服务测试，识别 TaskGroup、超时、取消和 finally 清理的不同责任。
+
+```bash
+python3 -m unittest discover -s tests/module_06 -v && cd projects/06-knowledge-api && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 增加一个有限超时测试；结果未知时只报告状态类别，不假设远端或后台工作未发生。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://docs.python.org/3/library/asyncio.html "Python asyncio overview"
+[2]: https://docs.python.org/3/library/asyncio-task.html "Python coroutines and tasks documentation"
+===== module_07_chapter_7_1.md =====
+# 第 7.1 章：调用 API 不是“请求一下”——受控客户端、超时与有限重试
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/07-polite-api-collector/`（版本 0.1.0）
+
+## 1. 本章目标
+
+完成本章后，你能够解释 API 客户端的职责；能为 HTTPS 主机、方法、路径、超时、连接池、响应大小和 JSON 形状写出合同；能区分传输错误、上游状态错误和本地输入错误；能只对审查过的幂等读取执行有限重试；能避免 URL、查询参数、token 和响应正文进入日志。
+
+## 2. 先纠正一个误解：HTTP 客户端不是一行 `get()`
+
+`httpx.get(url)` 可以用于一次实验，但可维护客户端还需要回答：允许访问哪个主机？用哪种协议与方法？请求可以等多久？连接数多少？失败哪些可重试？结果多大？内容是什么类型？日志记录什么？谁关闭连接？这些问题的答案共同构成**出站 API 合同**，而不是某个库的默认设置。
+
+## 3. 从生产级 Agent 倒推
+
+Agent 的工具调用常常就是出站 HTTP：模型请求、搜索、企业系统、网页提取、向量服务和人工审批都可能在网络另一端。Agent 不是 HTTPX、LangChain 或任何框架；它需要模型、工具、记忆、状态、工作流与评测。若工具客户端允许任意 URL、无限重试或泄露 token，后续接入模型只会扩大攻击面和成本。本章先让一个普通 API 客户端具备可审查边界。
+
+## 4. 项目 7 的最小合同
+
+| 合同维度 | `07-polite-api-collector` 当前规则 | 被拒绝的做法 |
+|---|---|---|
+| 协议与主机 | HTTPS 基址，主机必须在 `allowed_hosts`。 | `http`、跨主机绝对 URL、协议相对 URL。 |
+| 方法 | 仅 `GET` JSON。 | 未审查的 `POST`、`DELETE` 或任意动词。 |
+| 生命周期 | 一个批次复用一个 `AsyncClient` 并以 `async with` 关闭。 | 热循环中每 URL 新建客户端。 |
+| 超时 | connect/read/write/pool 均显式设置。 | 把 `timeout=None` 当成修复。 |
+| 重试 | 有限次数；仅 GET 的传输失败与约定状态。 | 对所有异常、所有 4xx 或所有写入盲目重试。 |
+| 响应 | JSON 内容类型、对象根节点和最大字节数。 | 无界读内存、假定 `200` 必定是所需数据。 |
+| 日志 | 主机、路径、状态、尝试与错误类型。 | 查询值、token、响应正文或秘密头。 |
+
+## 5. 从基址到端点
+
+```python
+policy = ClientPolicy(
+    base_url="https://api.example.com",
+    allowed_hosts=frozenset({"api.example.com"}),
+    user_agent="my-reviewed-collector/1.0",
+)
+```
+
+基址不是用户请求中随意提交的 URL。`ClientPolicy` 在构造时检查协议必须为 HTTPS、主机非空且在允许列表中。具体端点还必须是基址下以 `/` 开头的路径；`//other.example.test/...` 和 `https://other.example.test/...` 都会被拒绝。这样，调用方只能在代码审查过的目标范围内选择资源，不能让配置或上游数据变成服务端请求伪造（SSRF）入口。
+
+## 6. 路径、查询参数与秘密的不同责任
+
+路径选择一个已审查资源，例如 `/v1/records`；查询参数表达该资源合同允许的筛选、分页或格式，例如 `page=1`。两者都不是认证秘密。token、cookie、私钥和客户数据不应出现在 URL、命令行、README、异常信息或普通日志中。下一章会加入分页和限速；认证则必须等到有明确秘密管理与权限模型时再设计。
+
+## 7. 为什么复用 `AsyncClient`
+
+```python
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/07-polite-api-collector/` 中完成可运行练习。先执行：阅读 HTTPS/主机允许列表、连接池、超时和有限重试，区分请求安全与业务许可。
+
+```bash
+cd projects/07-polite-api-collector && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 增加一个不允许的基址测试，验证在发请求前受控拒绝且不输出认证信息。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://www.python-httpx.org/async/ "HTTPX: Async Support"
+[2]: https://www.python-httpx.org/advanced/resource-limits/ "HTTPX: Resource Limits"
+[3]: https://www.python-httpx.org/advanced/timeouts/ "HTTPX: Timeouts"
+[4]: https://www.python-httpx.org/exceptions/ "HTTPX: Exceptions"
+===== module_07_chapter_7_3.md =====
+# 第 7.3 章：采到数据不等于保存成功——JSONL、去重、原子替换与恢复
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/07-polite-api-collector/`（版本 0.1.0）
+
+## 1. 本章目标
+
+完成本章后，你能够区分采集结果、运行日志、JSONL 记录、清单与备份；能解释为什么普通 JSON 文件不能直接追加多个对象；能用固定 Schema、严格 JSON、去重 ID、大小限制和受控路径保存采集结果；能说明同目录临时文件、`fsync`、`os.replace()` 降低什么风险；能设计清单恢复而不是静默猜测。
+
+## 2. 先纠正一个误解：写入返回不代表可恢复
+
+`file.write()` 返回字节数，只说明当前进程曾把数据交给文件对象；它不说明 JSON 合法、字段完整、磁盘持久、清单一致、进程未中断、下一次能读取，或敏感内容没有扩散到日志。采集系统的输出必须有一个明确合同：写什么、在哪写、如何验证、怎样去重、失败后恢复什么、绝不记录什么。
+
+## 3. 从生产级 Agent 倒推
+
+Agent 的检索、工具和模型结果若无记录，会无法复现实验、定位失败或评测；若无边界地记录，又会积累用户隐私、秘密和不可信网页内容。Agent 不是一个 JSONL 文件或框架调用；它需要受控记忆、状态、工具、工作流和评测。本章的存储层只是“受控采集结果记录”的最小原理，不能直接充当长期用户记忆库、向量数据库、审计系统或合规归档。
+
+## 4. 三类文件不要混用
+
+| 文件/数据 | 目的 | 项目 7 的位置 | 不应承担 |
+|---|---|---|---|
+| 采集记录 | 保存固定 Schema 的成功页面结果。 | `records.jsonl` | 调试日志、任意 Python 对象、秘密备份。 |
+| 清单 | 记录版本、计数、记录 ID 和更新时间。 | `manifest.json` | 替代真实记录正文或灾难恢复。 |
+| 运行日志 | 说明阶段、计数和错误类型。 | stderr/日志系统 | 保存 payload、查询参数、token。 |
+| 临时文件 | 在切换正式文件前承载完整新快照。 | 同一输出目录、短暂存在。 | 给用户直接读取或永久积累。 |
+
+当“数据、清单、日志”全部写进一个文本文件时，读取、恢复、访问控制和测试都会变得模糊。
+
+## 5. JSON 与 JSONL 的区别
+
+Python 文档明确提醒 JSON 不是带帧协议：向同一文件反复调用 `json.dump()` 会形成无效 JSON。[1] 因此以下做法错误：
+
+```python
+with open("records.json", "a", encoding="utf-8") as handle:
+    json.dump({"id": "one"}, handle)
+    json.dump({"id": "two"}, handle)  # 两对象连在一起，不是一个 JSON 文档。
+```
+
+**JSON Lines（JSONL）**约定每一行是一个完整 JSON 对象。它并非让数据天然安全；它只是给追加/逐行读取一种明确边界。项目 7 的 `records.jsonl` 将每行限制为固定 Schema，读取时逐行验证，空行、损坏 JSON、字段多缺和重复 ID 都受控拒绝。
+
+## 6. 固定 Schema 比“存字典”更可靠
+
+```python
+{
+  "id": "sha256...",
+  "source": "approved-catalog",
+  "name": "catalog",
+  "endpoint": "/v1/catalog",
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/07-polite-api-collector/` 中完成可运行练习。先执行：追踪 JSONL、去重、清单、原子快照和显式恢复路径。
+
+```bash
+cd projects/07-polite-api-collector && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 为损坏清单新增受控失败和显式恢复测试；报告只输出计数和状态，不输出采集正文。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://docs.python.org/3/library/json.html "Python json documentation"
+[2]: https://docs.python.org/3/library/pathlib.html "Python pathlib documentation"
+[3]: https://docs.python.org/3/library/os.html#os.replace "Python os.replace documentation"
+===== module_08_chapter_8_1.md =====
+# 第 8.1 章：接受任务不等于完成任务——服务工作流、状态机与幂等提交
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/08-workflow-service/`（版本 0.1.0）
+
+## 1. 本章目标
+
+完成本章后，你能够把“用户提交一项工作”拆成接受、等待、执行、成功、失败、取消和恢复候选；能用有限状态机写出允许与禁止的转换；能解释幂等键如何防止重复提交；能区分进程内原型、可靠作业队列和跨重启恢复；并能用不含工作正文的公开状态和日志建立可观察边界。
+
+## 2. 一个常见但危险的回答
+
+某 API 收到“刷新目录”的请求，立刻返回：
+
+```json
+{"message": "刷新完成"}
+```
+
+实际代码却只是把协程塞进进程内变量，甚至根本没有启动 worker。这个响应把三件不同的事混成一件：**请求已被验证**、**任务已被接受**、**外部工作已成功完成**。网络断开、进程重启、worker 失败、上游写入只做了一半时，调用方没有任何可靠信息。
+
+本章首先建立诚实的语义：如果系统只完成了接受，就返回 `pending`；只有受控执行者报告成功，才进入 `succeeded`。
+
+## 3. 从生产级 Agent 倒推
+
+未来的 Agent 会调用模型、检索器、工具和工作流。每一次工具执行都有状态：尚未开始、已开始、成功、失败、被取消、需要恢复。Agent **不是**某个工作流框架或一条“后台任务”语句；它需要可观察状态、受控工具、记忆边界、明确错误和评测证据。项目 8 的状态机不运行 LLM，也不做自动决策；它先给任何后续 Agent 工作流提供最小、可测试的任务事实。
+
+## 4. 工作流的最小词汇
+
+| 术语 | 本章含义 | 不代表什么 |
+|---|---|---|
+| 接受（accept） | 输入已通过验证，任务获得 ID 与 `pending` 状态。 | 已开始、已完成或永久保存。 |
+| 执行（start） | 一个受控 worker 开始某次尝试。 | 外部副作用一定成功。 |
+| 成功（succeed） | worker 在合同内报告成功。 | 所有下游系统永久一致。 |
+| 失败（fail） | worker 用受控错误码结束。 | 向客户端暴露 Traceback 或秘密。 |
+| 取消（cancel） | 状态机请求任务停止。 | 远端请求一定被撤销。 |
+| 恢复候选（recovery candidate） | 中断时 `running` 的任务被标为可重新决策。 | 自动、安全地重放任何操作。 |
+
+先说清术语，才能讨论代码与测试。
+
+## 5. 有限状态机是什么
+
+**有限状态机（finite-state machine，FSM）**把对象限制在有限多个状态，并规定状态间哪些边是合法的。项目 8 使用：
+
+```text
+pending ──start──> running ──succeed──> succeeded
+   │                    │
+   │                    ├─fail──> failed
+   │                    └─cancel─> cancelled
+   └────cancel─────────> cancelled
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/08-workflow-service/` 中完成可运行练习。先执行：阅读核心状态机、幂等键和公开视图，绘制 pending/running/completed/failed/cancelled 的允许转换。
+
+```bash
+cd projects/08-workflow-service && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 新增一个非法状态转换测试；重复键若引用不同工作必须返回冲突而不是覆盖旧记录。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://docs.python.org/3/library/asyncio-task.html "Python coroutines and tasks documentation"
+[2]: https://fastapi.tiangolo.com/tutorial/background-tasks/ "FastAPI: Background Tasks"
+===== module_08_chapter_8_3.md =====
+# 第 8.3 章：服务关闭时，任务去了哪里——FastAPI 生命周期、202 合同与恢复边界
+
+**适用版本：** Python 3.11+  
+**项目连接：** `projects/08-workflow-service/`（版本 0.1.0）
+
+## 1. 本章目标
+
+完成本章后，你能够用 FastAPI `lifespan` 管理服务级资源；能设计诚实的 `202 Accepted` 任务 API；能把状态机和 worker 通过可注入运行时组合；能区分短小的 `BackgroundTasks`、进程内队列和持久化作业系统；能在关闭时形成中断恢复候选；并能为请求 ID、公开错误、日志脱敏和本地服务器验收建立稳定合同。
+
+## 2. 服务不是一个导入时运行的全局字典
+
+以下写法看似简单：
+
+```python
+registry = WorkflowRegistry(...)
+engine = WorkflowWorkerEngine(...)
+app = FastAPI()
+```
+
+它的问题不是语法，而是生命周期不清楚：测试导入模块时是否已创建资源？服务开始接收请求前是否完成初始化？关闭时谁释放资源、停止 worker、记录中断？是否能为每个测试注入独立状态？生产服务不能把这些问题留给“进程恰好怎样启动”。
+
+## 3. 从生产级 Agent 倒推
+
+未来 Agent 服务会拥有模型客户端、工具注册表、记忆存储、评测追迹和工作流状态。它们都需要明确的创建、使用、关闭和恢复边界。Agent 不是 FastAPI 应用对象；FastAPI 只是 HTTP 边缘。若模型客户端、队列或任务状态在导入时悄悄启动，就很难测试、升级、限流、停机或审计。
+
+## 4. 生命周期是什么
+
+FastAPI 文档说明，应用开始接收请求前可以运行一次初始化逻辑，关闭时可以运行一次清理逻辑；它们覆盖整个应用生命周期。[1] 适合的资源包括共享连接池、只读模型、受控注册表和关闭清理器。项目 8 把 `WorkflowRegistry` 与 `WorkflowWorkerEngine` 组合成 `WorkflowRuntime`，由应用生命周期拥有，而非由某个路径函数临时拼装。
+
+## 5. `lifespan` 的 `yield` 边界
+
+```python
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    LOGGER.info("workflow_service_started")
+    try:
+        yield
+    finally:
+        recovered = runtime.registry.mark_interrupted_for_recovery()
+        LOGGER.info("workflow_service_stopped recovery_candidates=%s", len(recovered))
+```
+
+`yield` 前运行于开始接收请求前，后运行于停止时。[1] `try/finally` 保证即使关闭路径有取消或异常，恢复候选逻辑仍有机会运行。日志只写计数，不能写任务工作引用、payload 或幂等键。
+
+## 6. 不要混用生命周期模型
+
+FastAPI 推荐 `lifespan` 参数处理启动与关闭；文档还指出，一旦提供 lifespan，旧的 startup/shutdown event handlers 不会被调用。[1] 项目选一种模型并坚持到底。混用两种初始化通道会导致资源重复创建、关闭顺序不确定或测试与生产行为不同。
+
+--- mapping ---
+### 本章项目映射
+
+本章建议直接在 `projects/08-workflow-service/` 中完成可运行练习。先执行：阅读 FastAPI lifespan、关停恢复候选、请求 ID 和 API 合同，理解服务停止并不等于外部结果已知。
+
+```bash
+cd projects/08-workflow-service && .venv/bin/python -m pytest
+```
+
+**主题化扩展：** 为优雅关停后的 interrupted 任务增加恢复候选测试；不得自动标记成功或无限制重放。
+
+完成后记录输入/输出合同、受控失败、测试命令和安全边界。不要把项目中的本地替身、测试夹具、回环服务或默认无执行模式误作真实网络、模型、生产数据、秘密、部署或副作用授权。
+
+## 参考资料
+
+[1]: https://fastapi.tiangolo.com/advanced/events/ "FastAPI: Lifespan Events"
+[2]: https://fastapi.tiangolo.com/tutorial/background-tasks/ "FastAPI: Background Tasks"
+[3]: https://docs.python.org/3/library/asyncio-queue.html "Python asyncio queues"
+[4]: https://docs.python.org/3/library/asyncio-task.html "Python coroutines and tasks documentation"

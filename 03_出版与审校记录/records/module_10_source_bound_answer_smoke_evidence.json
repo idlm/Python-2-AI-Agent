@@ -1,0 +1,33 @@
+{
+  "verified_at": "2026-08-26 GMT+8",
+  "purpose": "single source-bound answer wiring smoke test",
+  "live_catalog_file": "records/module_10_live_model_catalog.json",
+  "model": "gpt-5-mini",
+  "request_count": 1,
+  "public_input_metadata": {
+    "query_chars": 9,
+    "document_count": 1,
+    "collection": "course-public"
+  },
+  "result_metadata": {
+    "status": "answered",
+    "citation_count": 1,
+    "citation_chunk_ids": ["functions-0"],
+    "needs_human_review": false,
+    "index_version": "5cccf42b7a28e638"
+  },
+  "local_validation": {
+    "strict_schema_requested": true,
+    "citation_is_from_actual_retrieval": true,
+    "raw_question_stored": false,
+    "source_text_stored": false,
+    "answer_text_stored": false,
+    "prompt_stored": false,
+    "api_key_stored": false
+  },
+  "limitations": [
+    "This is a single public teaching-text smoke test.",
+    "It is not a test count, benchmark, factuality proof, security certification, load test, or production acceptance.",
+    "No real embedding path was invoked or validated."
+  ]
+}

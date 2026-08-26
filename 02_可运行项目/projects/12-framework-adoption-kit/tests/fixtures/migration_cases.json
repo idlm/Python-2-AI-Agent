@@ -1,0 +1,32 @@
+[
+  {
+    "case_id": "approved-exact-binding",
+    "candidate": {
+      "tool_name": "notify_preview",
+      "arguments": {"recipient_id": "fixture-user", "template_id": "fixture-template"}
+    },
+    "resume_decision": "approved",
+    "resume_tenant_id": "tenant-1",
+    "expected": "accepted"
+  },
+  {
+    "case_id": "rejected-approval",
+    "candidate": {
+      "tool_name": "notify_preview",
+      "arguments": {"recipient_id": "fixture-user", "template_id": "fixture-template"}
+    },
+    "resume_decision": "rejected",
+    "resume_tenant_id": "tenant-1",
+    "expected": "rejected"
+  },
+  {
+    "case_id": "cross-tenant-resume",
+    "candidate": {
+      "tool_name": "notify_preview",
+      "arguments": {"recipient_id": "fixture-user", "template_id": "fixture-template"}
+    },
+    "resume_decision": "approved",
+    "resume_tenant_id": "tenant-other",
+    "expected": "rejected"
+  }
+]

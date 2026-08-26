@@ -1,0 +1,2 @@
+case_id,fixture_version,expected_status,actual_status,review_decision,reason_category,reviewer_id,reviewed_at_utc
+example-complete,v1,completed,completed,accept,contract_matched,reviewer-placeholder,2026-08-26T00:00:00Z

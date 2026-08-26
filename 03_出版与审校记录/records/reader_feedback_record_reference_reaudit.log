@@ -1,0 +1,6 @@
+# Reader feedback record-reference re-audit
+reader_review_pilot_packet.md -> records/reader_feedback_ledger.md: ok
+reader_feedback_ledger.md -> records/reader_review_pilot_packet.md: ok
+publication_quality_gate.md -> records/reader_feedback_ledger.md: ok
+course_table_of_contents.md -> records/reader_feedback_ledger.md: ok
+test-status.md -> reader_feedback_ledger.md: ok

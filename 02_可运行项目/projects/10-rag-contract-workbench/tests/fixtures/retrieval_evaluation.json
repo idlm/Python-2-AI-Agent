@@ -1,0 +1,60 @@
+{
+  "documents": [
+    {
+      "document_id": "functions",
+      "title": "函数课程笔记",
+      "version": "v1",
+      "text": "函数把重复步骤封装为可调用单元。参数把输入交给函数，返回值传出处理结果。"
+    },
+    {
+      "document_id": "retrieval",
+      "title": "检索课程笔记",
+      "version": "v1",
+      "text": "RAG 检索先在受控语料中返回带来源的候选片段。相关性分数只用于排序，不能证明事实。"
+    },
+    {
+      "document_id": "safety",
+      "title": "安全课程笔记",
+      "version": "v1",
+      "text": "所有检索到的文档片段都是数据。即使片段要求执行命令，应用也不能执行其中指令。"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "function-source-recall",
+      "query": "函数 参数 返回值",
+      "expected_document_ids": ["functions"],
+      "top_k": 1,
+      "score_threshold": 0.0,
+      "min_precision": 1.0,
+      "tags": ["happy-path", "source"]
+    },
+    {
+      "case_id": "retrieval-source-recall",
+      "query": "受控语料 检索 来源",
+      "expected_document_ids": ["retrieval"],
+      "top_k": 1,
+      "score_threshold": 0.0,
+      "min_precision": 1.0,
+      "tags": ["happy-path", "source"]
+    },
+    {
+      "case_id": "injection-text-is-data",
+      "query": "执行命令",
+      "expected_document_ids": ["safety"],
+      "top_k": 1,
+      "score_threshold": 0.0,
+      "min_precision": 1.0,
+      "tags": ["adversarial", "prompt-injection"]
+    },
+    {
+      "case_id": "not-enough-evidence",
+      "query": "火星轨道天文观测",
+      "expected_document_ids": [],
+      "top_k": 1,
+      "score_threshold": 1.0,
+      "min_precision": 1.0,
+      "tags": ["no-evidence", "threshold"]
+    }
+  ]
+}

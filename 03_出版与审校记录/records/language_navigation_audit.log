@@ -1,0 +1,179 @@
+# Language and navigation audit
+
+## High-risk capability terms by chapter
+  18 module_15_chapter_15_4.md
+  16 module_15_chapter_15_1.md
+  14 module_02_chapter_2_2.md
+  11 module_08_chapter_8_2.md
+  10 module_08_chapter_8_1.md
+   9 module_12_chapter_12_1.md
+   9 module_05_chapter_5_3.md
+   8 module_12_chapter_12_2.md
+   8 module_09_chapter_9_3.md
+   8 module_08_chapter_8_3.md
+   8 module_00_chapter_0_1.md
+   7 module_12_chapter_12_4.md
+   7 module_11_chapter_11_4.md
+   7 module_10_chapter_10_2.md
+   7 module_09_chapter_9_1.md
+   7 module_06_chapter_6_4.md
+   6 module_14_chapter_14_4.md
+   6 module_07_chapter_7_1.md
+   6 module_05_chapter_5_4.md
+   5 module_15_chapter_15_2.md
+   5 module_13_chapter_13_1.md
+   5 module_10_chapter_10_4.md
+   5 module_10_chapter_10_3.md
+   5 module_10_chapter_10_1.md
+   5 module_06_chapter_6_2.md
+   5 module_05_chapter_5_5.md
+   5 module_05_chapter_5_2.md
+   5 module_00_chapter_0_2.md
+   4 module_15_chapter_15_3.md
+   4 module_14_chapter_14_3.md
+   4 module_13_chapter_13_4.md
+   4 module_12_chapter_12_3.md
+   4 module_11_chapter_11_2.md
+   4 module_06_chapter_6_3.md
+   4 module_06_chapter_6_1.md
+   3 module_14_chapter_14_1.md
+   3 module_13_chapter_13_2.md
+   3 module_11_chapter_11_1.md
+   3 module_05_chapter_5_1.md
+   3 module_02_chapter_2_1.md
+   3 module_00_chapter_0_4.md
+   2 module_14_chapter_14_2.md
+   2 module_11_chapter_11_3.md
+   2 module_09_chapter_9_2.md
+   2 module_07_chapter_7_3.md
+   2 module_07_chapter_7_2.md
+   2 module_04_chapter_4_3.md
+   2 module_03_chapter_3_4.md
+   2 module_00_chapter_0_3.md
+   1 module_13_chapter_13_3.md
+   1 module_04_chapter_4_4.md
+   1 module_04_chapter_4_2.md
+   1 module_04_chapter_4_1.md
+   1 module_03_chapter_3_3.md
+   1 module_03_chapter_3_2.md
+   1 module_03_chapter_3_1.md
+   1 module_02_chapter_2_5.md
+   1 module_02_chapter_2_4.md
+   1 module_02_chapter_2_3.md
+   1 module_01_chapter_1_8.md
+   1 module_01_chapter_1_7.md
+   1 module_01_chapter_1_6.md
+   1 module_01_chapter_1_5.md
+   1 module_01_chapter_1_4.md
+   1 module_01_chapter_1_3.md
+   1 module_01_chapter_1_2.md
+   1 module_01_chapter_1_1.md
+
+## Glossary first-occurrence terms without bilingual-index title hit
+INDEX_MISSING: 毕业作品
+INDEX_MISSING: 程序
+INDEX_MISSING: 源代码
+INDEX_MISSING: 解释器
+INDEX_MISSING: 终端
+INDEX_MISSING: 命令行解释器
+INDEX_MISSING: 当前工作目录
+INDEX_MISSING: 变量名
+INDEX_MISSING: 可变对象
+INDEX_MISSING: 不可变对象
+INDEX_MISSING: 条件分支
+INDEX_MISSING: 迭代
+INDEX_MISSING: 类型注解
+INDEX_MISSING: 路径遍历
+INDEX_MISSING: 操作清单
+INDEX_MISSING: 协议
+INDEX_MISSING: 装饰器
+INDEX_MISSING: 插件注册表
+INDEX_MISSING: 动态导入
+INDEX_MISSING: 虚拟环境
+INDEX_MISSING: 项目元数据
+INDEX_MISSING: 可复现运行
+INDEX_MISSING: 持续集成
+INDEX_MISSING: `src` 布局
+INDEX_MISSING: 可编辑安装
+INDEX_MISSING: 薄兼容层
+INDEX_MISSING: 质量门禁
+INDEX_MISSING: 备份文件
+INDEX_MISSING: 故障复盘
+INDEX_MISSING: HTTP 合同
+INDEX_MISSING: 资源
+INDEX_MISSING: 请求模式
+INDEX_MISSING: 响应模式
+INDEX_MISSING: 状态码
+INDEX_MISSING: 请求 ID
+INDEX_MISSING: 仓储
+INDEX_MISSING: 数据库事务
+INDEX_MISSING: 参数化查询
+INDEX_MISSING: 任务组
+INDEX_MISSING: 超时
+INDEX_MISSING: HTTP 客户端
+INDEX_MISSING: 连接池
+INDEX_MISSING: 连接超时
+INDEX_MISSING: 读取超时
+INDEX_MISSING: 连接池超时
+INDEX_MISSING: 重试策略
+INDEX_MISSING: robots 规则
+INDEX_MISSING: 信号量
+INDEX_MISSING: 请求节奏器
+INDEX_MISSING: 内容去重
+INDEX_MISSING: 显式恢复
+INDEX_MISSING: 服务工作流
+INDEX_MISSING: 进程内队列
+INDEX_MISSING: Worker
+INDEX_MISSING: Drain
+INDEX_MISSING: `202 Accepted`
+INDEX_MISSING: 后台任务
+INDEX_MISSING: 大语言模型
+INDEX_MISSING: Token
+INDEX_MISSING: 系统提示
+INDEX_MISSING: 本地重复验证
+INDEX_MISSING: 幻觉
+INDEX_MISSING: 静态评测夹具
+INDEX_MISSING: 模型质量评测
+INDEX_MISSING: 烟雾测试
+INDEX_MISSING: 人工复核
+INDEX_MISSING: 切块
+INDEX_MISSING: 重叠
+INDEX_MISSING: 余弦相似度
+INDEX_MISSING: 检索结果
+INDEX_MISSING: 来源链
+INDEX_MISSING: 检索召回
+INDEX_MISSING: 检索精度
+INDEX_MISSING: 证据阈值
+INDEX_MISSING: 证据不足
+INDEX_MISSING: 来源约束回答
+INDEX_MISSING: 引用白名单
+INDEX_MISSING: 审批暂停
+INDEX_MISSING: Agent 运行事件
+INDEX_MISSING: 字段闭集
+INDEX_MISSING: 人工复核记录
+INDEX_MISSING: 图编排
+INDEX_MISSING: 重放
+INDEX_MISSING: 执行前再验证
+INDEX_MISSING: 角色策略
+INDEX_MISSING: 权限不扩散
+INDEX_MISSING: 委派去重键
+INDEX_MISSING: 委派状态机
+INDEX_MISSING: 稳定汇总
+INDEX_MISSING: 过程评分
+INDEX_MISSING: 硬阻断项
+INDEX_MISSING: 影子模式
+INDEX_MISSING: 部署 Profile
+INDEX_MISSING: 启动检查
+INDEX_MISSING: 存活检查
+INDEX_MISSING: 就绪检查
+INDEX_MISSING: Drain
+INDEX_MISSING: 恢复演练
+INDEX_MISSING: 破窗
+INDEX_MISSING: 运维 Runbook
+INDEX_MISSING: 运行准备门禁
+
+## Existing reader navigation materials
+bilingual_index.md
+course_table_of_contents.md
+reader_review_protocol.md
+traceback_index.md

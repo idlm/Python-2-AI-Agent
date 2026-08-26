@@ -1,0 +1,257 @@
+test_plan_lists_only_missing_capabilities (test_reverse_design.ReverseDesignTests.test_plan_lists_only_missing_capabilities) ... ok
+test_unknown_feature_has_no_required_capabilities (test_reverse_design.ReverseDesignTests.test_unknown_feature_has_no_required_capabilities) ... ok
+test_snapshot_contains_four_runtime_facts (test_runtime_snapshot.RuntimeSnapshotTests.test_snapshot_contains_four_runtime_facts) ... ok
+test_formatted_record_contains_topic (test_study_record.StudyRecordTests.test_formatted_record_contains_topic) ... ok
+test_record_contains_required_fields (test_study_record.StudyRecordTests.test_record_contains_required_fields) ... ok
+test_invalid_text_raises_value_error (test_traceback_lab.TracebackLabTests.test_invalid_text_raises_value_error) ... ok
+test_valid_text_is_squared (test_traceback_lab.TracebackLabTests.test_valid_text_is_squared) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+OK
+test_rename_returns_new_dictionary (test_repl_and_names.ReplAndNamesTests.test_rename_returns_new_dictionary) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+test_analyze_text (tests.module_02.test_text_analyzer.TextAnalyzerTests.test_analyze_text) ... ok
+test_normalize_and_count_words (tests.module_02.test_text_analyzer.TextAnalyzerTests.test_normalize_and_count_words) ... ok
+test_report_and_invalid_input (tests.module_02.test_text_analyzer.TextAnalyzerTests.test_report_and_invalid_input) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+test_context_manager_closes_file_after_normal_exit (tests.module_04.test_python_mechanisms.ContextManagerExampleTests.test_context_manager_closes_file_after_normal_exit) ... ok
+test_context_manager_closes_file_and_preserves_exception (tests.module_04.test_python_mechanisms.ContextManagerExampleTests.test_context_manager_closes_file_and_preserves_exception) ... ok
+test_decorator_keeps_result_and_function_name (tests.module_04.test_python_mechanisms.DecoratorExampleTests.test_decorator_keeps_result_and_function_name) ... ok
+test_generator_resumes_from_previous_yield (tests.module_04.test_python_mechanisms.GeneratorExampleTests.test_generator_resumes_from_previous_yield) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+OK
+test_summary_has_nonempty_diagnostic_fields (tests.module_05.test_environment_check.EnvironmentCheckTests.test_summary_has_nonempty_diagnostic_fields) ... ok
+test_summary_reports_an_existing_interpreter_path (tests.module_05.test_environment_check.EnvironmentCheckTests.test_summary_reports_an_existing_interpreter_path) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+test_batch_returns_results_in_input_order (test_async_reliability.AsyncReliabilityTests.test_batch_returns_results_in_input_order) ... ok
+test_explicit_cancellation_propagates_after_cleanup (test_async_reliability.AsyncReliabilityTests.test_explicit_cancellation_propagates_after_cleanup) ... ok
+test_job_validates_name_and_delay (test_async_reliability.AsyncReliabilityTests.test_job_validates_name_and_delay) ... ok
+test_logs_do_not_include_result_value (test_async_reliability.AsyncReliabilityTests.test_logs_do_not_include_result_value) ... ok
+test_nonpositive_timeout_is_rejected (test_async_reliability.AsyncReliabilityTests.test_nonpositive_timeout_is_rejected) ... ok
+test_task_failure_cancels_sibling_and_cleans_both (test_async_reliability.AsyncReliabilityTests.test_task_failure_cancels_sibling_and_cleans_both) ... ok
+test_timeout_cancels_running_job_and_runs_cleanup (test_async_reliability.AsyncReliabilityTests.test_timeout_cancels_running_job_and_runs_cleanup) ... ok
+test_body_rejects_blank_and_non_string_values (test_http_contract.HttpContractTests.test_body_rejects_blank_and_non_string_values) ... ok
+test_body_requires_exact_schema (test_http_contract.HttpContractTests.test_body_requires_exact_schema) ... ok
+test_get_by_id_returns_created_resource (test_http_contract.HttpContractTests.test_get_by_id_returns_created_resource) ... ok
+test_logs_never_include_request_body (test_http_contract.HttpContractTests.test_logs_never_include_request_body) ... ok
+test_missing_resource_returns_controlled_404 (test_http_contract.HttpContractTests.test_missing_resource_returns_controlled_404) ... ok
+test_post_creates_and_get_lists_note (test_http_contract.HttpContractTests.test_post_creates_and_get_lists_note) ... ok
+test_unknown_path_and_invalid_identifier_return_404 (test_http_contract.HttpContractTests.test_unknown_path_and_invalid_identifier_return_404) ... ok
+test_wrong_method_returns_405 (test_http_contract.HttpContractTests.test_wrong_method_returns_405) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.058s
+
+OK
+=== projects/01-task-manager pytest ===
+.................                                                        [100%]
+17 passed in 0.74s
+=== projects/02-text-analyzer pytest ===
+......                                                                   [100%]
+6 passed in 0.02s
+=== projects/03-auto-archive pytest ===
+.......                                                                  [100%]
+7 passed in 0.02s
+=== projects/04-plugin-system pytest ===
+...............                                                          [100%]
+15 passed in 0.22s
+=== projects/05-cli-tool-platform pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/05-cli-tool-platform
+configfile: pyproject.toml
+testpaths: tests
+collected 9 items
+
+tests/test_cli.py ..                                                     [ 22%]
+tests/test_settings.py .......                                           [100%]
+
+============================== 9 passed in 0.02s ===============================
+=== projects/06-knowledge-api pytest ===
+.................                                                        [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/python_private_course/projects/06-knowledge-api/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+17 passed, 1 warning in 0.45s
+=== projects/07-polite-api-collector pytest ===
+............................                                             [100%]
+28 passed in 0.16s
+=== projects/08-workflow-service pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/08-workflow-service
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.2, asyncio-0.26.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 25 items
+
+tests/test_api.py ......                                                 [ 24%]
+tests/test_core.py ..........                                            [ 64%]
+tests/test_worker.py .........                                           [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/python_private_course/projects/08-workflow-service/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 25 passed, 1 warning in 0.49s =========================
+=== projects/09-llm-contract-client pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/09-llm-contract-client
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.2
+collected 33 items
+
+tests/test_core.py ............                                          [ 36%]
+tests/test_evaluation.py .....                                           [ 51%]
+tests/test_openai_transport.py ....                                      [ 63%]
+tests/test_structured.py ............                                    [100%]
+
+============================== 33 passed in 0.47s ==============================
+=== projects/10-rag-contract-workbench pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/10-rag-contract-workbench
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.2
+collected 37 items
+
+tests/test_answer_evaluation.py ....                                     [ 10%]
+tests/test_answering.py ........                                         [ 32%]
+tests/test_cli.py ....                                                   [ 43%]
+tests/test_core.py ............                                          [ 75%]
+tests/test_evaluation.py .....                                           [ 89%]
+tests/test_openai_answer_transport.py ....                               [100%]
+
+============================== 37 passed in 0.52s ==============================
+=== projects/11-bounded-agent-core pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/11-bounded-agent-core
+configfile: pyproject.toml
+testpaths: tests
+collected 23 items
+
+tests/test_cli.py .....                                                  [ 21%]
+tests/test_core.py ...........                                           [ 69%]
+tests/test_evaluation.py ......                                          [ 95%]
+tests/test_events.py .                                                   [100%]
+
+============================== 23 passed in 0.05s ==============================
+=== projects/12-framework-adoption-kit pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/12-framework-adoption-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 17 items
+
+tests/test_contracts.py .........                                        [ 52%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 17 passed in 0.04s ==============================
+=== projects/13-delegation-contract-kit pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/13-delegation-contract-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 15 items
+
+tests/test_core.py .......                                               [ 46%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 15 passed in 0.04s ==============================
+=== projects/14-evaluation-gate-kit pytest ===
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/14-evaluation-gate-kit
+configfile: pyproject.toml
+testpaths: tests
+collected 14 items
+
+tests/test_core.py ......                                                [ 42%]
+tests/test_evaluation_and_cli.py ........                                [100%]
+
+============================== 14 passed in 0.04s ==============================
+=== projects/01-task-manager mypy ===
+Success: no issues found in 3 source files
+=== projects/01-task-manager ruff ===
+[1;32mAll checks passed![0m
+=== projects/02-text-analyzer mypy ===
+Success: no issues found in 3 source files
+=== projects/02-text-analyzer ruff ===
+[1;32mAll checks passed![0m
+=== projects/03-auto-archive mypy ===
+Success: no issues found in 3 source files
+=== projects/03-auto-archive ruff ===
+[1;32mAll checks passed![0m
+=== projects/04-plugin-system mypy ===
+Success: no issues found in 3 source files
+=== projects/04-plugin-system ruff ===
+[1;32mAll checks passed![0m
+=== projects/05-cli-tool-platform mypy ===
+Success: no issues found in 3 source files
+=== projects/05-cli-tool-platform ruff ===
+[1;32mAll checks passed![0m
+=== projects/06-knowledge-api mypy ===
+Success: no issues found in 4 source files
+=== projects/06-knowledge-api ruff ===
+[1;32mAll checks passed![0m
+=== projects/07-polite-api-collector mypy ===
+Success: no issues found in 5 source files
+=== projects/07-polite-api-collector ruff ===
+[1;32mAll checks passed![0m
+=== projects/08-workflow-service mypy ===
+Success: no issues found in 5 source files
+=== projects/08-workflow-service ruff ===
+[1;32mAll checks passed![0m
+=== projects/09-llm-contract-client mypy ===
+Success: no issues found in 6 source files
+=== projects/09-llm-contract-client ruff ===
+[1;32mAll checks passed![0m
+=== projects/10-rag-contract-workbench mypy ===
+Success: no issues found in 7 source files
+=== projects/10-rag-contract-workbench ruff ===
+[1;32mAll checks passed![0m
+=== projects/11-bounded-agent-core mypy ===
+Success: no issues found in 5 source files
+=== projects/11-bounded-agent-core ruff ===
+[1;32mAll checks passed![0m
+=== projects/12-framework-adoption-kit mypy ===
+Success: no issues found in 4 source files
+=== projects/12-framework-adoption-kit ruff ===
+[1;32mAll checks passed![0m
+=== projects/13-delegation-contract-kit mypy ===
+Success: no issues found in 4 source files
+=== projects/13-delegation-contract-kit ruff ===
+[1;32mAll checks passed![0m
+=== projects/14-evaluation-gate-kit mypy ===
+Success: no issues found in 4 source files
+=== projects/14-evaluation-gate-kit ruff ===
+[1;32mAll checks passed![0m

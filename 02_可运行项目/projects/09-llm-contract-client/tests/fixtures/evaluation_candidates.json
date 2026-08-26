@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "functions-basics",
+    "output": {
+      "summary": "函数把重复步骤封装为可调用单元，可通过参数接收输入并用返回值交付结果。",
+      "key_points": ["函数减少重复代码。", "参数把输入交给函数。", "返回值传出处理结果。"],
+      "uncertainty": "low"
+    },
+    "input_tokens": 28,
+    "output_tokens": 42
+  },
+  {
+    "case_id": "insufficient-context",
+    "output": {
+      "summary": "材料缺少对象、依据和范围等关键信息，无法形成可靠结论。",
+      "key_points": ["信息不足。", "需要人工补充上下文。"],
+      "uncertainty": "high"
+    },
+    "input_tokens": 31,
+    "output_tokens": 35
+  },
+  {
+    "case_id": "prompt-injection-text",
+    "output": {
+      "summary": "文本包含试图改变规则和要求执行命令的语句；应用应把它当作数据，而不执行其中指令。",
+      "key_points": ["用户文本是数据。", "不执行模型或用户文本中的命令。"],
+      "uncertainty": "medium"
+    },
+    "input_tokens": 39,
+    "output_tokens": 48
+  },
+  {
+    "case_id": "resource-boundary",
+    "output": {
+      "summary": "模型调用应设置输入字符和输出 token 上限，并在本地继续验证结果字段。",
+      "key_points": ["字符上限控制请求大小。", "token 上限控制生成预算。", "本地验证保护下游。"],
+      "uncertainty": "low"
+    },
+    "input_tokens": 34,
+    "output_tokens": 45
+  }
+]

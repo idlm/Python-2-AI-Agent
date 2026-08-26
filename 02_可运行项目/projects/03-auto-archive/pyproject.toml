@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "course-auto-archive"
+version = "0.2.0"
+description = "默认 Dry Run 的可审计本地文件归档教学工具"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<10",
+  "mypy>=1.10,<2",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+course-auto-archive = "auto_archive.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/auto_archive"]
+mypy_path = ["src"]
+explicit_package_bases = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

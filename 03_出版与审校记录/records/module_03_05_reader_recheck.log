@@ -1,0 +1,32 @@
+# Module 3–5 reader-path recheck
+module_03_chapter_3_1.md sections=25
+module_03_chapter_3_4.md sections=25
+module_04_chapter_4_4.md sections=25
+module_05_chapter_5_1.md sections=25
+module_05_chapter_5_4.md sections=25
+module_05_chapter_5_5.md sections=25
+235:本章建议在 `projects/01-task-manager/` 与 `projects/05-cli-tool-platform/` 中对照完成可运行练习。先执行下列命令，比较历史脚本与 `src` 布局迁移后的安装、兼容层、测试和入口职责。
+===== 03-auto-archive =====
+.......                                                                  [100%]
+7 passed in 0.03s
+Success: no issues found in 3 source files
+[1;32mAll checks passed![0m
+===== 04-plugin-system =====
+...............                                                          [100%]
+15 passed in 0.24s
+Success: no issues found in 3 source files
+[1;32mAll checks passed![0m
+===== 05-cli-tool-platform =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/05-cli-tool-platform
+configfile: pyproject.toml
+testpaths: tests
+collected 9 items
+
+tests/test_cli.py ..                                                     [ 22%]
+tests/test_settings.py .......                                           [100%]
+
+============================== 9 passed in 0.02s ===============================
+Success: no issues found in 3 source files
+[1;32mAll checks passed![0m

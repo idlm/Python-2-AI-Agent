@@ -1,0 +1,15 @@
+# Reader feedback record-reference audit
+reader_review_protocol.md                        0
+reader_review_pilot_packet.md                    2
+reader_feedback_ledger.md                        1
+course_table_of_contents.md                      1
+publication_quality_gate.md                      2
+publication_final_release_check.md               2
+progress.md                                      1
+continuous_completion_manifest.md                1
+# Required cross-references
+reader_review_pilot_packet.md -> records/reader_feedback_ledger.md: ok
+reader_feedback_ledger.md -> records/reader_review_pilot_packet.md: missing
+publication_quality_gate.md -> records/reader_feedback_ledger.md: missing
+publication_final_release_check.md -> records/reader_feedback_ledger.md: missing
+course_table_of_contents.md -> records/reader_feedback_ledger.md: missing

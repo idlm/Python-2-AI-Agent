@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "course-polite-api-collector"
+version = "0.1.0"
+description = "具备超时、重试、限制和脱敏日志的教学 API 采集器"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.27,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.10,<2",
+  "pytest>=8.0,<10",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+course-api-collect = "polite_api_collector.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/polite_api_collector"]
+mypy_path = ["src"]
+explicit_package_bases = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

@@ -1,0 +1,43 @@
+[
+  {
+    "case_id": "all-gates-pass",
+    "cases": [
+      {"case_id": "hard-a", "suite_kind": "regression", "risk_level": "hard"},
+      {"case_id": "soft-b", "suite_kind": "regression", "risk_level": "soft"}
+    ],
+    "baseline": {"hard-a": "passed", "soft-b": "passed"},
+    "candidate": {"hard-a": "passed", "soft-b": "passed"},
+    "max_soft_regressions": 0,
+    "expected": "approved"
+  },
+  {
+    "case_id": "hard-failure-blocks",
+    "cases": [
+      {"case_id": "hard-c", "suite_kind": "regression", "risk_level": "hard"}
+    ],
+    "baseline": {"hard-c": "passed"},
+    "candidate": {"hard-c": "failed"},
+    "max_soft_regressions": 0,
+    "expected": "rejected"
+  },
+  {
+    "case_id": "not-run-blocks",
+    "cases": [
+      {"case_id": "soft-d", "suite_kind": "regression", "risk_level": "soft"}
+    ],
+    "baseline": {"soft-d": "passed"},
+    "candidate": {"soft-d": "not_run"},
+    "max_soft_regressions": 1,
+    "expected": "rejected"
+  },
+  {
+    "case_id": "one-allowed-soft-regression",
+    "cases": [
+      {"case_id": "soft-e", "suite_kind": "capability", "risk_level": "soft"}
+    ],
+    "baseline": {"soft-e": "passed"},
+    "candidate": {"soft-e": "failed"},
+    "max_soft_regressions": 1,
+    "expected": "approved"
+  }
+]

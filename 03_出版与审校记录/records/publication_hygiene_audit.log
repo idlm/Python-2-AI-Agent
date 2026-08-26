@@ -1,0 +1,20 @@
+# Publication hygiene audit
+
+## whitespace check
+NOT_APPLICABLE: current course directory is not a Git work tree.
+
+## candidate literal credential patterns
+projects/11-bounded-agent-core/tests/test_core.py:80:    task = agent.start(AgentTask(task_id="task-tool-budget", goal="工具预算", tool_calls=2))
+projects/11-bounded-agent-core/tests/test_core.py:110:            task_id="task-inconsistent-stop",
+projects/11-bounded-agent-core/.pytest_cache/v/cache/nodeids:15:  "tests/test_core.py::test_task_rejects_invalid_identity_goal_or_counter[task-5-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-0]",
+
+## required publication materials
+PRESENT records/bilingual_index.md
+PRESENT records/traceback_index.md
+PRESENT records/adr/README.md
+PRESENT records/runbook.md
+PRESENT records/publication_quality_gate.md
+PRESENT records/course_table_of_contents.md
+PRESENT records/publication_structure_remediation.md
+PRESENT records/publication_link_audit_summary.md
+PRESENT records/publication_final_quality.log

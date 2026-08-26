@@ -1,0 +1,6 @@
+# Reader feedback consistency re-audit
+pilot->protocol=ok
+pilot->ledger=ok
+gate->pilot=ok
+toc->pilot=ok
+ledger->no_simulation=ok

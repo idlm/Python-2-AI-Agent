@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling>=1.25,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "course-llm-contract-client"
+version = "0.3.0"
+description = "A constrained, observable LLM client with structured summaries and offline evaluation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "openai>=1.109,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.10,<2",
+  "pytest>=8,<10",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+course-llm-contract = "llm_contract_client.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_contract_client"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/llm_contract_client"]
+strict = true
+warn_unused_configs = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "SIM", "UP"]

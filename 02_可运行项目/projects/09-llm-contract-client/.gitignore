@@ -1,0 +1,19 @@
+# Python runtime and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+
+# Test, type-check and lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Reproducible local evaluation output
+reports/*.json

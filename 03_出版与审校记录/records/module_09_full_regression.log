@@ -1,0 +1,137 @@
+== module_00 unittest ==
+test_plan_lists_only_missing_capabilities (test_reverse_design.ReverseDesignTests.test_plan_lists_only_missing_capabilities) ... ok
+test_unknown_feature_has_no_required_capabilities (test_reverse_design.ReverseDesignTests.test_unknown_feature_has_no_required_capabilities) ... ok
+test_snapshot_contains_four_runtime_facts (test_runtime_snapshot.RuntimeSnapshotTests.test_snapshot_contains_four_runtime_facts) ... ok
+test_formatted_record_contains_topic (test_study_record.StudyRecordTests.test_formatted_record_contains_topic) ... ok
+test_record_contains_required_fields (test_study_record.StudyRecordTests.test_record_contains_required_fields) ... ok
+test_invalid_text_raises_value_error (test_traceback_lab.TracebackLabTests.test_invalid_text_raises_value_error) ... ok
+test_valid_text_is_squared (test_traceback_lab.TracebackLabTests.test_valid_text_is_squared) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+OK
+== module_01 unittest ==
+test_rename_returns_new_dictionary (test_repl_and_names.ReplAndNamesTests.test_rename_returns_new_dictionary) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+== module_02 unittest ==
+test_analyze_text (test_text_analyzer.TextAnalyzerTests.test_analyze_text) ... ok
+test_normalize_and_count_words (test_text_analyzer.TextAnalyzerTests.test_normalize_and_count_words) ... ok
+test_report_and_invalid_input (test_text_analyzer.TextAnalyzerTests.test_report_and_invalid_input) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+== module_04 unittest ==
+test_context_manager_closes_file_after_normal_exit (test_python_mechanisms.ContextManagerExampleTests.test_context_manager_closes_file_after_normal_exit) ... ok
+test_context_manager_closes_file_and_preserves_exception (test_python_mechanisms.ContextManagerExampleTests.test_context_manager_closes_file_and_preserves_exception) ... ok
+test_decorator_keeps_result_and_function_name (test_python_mechanisms.DecoratorExampleTests.test_decorator_keeps_result_and_function_name) ... ok
+test_generator_resumes_from_previous_yield (test_python_mechanisms.GeneratorExampleTests.test_generator_resumes_from_previous_yield) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+OK
+== module_05 unittest ==
+test_summary_has_nonempty_diagnostic_fields (test_environment_check.EnvironmentCheckTests.test_summary_has_nonempty_diagnostic_fields) ... ok
+test_summary_reports_an_existing_interpreter_path (test_environment_check.EnvironmentCheckTests.test_summary_reports_an_existing_interpreter_path) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+== module_06 unittest ==
+test_batch_returns_results_in_input_order (test_async_reliability.AsyncReliabilityTests.test_batch_returns_results_in_input_order) ... ok
+test_explicit_cancellation_propagates_after_cleanup (test_async_reliability.AsyncReliabilityTests.test_explicit_cancellation_propagates_after_cleanup) ... ok
+test_job_validates_name_and_delay (test_async_reliability.AsyncReliabilityTests.test_job_validates_name_and_delay) ... ok
+test_logs_do_not_include_result_value (test_async_reliability.AsyncReliabilityTests.test_logs_do_not_include_result_value) ... ok
+test_nonpositive_timeout_is_rejected (test_async_reliability.AsyncReliabilityTests.test_nonpositive_timeout_is_rejected) ... ok
+test_task_failure_cancels_sibling_and_cleans_both (test_async_reliability.AsyncReliabilityTests.test_task_failure_cancels_sibling_and_cleans_both) ... ok
+test_timeout_cancels_running_job_and_runs_cleanup (test_async_reliability.AsyncReliabilityTests.test_timeout_cancels_running_job_and_runs_cleanup) ... ok
+test_body_rejects_blank_and_non_string_values (test_http_contract.HttpContractTests.test_body_rejects_blank_and_non_string_values) ... ok
+test_body_requires_exact_schema (test_http_contract.HttpContractTests.test_body_requires_exact_schema) ... ok
+test_get_by_id_returns_created_resource (test_http_contract.HttpContractTests.test_get_by_id_returns_created_resource) ... ok
+test_logs_never_include_request_body (test_http_contract.HttpContractTests.test_logs_never_include_request_body) ... ok
+test_missing_resource_returns_controlled_404 (test_http_contract.HttpContractTests.test_missing_resource_returns_controlled_404) ... ok
+test_post_creates_and_get_lists_note (test_http_contract.HttpContractTests.test_post_creates_and_get_lists_note) ... ok
+test_unknown_path_and_invalid_identifier_return_404 (test_http_contract.HttpContractTests.test_unknown_path_and_invalid_identifier_return_404) ... ok
+test_wrong_method_returns_405 (test_http_contract.HttpContractTests.test_wrong_method_returns_405) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.058s
+
+OK
+== projects/01-task-manager pytest ==
+.................                                                        [100%]
+== projects/02-text-analyzer pytest ==
+......                                                                   [100%]
+== projects/03-auto-archive pytest ==
+.......                                                                  [100%]
+== projects/04-plugin-system pytest ==
+...............                                                          [100%]
+== projects/05-cli-tool-platform pytest ==
+.........                                                                [100%]
+9 passed in 0.02s
+== projects/06-knowledge-api pytest ==
+.................                                                        [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/python_private_course/projects/06-knowledge-api/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+== projects/07-polite-api-collector pytest ==
+............................                                             [100%]
+== projects/08-workflow-service pytest ==
+.........................                                                [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/python_private_course/projects/08-workflow-service/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+25 passed, 1 warning in 0.48s
+== projects/09-llm-contract-client pytest ==
+.................................                                        [100%]
+33 passed in 0.49s
+== projects/01-task-manager mypy ==
+Success: no issues found in 3 source files
+== projects/01-task-manager ruff ==
+[1;32mAll checks passed![0m
+== projects/02-text-analyzer mypy ==
+Success: no issues found in 3 source files
+== projects/02-text-analyzer ruff ==
+[1;32mAll checks passed![0m
+== projects/03-auto-archive mypy ==
+Success: no issues found in 3 source files
+== projects/03-auto-archive ruff ==
+[1;32mAll checks passed![0m
+== projects/04-plugin-system mypy ==
+Success: no issues found in 3 source files
+== projects/04-plugin-system ruff ==
+[1;32mAll checks passed![0m
+== projects/05-cli-tool-platform mypy ==
+Success: no issues found in 3 source files
+== projects/05-cli-tool-platform ruff ==
+[1;32mAll checks passed![0m
+== projects/06-knowledge-api mypy ==
+Success: no issues found in 4 source files
+== projects/06-knowledge-api ruff ==
+[1;32mAll checks passed![0m
+== projects/07-polite-api-collector mypy ==
+Success: no issues found in 5 source files
+== projects/07-polite-api-collector ruff ==
+[1;32mAll checks passed![0m
+== projects/08-workflow-service mypy ==
+Success: no issues found in 5 source files
+== projects/08-workflow-service ruff ==
+[1;32mAll checks passed![0m
+== projects/09-llm-contract-client mypy ==
+Success: no issues found in 6 source files
+== projects/09-llm-contract-client ruff ==
+[1;32mAll checks passed![0m

@@ -1,0 +1,61 @@
+===== 05-cli-tool-platform: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/05-cli-tool-platform
+configfile: pyproject.toml
+testpaths: tests
+collected 9 items
+
+tests/test_cli.py ..                                                     [ 22%]
+tests/test_settings.py .......                                           [100%]
+
+============================== 9 passed in 0.02s ===============================
+===== 05-cli-tool-platform: mypy =====
+Success: no issues found in 3 source files
+===== 05-cli-tool-platform: ruff =====
+[1;32mAll checks passed![0m
+===== 06-knowledge-api: pytest =====
+.................                                                        [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/python_private_course/projects/06-knowledge-api/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+17 passed, 1 warning in 0.43s
+===== 06-knowledge-api: mypy =====
+Success: no issues found in 4 source files
+===== 06-knowledge-api: ruff =====
+[1;32mAll checks passed![0m
+===== 07-polite-api-collector: pytest =====
+............................                                             [100%]
+28 passed in 0.16s
+===== 07-polite-api-collector: mypy =====
+Success: no issues found in 5 source files
+===== 07-polite-api-collector: ruff =====
+[1;32mAll checks passed![0m
+===== 08-workflow-service: pytest =====
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/ubuntu/python_private_course/projects/08-workflow-service
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.14.2, asyncio-0.26.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 25 items
+
+tests/test_api.py ......                                                 [ 24%]
+tests/test_core.py ..........                                            [ 64%]
+tests/test_worker.py .........                                           [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/ubuntu/python_private_course/projects/08-workflow-service/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 25 passed, 1 warning in 0.45s =========================
+===== 08-workflow-service: mypy =====
+Success: no issues found in 5 source files
+===== 08-workflow-service: ruff =====
+[1;32mAll checks passed![0m

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "course-safe-plugin-system"
+version = "0.3.0"
+description = "允许列表驱动、可审计的教学文本插件系统"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<10",
+  "mypy>=1.10,<2",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+course-safe-plugins = "safe_plugin_system.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/safe_plugin_system"]
+mypy_path = ["src"]
+explicit_package_bases = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

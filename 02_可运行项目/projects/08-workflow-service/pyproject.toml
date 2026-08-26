@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.25,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "course-workflow-service"
+version = "0.1.0"
+description = "受控服务工作流、任务状态和恢复边界的 Python 私房课教学项目"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Python 私房课" }]
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28,<1",
+  "mypy>=1.10,<2",
+  "pytest>=8,<10",
+  "pytest-asyncio>=0.24,<1",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+course-workflow-service = "workflow_service.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/workflow_service"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/workflow_service"]
+strict = true
+warn_unreachable = true
+warn_unused_ignores = true
+explicit_package_bases = true
+mypy_path = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

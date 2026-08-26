@@ -1,0 +1,65 @@
+[
+  {
+    "case_id": "two-independent-roles",
+    "requests": [
+      {
+        "delegation_id": "research-a",
+        "role": "public_researcher",
+        "task_summary": "compare-source-a",
+        "input_ref": "source-a",
+        "allowed_tools": ["read_public_fixture"],
+        "max_steps": 2,
+        "max_tool_calls": 1
+      },
+      {
+        "delegation_id": "policy-b",
+        "role": "policy_reviewer",
+        "task_summary": "review-policy-b",
+        "input_ref": "policy-b",
+        "allowed_tools": ["read_policy_fixture"],
+        "max_steps": 1,
+        "max_tool_calls": 1
+      }
+    ],
+    "expected": "accepted"
+  },
+  {
+    "case_id": "role-tool-escalation",
+    "requests": [
+      {
+        "delegation_id": "research-b",
+        "role": "public_researcher",
+        "task_summary": "compare-source-b",
+        "input_ref": "source-b",
+        "allowed_tools": ["read_public_fixture", "read_policy_fixture"],
+        "max_steps": 2,
+        "max_tool_calls": 1
+      }
+    ],
+    "expected": "rejected"
+  },
+  {
+    "case_id": "duplicate-work-scope",
+    "requests": [
+      {
+        "delegation_id": "research-c1",
+        "role": "public_researcher",
+        "task_summary": "compare-source-c",
+        "input_ref": "source-c",
+        "allowed_tools": ["read_public_fixture"],
+        "max_steps": 2,
+        "max_tool_calls": 1
+      },
+      {
+        "delegation_id": "research-c2",
+        "role": "public_researcher",
+        "task_summary": "compare-source-c",
+        "input_ref": "source-c",
+        "allowed_tools": ["read_public_fixture"],
+        "max_steps": 2,
+        "max_tool_calls": 1
+      }
+    ],
+    "expected": "rejected"
+  }
+]

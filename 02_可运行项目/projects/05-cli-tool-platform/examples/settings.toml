@@ -1,0 +1,3 @@
+# 非敏感示例配置：真实密钥不应出现在此文件。
+app_name = "course-cli"
+log_level = "WARNING"
