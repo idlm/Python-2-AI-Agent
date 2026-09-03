@@ -100,10 +100,10 @@ print(f"已创建任务：{title}")
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：从命令参数到固定 JSON 输出和退出码，画出用户输入/程序输出合同。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：从命令参数到固定 JSON 输出和退出码，画出用户输入/程序输出合同。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 新增一个只读查询参数；未知值必须受控拒绝并返回稳定退出码。

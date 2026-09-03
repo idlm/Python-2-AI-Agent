@@ -1,7 +1,7 @@
 # 第 7.3 章：采到数据不等于保存成功——JSONL、去重、原子替换与恢复
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/07-polite-api-collector/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/07-polite-api-collector/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -145,7 +145,7 @@ JSONL 经常被用于追加，但项目为了简化去重和一致性，读取�
 ## 18. 端到端示例
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/07-polite-api-collector
+cd "02_可运行项目/projects/07-polite-api-collector"
 .venv/bin/python examples/store_demo.py
 ```
 
@@ -219,10 +219,10 @@ INFO collection_manifest_recovered record_count=1
 
 ### 本章项目映射
 
-本章建议直接在 `projects/07-polite-api-collector/` 中完成可运行练习。先执行：追踪 JSONL、去重、清单、原子快照和显式恢复路径。
+本章建议直接在 `02_可运行项目/projects/07-polite-api-collector/` 中完成可运行练习。先执行：追踪 JSONL、去重、清单、原子快照和显式恢复路径。
 
 ```bash
-cd projects/07-polite-api-collector && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/07-polite-api-collector && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为损坏清单新增受控失败和显式恢复测试；报告只输出计数和状态，不输出采集正文。

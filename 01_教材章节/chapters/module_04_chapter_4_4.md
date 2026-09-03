@@ -1,7 +1,7 @@
 # 第 4.4 章：插件配置、加载与项目收束——让扩展能力可控上线
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/04-plugin-system/`（安全文本插件系统，版本 0.2.0）
+**项目连接：** `02_可运行项目/projects/04-plugin-system/`（安全文本插件系统，版本 0.2.0）
 
 ## 1. 本章目标
 
@@ -48,7 +48,7 @@ def build_from_config(config: dict):
 
 ## 7. 安全的最小配置
 
-项目的示例配置位于 `projects/04-plugin-system/examples/plugins.json`：
+项目的示例配置位于 `02_可运行项目/projects/04-plugin-system/examples/plugins.json`：
 
 ```json
 {
@@ -67,7 +67,7 @@ def build_from_config(config: dict):
 ## 8. 配置加载的真实代码
 
 ```python
-# 文件：projects/04-plugin-system/src/plugins.py（节选，版本 0.2.0）
+# 文件：02_可运行项目/projects/04-plugin-system/src/plugins.py（节选，版本 0.2.0）
 def build_registry_from_config(config):
     allowed_top_level = {"plugins"}
     unknown_keys = set(config) - allowed_top_level
@@ -130,7 +130,7 @@ Schema 是对输入的可执行契约。它把“我以为有这个字段”变�
 从项目目录运行：
 
 ```bash
-cd projects/04-plugin-system
+cd 02_可运行项目/projects/04-plugin-system
 python3 src/cli.py --config examples/plugins.json --list
 python3 src/cli.py --config examples/plugins.json --plugin task --text "完成验收"
 ```
@@ -173,7 +173,7 @@ with JsonlAuditLog(args.audit_log) as audit_log:
 ## 17. 项目目录与职责
 
 ```text
-projects/04-plugin-system/
+02_可运行项目/projects/04-plugin-system/
 ├── README.md                 # 运行、安全边界与验收说明
 ├── examples/plugins.json     # 仅含允许类型的样例配置
 ├── src/plugins.py            # 协议、插件、注册表、配置、审计
@@ -190,7 +190,7 @@ projects/04-plugin-system/
 运行：
 
 ```bash
-cd projects/04-plugin-system
+cd 02_可运行项目/projects/04-plugin-system
 python3 -m unittest discover -s tests -v
 ```
 
@@ -246,10 +246,10 @@ python3 -m unittest discover -s tests -v
 
 ### 本章项目映射
 
-本章直接对应 `projects/04-plugin-system/`。从 `src/safe_plugin_system/`、允许类型配置、CLI 和测试阅读 Protocol、冻结数据、注册表、字段闭集、脱敏审计与受控退出码：
+本章直接对应 `02_可运行项目/projects/04-plugin-system/`。从 `src/safe_plugin_system/`、允许类型配置、CLI 和测试阅读 Protocol、冻结数据、注册表、字段闭集、脱敏审计与受控退出码：
 
 ```bash
-cd projects/04-plugin-system
+cd 02_可运行项目/projects/04-plugin-system
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

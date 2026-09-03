@@ -1,7 +1,7 @@
 # 第 10.1 章：RAG 不是“上传文件就懂了”——受控语料、切块、向量与来源合同
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/10-rag-contract-workbench/`（版本 0.5.0）  
+**项目连接：** `02_可运行项目/projects/10-rag-contract-workbench/`（版本 0.5.0）  
 **前置章节：** 模块 9 的受控模型调用、严格结构化输出、离线评测与提示注入边界。
 
 ## 1. 本章目标
@@ -230,7 +230,7 @@ INFO rag_search_completed collection=course-public query_chars=6 candidates=3 re
 本章对应 `10-rag-contract-workbench`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从公开语料合同、稳定切块、教学嵌入替身、内存检索、来源约束与离线评测读取 RAG 的证据边界。
 
 ```bash
-cd projects/10-rag-contract-workbench
+cd 02_可运行项目/projects/10-rag-contract-workbench
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

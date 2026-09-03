@@ -1,7 +1,7 @@
 # 第 8.2 章：把任务交给 worker 前，先定义边界——有界队列、反压、取消与结构化执行
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/08-workflow-service/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/08-workflow-service/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -225,10 +225,10 @@ WARNING workflow_task_execution_failed task_type=refresh_catalog worker=0
 
 ### 本章项目映射
 
-本章建议直接在 `projects/08-workflow-service/` 中完成可运行练习。先执行：阅读有界队列、反压、TaskGroup、超时、取消和 drain 的测试，定位“接受”与“完成”的差异。
+本章建议直接在 `02_可运行项目/projects/08-workflow-service/` 中完成可运行练习。先执行：阅读有界队列、反压、TaskGroup、超时、取消和 drain 的测试，定位“接受”与“完成”的差异。
 
 ```bash
-cd projects/08-workflow-service && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/08-workflow-service && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为队列满的路径添加断言，确保新任务在注册前被拒绝且不会留下孤儿 pending 项。

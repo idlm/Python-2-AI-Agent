@@ -139,10 +139,10 @@ revised["title"] = "完成变量练习"
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读任务对象创建和更新路径，标出名称绑定、复制和原对象修改的位置。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读任务对象创建和更新路径，标出名称绑定、复制和原对象修改的位置。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 构造一次错误的原地修改，再改为返回新值；用断言证明旧任务未被意外改变。

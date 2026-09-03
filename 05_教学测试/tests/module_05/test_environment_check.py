@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "examples" / "module_05" / "environment_check.py"
+MODULE_PATH = Path(__file__).resolve().parents[3] / "examples" / "module_05" / "environment_check.py"
 SPEC = importlib.util.spec_from_file_location("module_05_environment_check", MODULE_PATH)
 assert SPEC and SPEC.loader
 module = importlib.util.module_from_spec(SPEC)

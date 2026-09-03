@@ -102,10 +102,10 @@ lengths = list(map(lambda text: len(text), labels))
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：检查函数签名中的类型注解，比较静态意图和运行时输入验证。
+本章的课后项目应落到 `02_可运行项目/projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：检查函数签名中的类型注解，比较静态意图和运行时输入验证。
 
 ```bash
-cd projects/02-text-analyzer && .venv/bin/python -m pytest && .venv/bin/python -m mypy
+cd 02_可运行项目/projects/02-text-analyzer && .venv/bin/python -m pytest && .venv/bin/python -m mypy
 ```
 
 **主题化扩展：** 为一个公共函数补齐输入/返回类型；对不合法运行时输入保留明确异常或受控错误。

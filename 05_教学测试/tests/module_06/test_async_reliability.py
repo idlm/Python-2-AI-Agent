@@ -8,7 +8,7 @@ import sys
 import unittest
 
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "examples" / "module_06" / "async_reliability.py"
+MODULE_PATH = Path(__file__).resolve().parents[3] / "examples" / "module_06" / "async_reliability.py"
 SPEC = importlib.util.spec_from_file_location("async_reliability", MODULE_PATH)
 assert SPEC and SPEC.loader
 async_reliability = importlib.util.module_from_spec(SPEC)

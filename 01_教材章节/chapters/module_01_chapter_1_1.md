@@ -81,14 +81,14 @@ python3 examples/module_01/repl_and_names.py
 
 ## 17. 小项目
 
-为任务管理器创建 `projects/01-task-manager/README.md`，写出用户目标、运行命令、一个任务样例和一项“不自动执行”的危险操作。
+为任务管理器创建 `02_可运行项目/projects/01-task-manager/README.md`，写出用户目标、运行命令、一个任务样例和一项“不自动执行”的危险操作。
 
 ## 18. 单元测试
 
 运行：
 
 ```bash
-python3 -m unittest tests/module_01/test_repl_and_names.py -v
+python3 -m unittest 05_教学测试/tests/module_01/test_repl_and_names.py -v
 ```
 
 测试确认更新标题时返回新字典，原任务不被意外修改。
@@ -143,10 +143,10 @@ python3 -m unittest tests/module_01/test_repl_and_names.py -v
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：从 README 和 CLI 入口开始，区分交互式探索、安装入口和可复现脚本运行。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：从 README 和 CLI 入口开始，区分交互式探索、安装入口和可复现脚本运行。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为任务管理器增加一个只打印解释器版本和工作目录的诊断命令，并为其写测试。

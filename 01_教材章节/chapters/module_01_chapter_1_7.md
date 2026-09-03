@@ -101,10 +101,10 @@ print(tasks[0]["title"])
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：观察任务集合、单个任务记录和 JSON 列表的不同责任。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：观察任务集合、单个任务记录和 JSON 列表的不同责任。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 设计一个标签索引的最小容器方案，说明为何不把任意嵌套字典直接暴露给 CLI。

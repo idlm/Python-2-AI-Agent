@@ -1,7 +1,7 @@
 # 第 5.2 章：项目元数据、依赖与质量门禁——把“能运行”变成“可验证”
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/05-cli-tool-platform/`
+**项目连接：** `02_可运行项目/projects/05-cli-tool-platform/`
 
 ## 1. 本章目标
 
@@ -28,7 +28,7 @@ PyPA 将 `pyproject.toml` 说明为打包工具和 lint、类型检查等工具�
 ## 5. 真实项目配置
 
 ```toml
-# 文件：projects/05-cli-tool-platform/pyproject.toml（节选）
+# 文件：02_可运行项目/projects/05-cli-tool-platform/pyproject.toml（节选）
 [project]
 name = "cli-tool-platform"
 version = "0.1.0"
@@ -92,7 +92,7 @@ Ruff 可发现导入排序、未使用名称和其他静态问题。本项目的
 
 ## 15. CI 工作流
 
-`projects/05-cli-tool-platform/.github/workflows/quality.yml` 在 Python 3.11 与 3.12 的矩阵中执行：检出代码、设置解释器、可编辑安装、pytest、mypy、Ruff。工作流不自动发布，也不读取密钥。CI 的任务是尽早阻止不符合已声明契约的提交，而不是替代代码审查。
+`02_可运行项目/projects/05-cli-tool-platform/.github/workflows/quality.yml` 在 Python 3.11 与 3.12 的矩阵中执行：检出代码、设置解释器、可编辑安装、pytest、mypy、Ruff。工作流不自动发布，也不读取密钥。CI 的任务是尽早阻止不符合已声明契约的提交，而不是替代代码审查。
 
 ## 16. 版本与依赖范围
 
@@ -149,10 +149,10 @@ Ruff 可发现导入排序、未使用名称和其他静态问题。本项目的
 
 ### 本章项目映射
 
-本章建议直接在 `projects/05-cli-tool-platform/` 中完成可运行练习。先执行：阅读控制台入口、pytest、mypy、Ruff 与 CI 的相互关系，区分开发依赖和运行依赖。
+本章建议直接在 `02_可运行项目/projects/05-cli-tool-platform/` 中完成可运行练习。先执行：阅读控制台入口、pytest、mypy、Ruff 与 CI 的相互关系，区分开发依赖和运行依赖。
 
 ```bash
-cd projects/05-cli-tool-platform && .venv/bin/python -m pytest && .venv/bin/python -m mypy && .venv/bin/python -m ruff check src tests
+cd 02_可运行项目/projects/05-cli-tool-platform && .venv/bin/python -m pytest && .venv/bin/python -m mypy && .venv/bin/python -m ruff check src tests
 ```
 
 **主题化扩展：** 为一个纯函数增加测试、类型注解和静态检查通过证据；不要以跳过类型检查换取短期绿色。

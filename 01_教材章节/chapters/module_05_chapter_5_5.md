@@ -1,7 +1,7 @@
 # 第 5.5 章：从遗留脚本到可维护项目——迁移、回归与发布门禁
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/01-task-manager/`、`projects/02-text-analyzer/`、`projects/03-auto-archive/`、`projects/04-plugin-system/`、`projects/05-cli-tool-platform/`
+**项目连接：** `02_可运行项目/projects/01-task-manager/`、`02_可运行项目/projects/02-text-analyzer/`、`02_可运行项目/projects/03-auto-archive/`、`02_可运行项目/projects/04-plugin-system/`、`02_可运行项目/projects/05-cli-tool-platform/`
 
 ## 1. 本章目标
 
@@ -80,7 +80,7 @@ class TaskStore:
         return task
 ```
 
-完整实现还校验 `.json` 路径、固定 Schema、文件大小、重复 ID、原子替换与 `.bak` 备份，位于 `projects/01-task-manager/src/task_manager/core.py`。阅读代码时要分清“教学节选”与真实可运行文件；不要把节选复制后误以为已经具备完整文件安全性。
+完整实现还校验 `.json` 路径、固定 Schema、文件大小、重复 ID、原子替换与 `.bak` 备份，位于 `02_可运行项目/projects/01-task-manager/src/task_manager/core.py`。阅读代码时要分清“教学节选”与真实可运行文件；不要把节选复制后误以为已经具备完整文件安全性。
 
 ## 9. 第二步：把 CLI 缩到边缘
 
@@ -213,8 +213,8 @@ Git 把提交保存为快照，工作区、暂存区与提交是不同状态。[
 
 ## 23. 代码阅读（2 题）
 
-1. 阅读 `projects/03-auto-archive/src/auto_archive/core.py` 的 `_load_manifest()`，标出数据从 `json.load()` 到 `ManifestItem` 的每个验证与类型收窄点，并解释为何 `cast` 出现在运行时检查之后。
-2. 阅读 `projects/04-plugin-system/src/plugins.py` 与 `src/safe_plugin_system/core.py`，证明兼容文件没有复制注册表逻辑。若未来要删除兼容层，哪些测试和 README 文字必须一并改变？
+1. 阅读 `02_可运行项目/projects/03-auto-archive/src/auto_archive/core.py` 的 `_load_manifest()`，标出数据从 `json.load()` 到 `ManifestItem` 的每个验证与类型收窄点，并解释为何 `cast` 出现在运行时检查之后。
+2. 阅读 `02_可运行项目/projects/04-plugin-system/src/plugins.py` 与 `src/safe_plugin_system/core.py`，证明兼容文件没有复制注册表逻辑。若未来要删除兼容层，哪些测试和 README 文字必须一并改变？
 
 ## 24. Debug（2 题）
 
@@ -232,10 +232,10 @@ Git 把提交保存为快照，工作区、暂存区与提交是不同状态。[
 
 ### 本章项目映射
 
-本章建议在 `projects/01-task-manager/` 与 `projects/05-cli-tool-platform/` 中对照完成可运行练习。先执行下列命令，比较历史脚本与 `src` 布局迁移后的安装、兼容层、测试和入口职责。
+本章建议在 `02_可运行项目/projects/01-task-manager/` 与 `02_可运行项目/projects/05-cli-tool-platform/` 中对照完成可运行练习。先执行下列命令，比较历史脚本与 `src` 布局迁移后的安装、兼容层、测试和入口职责。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest && cd ../05-cli-tool-platform && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest && cd ../../../02_可运行项目/projects/05-cli-tool-platform && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为一个旧入口设计薄兼容层，只委托新包逻辑；写回归测试避免两套实现分叉。

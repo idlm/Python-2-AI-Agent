@@ -19,7 +19,7 @@
 ## 安装与测试
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/06-knowledge-api
+cd "02_可运行项目/projects/06-knowledge-api"
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[dev]"
 

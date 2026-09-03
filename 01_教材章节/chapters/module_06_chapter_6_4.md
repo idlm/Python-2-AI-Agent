@@ -1,7 +1,7 @@
 # 第 6.4 章：异步不是加速咒语——并发、超时、取消与结构化收尾
 
 **适用版本：** Python 3.11+  
-**项目连接：** `examples/module_06/async_reliability.py` 与 `tests/module_06/test_async_reliability.py`
+**项目连接：** `examples/module_06/async_reliability.py` 与 `05_教学测试/tests/module_06/test_async_reliability.py`
 
 ## 1. 本章目标
 
@@ -46,9 +46,9 @@ Python 官方文档明确说明，直接调用协程不会把它安排执行；�
 ## 7. 本章可运行示例
 
 ```bash
-cd /home/ubuntu/python_private_course
+cd "$(git rev-parse --show-toplevel)"
 python3 examples/module_06/async_reliability.py
-python3 -m unittest discover -s tests/module_06 -p 'test_*.py' -v
+python3 -m unittest discover -s 05_教学测试/tests/module_06 -p 'test_*.py' -v
 ```
 
 示例不依赖公网、模型或真实数据库。每个 `TimedJob` 的延时、结果与失败由数据明确描述，因此测试可确定性验证成功、超时、失败和取消。结果可返回给显式调用方，但日志只记录任务名称与阶段，不记录 `result_value`。
@@ -197,10 +197,10 @@ return {"accepted": True}
 
 ### 本章项目映射
 
-本章建议直接在 `projects/06-knowledge-api/ 与 examples/module_06/async_reliability.py` 中完成可运行练习。先执行：对照异步示例与服务测试，识别 TaskGroup、超时、取消和 finally 清理的不同责任。
+本章建议直接在 `02_可运行项目/projects/06-knowledge-api/` 与 `examples/module_06/async_reliability.py` 中完成可运行练习。先执行：对照异步示例与服务测试，识别 TaskGroup、超时、取消和 finally 清理的不同责任。
 
 ```bash
-python3 -m unittest discover -s tests/module_06 -v && cd projects/06-knowledge-api && .venv/bin/python -m pytest
+python3 -m unittest discover -s 05_教学测试/tests/module_06 -v && cd 02_可运行项目/projects/06-knowledge-api && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 增加一个有限超时测试；结果未知时只报告状态类别，不假设远端或后台工作未发生。

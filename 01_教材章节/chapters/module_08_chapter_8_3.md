@@ -1,7 +1,7 @@
 # 第 8.3 章：服务关闭时，任务去了哪里——FastAPI 生命周期、202 合同与恢复边界
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/08-workflow-service/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/08-workflow-service/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -171,7 +171,7 @@ FastAPI 官方明确警示：重型计算或无需与同一进程共享内存的
 ## 19. 本地服务器运行证据
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/08-workflow-service
+cd "02_可运行项目/projects/08-workflow-service"
 .venv/bin/course-workflow-service --serve --host 127.0.0.1 --port 8018
 ```
 
@@ -230,10 +230,10 @@ with TestClient(app) as client:
 
 ### 本章项目映射
 
-本章建议直接在 `projects/08-workflow-service/` 中完成可运行练习。先执行：阅读 FastAPI lifespan、关停恢复候选、请求 ID 和 API 合同，理解服务停止并不等于外部结果已知。
+本章建议直接在 `02_可运行项目/projects/08-workflow-service/` 中完成可运行练习。先执行：阅读 FastAPI lifespan、关停恢复候选、请求 ID 和 API 合同，理解服务停止并不等于外部结果已知。
 
 ```bash
-cd projects/08-workflow-service && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/08-workflow-service && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为优雅关停后的 interrupted 任务增加恢复候选测试；不得自动标记成功或无限制重放。

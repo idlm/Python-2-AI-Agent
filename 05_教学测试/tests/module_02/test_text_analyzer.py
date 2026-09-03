@@ -2,10 +2,10 @@ import importlib.util
 from pathlib import Path
 import unittest
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "projects" / "02-text-analyzer.py"
+MODULE_PATH = Path(__file__).resolve().parents[3] / "02_可运行项目" / "projects" / "02-text-analyzer.py"
 SPEC = importlib.util.spec_from_file_location("text_analyzer", MODULE_PATH)
-text_analyzer = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
+text_analyzer = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(text_analyzer)
 
 

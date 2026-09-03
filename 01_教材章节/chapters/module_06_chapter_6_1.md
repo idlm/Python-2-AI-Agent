@@ -1,7 +1,7 @@
 # 第 6.1 章：Web 服务不是函数调用——HTTP、资源与 API 合同
 
 **适用版本：** Python 3.11+  
-**项目连接：** `examples/module_06/http_contract.py` 与 `tests/module_06/test_http_contract.py`
+**项目连接：** `examples/module_06/http_contract.py` 与 `05_教学测试/tests/module_06/test_http_contract.py`
 
 ## 1. 本章目标
 
@@ -121,9 +121,9 @@ FastAPI 的错误处理文档将 `HTTPException` 作为 API 错误响应的方�
 本章示例不启动网络监听器，避免把“HTTP 合同”与“端口、进程和框架”一次性混在一起。它在纯 Python 中定义 `Request`、`Response`、`NoteStore` 与 `dispatch()`，并以真实状态码和 JSON 形状表现服务边界。
 
 ```bash
-cd /home/ubuntu/python_private_course
+cd "$(git rev-parse --show-toplevel)"
 python3 examples/module_06/http_contract.py
-python3 -m unittest discover -s tests/module_06 -p 'test_*.py' -v
+python3 -m unittest discover -s 05_教学测试/tests/module_06 -p 'test_*.py' -v
 ```
 
 当前测试覆盖创建、列表、单条读取、`404`、`405`、`422`、精确字段 Schema 与日志脱敏。示例的内存存储会随进程结束消失；这正是第 6.3 章要引入数据库事务的原因。
@@ -215,10 +215,10 @@ FastAPI 会生成 OpenAPI Schema，`/docs` 与 `/redoc` 会使用它展示交互
 
 ### 本章项目映射
 
-本章建议直接在 `projects/06-knowledge-api/` 中完成可运行练习。先执行：从 API 模型和测试读取路径、方法、请求/响应 Schema、状态码与公开错误之间的合同。
+本章建议直接在 `02_可运行项目/projects/06-knowledge-api/` 中完成可运行练习。先执行：从 API 模型和测试读取路径、方法、请求/响应 Schema、状态码与公开错误之间的合同。
 
 ```bash
-cd projects/06-knowledge-api && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/06-knowledge-api && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 增加一个只读端点的 Schema 测试；未知字段或错误方法必须落到受控 4xx，而不暴露内部异常。

@@ -29,7 +29,7 @@ print(format_report("a b"))
 # 预期输出：字符数：3；词数：2；行数：1
 ```
 
-这段代码要求先进入 `projects/02-text-analyzer/`，再用该项目的虚拟环境执行 `.venv/bin/python -m pip install --editable ".[dev]"`；若尚未安装，请先使用本章末尾的项目测试命令验证环境。实际兼容入口仍可使用 `projects/02-text-analyzer.py`，但新练习应优先使用安装后的标准包。
+这段代码要求先进入 `02_可运行项目/projects/02-text-analyzer/`，再用该项目的虚拟环境执行 `.venv/bin/python -m pip install --editable ".[dev]"`；若尚未安装，请先使用本章末尾的项目测试命令验证环境。实际兼容入口仍可使用 `02_可运行项目/projects/02-text-analyzer.py`，但新练习应优先使用安装后的标准包。
 
 ## 9. 逐行解释
 顶层负责呈现；统计层负责数据；规范化层负责输入一致性。
@@ -59,7 +59,7 @@ README、测试、文件路径、错误策略与非目标必须同步维护。
 为文本分析工具增加单独的 `--help` 设计草案和文件输入验收标准。
 
 ## 18. 单元测试
-运行 `python3 -m unittest tests/module_02/test_text_analyzer.py -v`，当前应通过三项测试。
+运行 `python3 -m unittest 05_教学测试/tests/module_02/test_text_analyzer.py -v`，当前应通过三项测试。
 
 ## 19. 自测题
 1. 为什么分层？ 2. 哪层负责 CLI？ 3. 何为集成测试？ 4. 如何定位组合错误？ 5. 哪些文档必须更新？
@@ -104,10 +104,10 @@ README、测试、文件路径、错误策略与非目标必须同步维护。
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：从 README、CLI、测试和包代码追踪同一个文本输入的完整路径。
+本章的课后项目应落到 `02_可运行项目/projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：从 README、CLI、测试和包代码追踪同一个文本输入的完整路径。
 
 ```bash
-cd projects/02-text-analyzer && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/02-text-analyzer && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 增加一个公开指标字段，并同步更新函数、CLI JSON、测试和 README，体验合同变更的影响。

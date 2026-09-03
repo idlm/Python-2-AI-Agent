@@ -121,10 +121,10 @@ for title in tasks:
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读任务列表输出循环，确认遍历顺序、空集合和终止条件。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读任务列表输出循环，确认遍历顺序、空集合和终止条件。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 给列表命令增加最大显示数量；测试零、边界值和超过上限的行为。

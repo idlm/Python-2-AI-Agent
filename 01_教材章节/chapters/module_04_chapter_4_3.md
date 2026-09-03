@@ -1,7 +1,7 @@
 # 第 4.3 章：装饰器、生成器与上下文管理器——在不改核心逻辑时增加能力
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/04-plugin-system/`（安全文本插件系统，版本 0.2.0）
+**项目连接：** `02_可运行项目/projects/04-plugin-system/`（安全文本插件系统，版本 0.2.0）
 
 ## 1. 本章目标
 
@@ -73,7 +73,7 @@ if __name__ == "__main__":
 项目的 `log_transform_call` 只记录插件名和输入/输出长度，不记录文本正文。库通过 `logging.getLogger(__name__)` 创建模块级记录器，而命令行程序决定日志级别和输出位置；这是标准库推荐的分层日志模式。[3]
 
 ```python
-# 文件：projects/04-plugin-system/src/plugins.py（节选，版本 0.2.0）
+# 文件：02_可运行项目/projects/04-plugin-system/src/plugins.py（节选，版本 0.2.0）
 @log_transform_call
 def apply(self, name: str, text: str, *, audit_log=None) -> str:
     _validate_plugin_name(name)
@@ -133,7 +133,7 @@ agent_note
 ## 12. 项目中的名称生成器
 
 ```python
-# 文件：projects/04-plugin-system/src/plugins.py（节选，版本 0.2.0）
+# 文件：02_可运行项目/projects/04-plugin-system/src/plugins.py（节选，版本 0.2.0）
 def names(self):
     """按稳定排序逐个产生插件名，而非暴露内部字典。"""
     yield from sorted(self._plugins)
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 `JsonlAuditLog` 以 JSON Lines 写入一次调用的一行元数据。项目测试验证在 `with` 退出后可读取文件，并确认敏感文本不出现在审计内容中。
 
 ```python
-# 文件：projects/04-plugin-system/src/cli.py（调用模式）
+# 文件：02_可运行项目/projects/04-plugin-system/src/cli.py（调用模式）
 with JsonlAuditLog(audit_path) as audit_log:
     print(registry.apply("task", "包含敏感信息的文本", audit_log=audit_log))
 ```
@@ -239,7 +239,7 @@ with JsonlAuditLog(audit_path) as audit_log:
 执行以下命令：
 
 ```bash
-cd projects/04-plugin-system
+cd 02_可运行项目/projects/04-plugin-system
 python3 -m unittest discover -s tests -v
 ```
 
@@ -279,11 +279,11 @@ python3 -m unittest discover -s tests -v
 
 ### 本章项目映射
 
-本章的装饰器、生成器和上下文管理器可在 `examples/module_04/` 与 `projects/04-plugin-system/` 中对照阅读。先运行机制示例测试与安全插件系统测试：
+本章的装饰器、生成器和上下文管理器可在 `examples/module_04/` 与 `02_可运行项目/projects/04-plugin-system/` 中对照阅读。先运行机制示例测试与安全插件系统测试：
 
 ```bash
-python3 -m unittest discover -s tests/module_04 -v
-cd projects/04-plugin-system
+python3 -m unittest discover -s 05_教学测试/tests/module_04 -v
+cd 02_可运行项目/projects/04-plugin-system
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

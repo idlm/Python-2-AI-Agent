@@ -1,7 +1,7 @@
 # 第 7.2 章：并发不等于轰炸——礼貌采集、限速与可收尾任务组
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/07-polite-api-collector/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/07-polite-api-collector/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -156,7 +156,7 @@ results = await asyncio.gather(*(client.get(url) for url in urls))
 ## 21. 本章验收
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/07-polite-api-collector
+cd "02_可运行项目/projects/07-polite-api-collector"
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests
@@ -195,10 +195,10 @@ cd /home/ubuntu/python_private_course/projects/07-polite-api-collector
 
 ### 本章项目映射
 
-本章建议直接在 `projects/07-polite-api-collector/` 中完成可运行练习。先执行：阅读 robots、Semaphore、Pacer 与 TaskGroup 测试，区分并发上限、节奏和站点规则。
+本章建议直接在 `02_可运行项目/projects/07-polite-api-collector/` 中完成可运行练习。先执行：阅读 robots、Semaphore、Pacer 与 TaskGroup 测试，区分并发上限、节奏和站点规则。
 
 ```bash
-cd projects/07-polite-api-collector && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/07-polite-api-collector && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 设计一个来源级预算；测试 robots 拒绝时不会启动 fetch，也不将 robots 视为法律或访问授权。

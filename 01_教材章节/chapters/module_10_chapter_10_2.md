@@ -1,7 +1,7 @@
 # 第 10.2 章：先证明“取到了什么”——RAG 检索评测、来源质量与安全反例
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/10-rag-contract-workbench/`（v0.5.0：检索、来源约束回答与离线支持度评测阶段）  
+**项目连接：** `02_可运行项目/projects/10-rag-contract-workbench/`（v0.5.0：检索、来源约束回答与离线支持度评测阶段）  
 **前置章节：** 第 10.1 章的受控语料、切块、来源、教学嵌入、内存索引与有限检索。
 
 ## 1. 本章目标
@@ -162,7 +162,7 @@ OpenAI 的安全指南建议对对抗输入进行 red-team 测试，并限制输
 ## 19. 运行离线评测
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/10-rag-contract-workbench
+cd "02_可运行项目/projects/10-rag-contract-workbench"
 .venv/bin/python examples/run_static_retrieval_evaluation.py
 cat reports/module_10_static_retrieval_evaluation.json
 ```
@@ -213,7 +213,7 @@ cat reports/module_10_static_retrieval_evaluation.json
 本章对应 `10-rag-contract-workbench`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从公开语料合同、稳定切块、教学嵌入替身、内存检索、来源约束与离线评测读取 RAG 的证据边界。
 
 ```bash
-cd projects/10-rag-contract-workbench
+cd 02_可运行项目/projects/10-rag-contract-workbench
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

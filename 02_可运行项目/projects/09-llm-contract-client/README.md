@@ -11,7 +11,7 @@
 ## 安装与质量门禁
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/09-llm-contract-client
+cd "02_可运行项目/projects/09-llm-contract-client"
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[dev]"
 
@@ -70,7 +70,7 @@ python3 -m venv .venv
 ```bash
 curl --fail --silent "$OPENAI_API_BASE/models" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
-  > /home/ubuntu/python_private_course/records/module_09_live_model_catalog.json
+  > 03_出版与审校记录/records/module_09_live_model_catalog.json
 
 .venv/bin/python examples/structured_smoke.py
 ```

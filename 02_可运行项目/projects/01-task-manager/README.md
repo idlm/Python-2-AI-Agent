@@ -20,7 +20,7 @@
 以下命令从项目根目录执行。虚拟环境把本项目的开发依赖与系统 Python 隔离；`pip install -e` 以可编辑方式安装，使命令行入口和源码使用同一个项目。[4]
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/01-task-manager
+cd "02_可运行项目/projects/01-task-manager"
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[dev]"
 
@@ -67,7 +67,7 @@ python3 -m venv .venv
 ## 质量门禁
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/01-task-manager
+cd "02_可运行项目/projects/01-task-manager"
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

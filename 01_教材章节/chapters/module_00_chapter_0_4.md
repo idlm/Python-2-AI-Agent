@@ -3,7 +3,7 @@
 **所属模块：** 模块 0·学习准备与逆向思维  
 **代码版本：** Python 3.11+  
 **本章示例：** `examples/module_00/study_record.py`  
-**本章测试：** `tests/module_00/test_study_record.py`
+**本章测试：** `05_教学测试/tests/module_00/test_study_record.py`
 
 > **本章核心观点：** 学习不是一次次“重新开始”。每一次运行、困惑、错误和修复都应留下足以让未来的你或他人复现的证据。
 
@@ -206,7 +206,7 @@ Bash 会提示找不到该文件。这不是 Python Traceback，而是 Shell 在
 
 ## 18. 单元测试
 
-将以下测试保存为 `tests/module_00/test_study_record.py`：
+将以下测试保存为 `05_教学测试/tests/module_00/test_study_record.py`：
 
 ```python
 import unittest
@@ -283,7 +283,7 @@ if __name__ == "__main__":
 本章的课后项目应落到 `examples/module_00/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读学习记录和运行快照示例，建立可复现命令、观察和下一步的最小日志。
 
 ```bash
-python3 -m unittest discover -s tests/module_00 -v
+python3 -m unittest discover -s 05_教学测试/tests/module_00 -v
 ```
 
 **主题化扩展：** 为本周任一练习创建复现卡：版本、命令、输入类别、预期/实际结果和一个待验证假设。

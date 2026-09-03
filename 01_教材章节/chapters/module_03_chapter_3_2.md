@@ -102,10 +102,10 @@ if path.exists():
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：从默认 Dry Run 到显式 `--apply` 阅读操作计划，确认何处才允许移动文件。
+本章的课后项目应落到 `02_可运行项目/projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：从默认 Dry Run 到显式 `--apply` 阅读操作计划，确认何处才允许移动文件。
 
 ```bash
-cd projects/03-auto-archive && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/03-auto-archive && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为一个新归档规则先实现 Dry Run 输出，再在显式应用路径中复用同一计划。

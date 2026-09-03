@@ -104,10 +104,10 @@ except FileNotFoundError:
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读日志和异常映射，比较面向用户的失败摘要与开发者调试信息。
+本章的课后项目应落到 `02_可运行项目/projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读日志和异常映射，比较面向用户的失败摘要与开发者调试信息。
 
 ```bash
-cd projects/03-auto-archive && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/03-auto-archive && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 新增一个失败类别；CLI 只输出受控错误，日志只保存必要元数据，不保存路径正文或文件内容。

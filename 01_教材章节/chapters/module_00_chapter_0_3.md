@@ -3,7 +3,7 @@
 **所属模块：** 模块 0·学习准备与逆向思维  
 **代码版本：** Python 3.11+  
 **本章示例：** `examples/module_00/traceback_lab.py`  
-**本章测试：** `tests/module_00/test_traceback_lab.py`
+**本章测试：** `05_教学测试/tests/module_00/test_traceback_lab.py`
 
 > **本章核心观点：** 报错不是对人的评价，而是程序在用一种严格、可定位的格式说明：它在哪一步、因为什么、无法继续完成什么工作。
 
@@ -200,7 +200,7 @@ Traceback 的价值在于缩短定位时间，而不是加快 CPU。最有效的
 
 ## 18. 单元测试
 
-将下列测试保存为 `tests/module_00/test_traceback_lab.py`。测试不运行故意失败的 `main()`，而是分别验证正常输入能计算、无效输入确实抛出预期异常。
+将下列测试保存为 `05_教学测试/tests/module_00/test_traceback_lab.py`。测试不运行故意失败的 `main()`，而是分别验证正常输入能计算、无效输入确实抛出预期异常。
 
 ```python
 import unittest
@@ -274,7 +274,7 @@ if __name__ == "__main__":
 本章的课后项目应落到 `examples/module_00/traceback_lab.py`，而不是另起一个不可测试的临时脚本。建议先完成：故意传入非数字输入，按“最后一行→自己的代码→输入”顺序读 Traceback。
 
 ```bash
-python3 -m unittest discover -s tests/module_00 -v
+python3 -m unittest discover -s 05_教学测试/tests/module_00 -v
 ```
 
 **主题化扩展：** 为同类错误设计一个不打印完整 Traceback 的公开错误摘要，并说明两种输出的读者不同。

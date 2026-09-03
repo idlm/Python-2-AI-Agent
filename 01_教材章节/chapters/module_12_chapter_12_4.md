@@ -112,7 +112,7 @@ Runbook 应包含暂停入口、禁用工具、冻结审批、标记线程、导
 本章对应 `12-framework-adoption-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从候选字段闭集、工具目录、最小 checkpoint、审批恢复绑定、迁移夹具和无正文报告学习框架采用前合同。
 
 ```bash
-cd projects/12-framework-adoption-kit
+cd 02_可运行项目/projects/12-framework-adoption-kit
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

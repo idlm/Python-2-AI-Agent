@@ -1,7 +1,7 @@
 # 第 8.1 章：接受任务不等于完成任务——服务工作流、状态机与幂等提交
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/08-workflow-service/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/08-workflow-service/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -258,10 +258,10 @@ FastAPI 的 `BackgroundTasks` 可安排函数在响应返回后执行，适合�
 
 ### 本章项目映射
 
-本章建议直接在 `projects/08-workflow-service/` 中完成可运行练习。先执行：阅读核心状态机、幂等键和公开视图，绘制 pending/running/completed/failed/cancelled 的允许转换。
+本章建议直接在 `02_可运行项目/projects/08-workflow-service/` 中完成可运行练习。先执行：阅读核心状态机、幂等键和公开视图，绘制 pending/running/completed/failed/cancelled 的允许转换。
 
 ```bash
-cd projects/08-workflow-service && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/08-workflow-service && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 新增一个非法状态转换测试；重复键若引用不同工作必须返回冲突而不是覆盖旧记录。

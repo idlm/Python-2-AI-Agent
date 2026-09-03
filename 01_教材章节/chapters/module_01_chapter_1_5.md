@@ -125,10 +125,10 @@ else:
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：跟踪 CLI 命令分支，说明每个条件的输入、成功输出和受控失败。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：跟踪 CLI 命令分支，说明每个条件的输入、成功输出和受控失败。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为一个新筛选条件写清优先级和默认分支，并添加正常与边界测试。

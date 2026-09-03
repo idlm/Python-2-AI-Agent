@@ -13,7 +13,7 @@
 在项目根目录创建项目专属虚拟环境并进行可编辑安装。PyPA 建议在使用第三方包时采用项目专属虚拟环境，并指出 `.venv` 应排除在版本控制之外。[1]
 
 ```bash
-cd projects/05-cli-tool-platform
+cd "02_可运行项目/projects/05-cli-tool-platform"
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip

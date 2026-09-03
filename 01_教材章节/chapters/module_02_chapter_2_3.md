@@ -104,10 +104,10 @@ print(add_task("学习作用域"))
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读闭包或内部辅助函数时标出哪些名称来自局部、参数和模块作用域。
+本章的课后项目应落到 `02_可运行项目/projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读闭包或内部辅助函数时标出哪些名称来自局部、参数和模块作用域。
 
 ```bash
-cd projects/02-text-analyzer && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/02-text-analyzer && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 实现一个返回规范化策略的函数，避免可变全局状态；测试两个独立实例互不影响。

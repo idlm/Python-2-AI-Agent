@@ -11,7 +11,7 @@
 ## 快速开始
 
 ```bash
-cd projects/03-auto-archive
+cd "02_可运行项目/projects/03-auto-archive"
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip

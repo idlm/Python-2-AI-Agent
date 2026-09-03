@@ -1,7 +1,7 @@
 # 第 5.1 章：工程化的第一条边界——项目、虚拟环境与可复现运行
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/05-cli-tool-platform/`（将在本模块逐步建立）
+**项目连接：** `02_可运行项目/projects/05-cli-tool-platform/`（将在本模块逐步建立）
 
 ## 1. 本章目标
 
@@ -29,7 +29,7 @@
 PyPA 文档建议在项目目录中创建 `.venv`，并推荐在使用第三方包时采用虚拟环境。[1]
 
 ```bash
-cd projects/05-cli-tool-platform
+cd 02_可运行项目/projects/05-cli-tool-platform
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip --version
@@ -173,10 +173,10 @@ requires-python = ">=3.11"
 
 ### 本章项目映射
 
-本章建议直接在 `projects/05-cli-tool-platform/` 中完成可运行练习。先执行：从 `pyproject.toml`、`src/` 与 README 的安装步骤验证项目根目录和解释器边界。
+本章建议直接在 `02_可运行项目/projects/05-cli-tool-platform/` 中完成可运行练习。先执行：从 `pyproject.toml`、`src/` 与 README 的安装步骤验证项目根目录和解释器边界。
 
 ```bash
-cd projects/05-cli-tool-platform && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/05-cli-tool-platform && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 在临时目录复现一次从错误工作目录运行的失败，再在 README 中说明为何项目根目录是合同的一部分。

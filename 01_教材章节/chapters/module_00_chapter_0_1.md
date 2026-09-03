@@ -3,7 +3,7 @@
 **所属模块：** 模块 0·学习准备与逆向思维  
 **代码版本：** Python 3.11+  
 **本章示例：** `examples/module_00/reverse_design.py`  
-**本章测试：** `tests/module_00/test_reverse_design.py`（本轮随章节创建）
+**本章测试：** `05_教学测试/tests/module_00/test_reverse_design.py`（本轮随章节创建）
 
 > **本章核心观点：** 你不是为了“学完 Python”而学习 Python。你学习 Python，是为了能把真实目标拆成可验证的小能力，再把小能力稳定地组合成一个可以交付的系统。
 
@@ -232,7 +232,7 @@ SyntaxError: expected ':'
 
 ## 18. 单元测试
 
-单元测试的含义是：把一个小行为单独拿出来检查。第 0.1 章用 Python 自带的 `unittest` 验证两件事：已掌握一部分能力时，程序能列出缺口；未知功能不会让程序崩溃。测试文件为 `tests/module_00/test_reverse_design.py`：
+单元测试的含义是：把一个小行为单独拿出来检查。第 0.1 章用 Python 自带的 `unittest` 验证两件事：已掌握一部分能力时，程序能列出缺口；未知功能不会让程序崩溃。测试文件为 `05_教学测试/tests/module_00/test_reverse_design.py`：
 
 ```python
 """第 0.1 章示例的单元测试。支持 Python 3.11+。"""
@@ -313,7 +313,7 @@ if __name__ == "__main__":
 本章的课后项目应落到 `examples/module_00/`，而不是另起一个不可测试的临时脚本。建议先完成：从 `reverse_design.py` 的目标反推输入、步骤、输出和验证条件。
 
 ```bash
-python3 -m unittest discover -s tests/module_00 -v
+python3 -m unittest discover -s 05_教学测试/tests/module_00 -v
 ```
 
 **主题化扩展：** 把毕业作品拆成一个可在 15 分钟内验证的最小里程碑，并在学习记录中写出反例。

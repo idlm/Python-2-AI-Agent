@@ -112,7 +112,7 @@ worker 数、并发、延迟、成本、成功率和冲突率有助诊断，却�
 本章对应 `13-delegation-contract-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定角色、最小工具集合、字段闭集委派、预算、去重、取消和稳定汇总理解权限不扩散。
 
 ```bash
-cd projects/13-delegation-contract-kit
+cd 02_可运行项目/projects/13-delegation-contract-kit
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

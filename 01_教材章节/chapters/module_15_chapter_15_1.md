@@ -112,7 +112,7 @@ CI 只能获得执行该任务所需的最小权限，输出必须脱敏，工�
 本章对应 `15-operational-readiness-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从离线部署 profile、无秘密值元数据、drain、恢复演练、版本兼容和 Runbook 学习运行准备合同。
 
 ```bash
-cd projects/15-operational-readiness-kit
+cd 02_可运行项目/projects/15-operational-readiness-kit
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

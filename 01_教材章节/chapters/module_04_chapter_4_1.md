@@ -104,10 +104,10 @@ class Task:
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/04-plugin-system/`，而不是另起一个不可测试的临时脚本。建议先完成：从冻结数据类和 Protocol 开始，观察对象如何同时承载状态和可验证行为。
+本章的课后项目应落到 `02_可运行项目/projects/04-plugin-system/`，而不是另起一个不可测试的临时脚本。建议先完成：从冻结数据类和 Protocol 开始，观察对象如何同时承载状态和可验证行为。
 
 ```bash
-cd projects/04-plugin-system && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/04-plugin-system && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 设计一个只读任务对象，写测试保证字段不被原地修改，并说明何时需要新对象。

@@ -9,20 +9,20 @@
 
 | 检查项 | 操作 | 通过条件 | 失败时处理 |
 |---|---|---|---|
-| 工作目录 | `cd /home/ubuntu/python_private_course` | 存在 `chapters/`、`projects/`、`records/`。 | 不在错误目录执行批量命令。 |
+| 工作目录 | 仓库根目录（含 `01_教材章节/chapters/`、`02_可运行项目/projects/`、`03_出版与审校记录/records/`） | 上述三个目录都存在。 | 不在错误目录执行批量命令。 |
 | 解释器 | `python3 --version` | Python 3.11+。 | 使用项目 README 所示虚拟环境。 |
-| 项目环境 | `projects/<项目>/.venv/bin/python -m pytest` | 可执行且不依赖真实网络。 | 按 README 重新创建 `.venv` 并可编辑安装。 |
+| 项目环境 | `02_可运行项目/projects/<项目>/.venv/bin/python -m pytest` | 可执行且不依赖真实网络。 | 按 README 重新创建 `.venv` 并可编辑安装。 |
 | 敏感数据 | 检查新增夹具、报告、日志、示例 | 不含秘密、真实正文、prompt、端点或原始响应。 | 立即停止提交/发布，删除泄露物并轮换真实凭据（若适用）。 |
 
 ## 2. 标准质量命令
 
 | 范围 | 命令 | 预期 |
 |---|---|---|
-| 单个项目测试 | `cd projects/<项目> && .venv/bin/python -m pytest` | 所有测试通过。 |
-| 单个项目类型检查 | `cd projects/<项目> && .venv/bin/python -m mypy` | 无严格类型错误。 |
-| 单个项目静态检查 | `cd projects/<项目> && .venv/bin/python -m ruff check src tests` | 无 Ruff 错误。 |
-| 模块 0–15 全量回归 | 阅读 `records/module_15_full_regression.log` 或重跑同等范围命令 | 当前基线为 312 项测试、项目 1–15 的 mypy/Ruff 均通过。 |
-| 章节结构审查 | `grep -Ec '^## [0-9]+\. ' chapters/<章节>.md` | 需要严格 25；练习配额见第 21–25 节。 |
+| 单个项目测试 | `cd 02_可运行项目/projects/<项目> && .venv/bin/python -m pytest` | 所有测试通过。 |
+| 单个项目类型检查 | `cd 02_可运行项目/projects/<项目> && .venv/bin/python -m mypy` | 无严格类型错误。 |
+| 单个项目静态检查 | `cd 02_可运行项目/projects/<项目> && .venv/bin/python -m ruff check src tests` | 无 Ruff 错误。 |
+| 模块 0–15 全量回归 | 阅读 `03_出版与审校记录/records/module_15_full_regression.log` 或重跑同等范围命令 | 当前基线为 312 项测试、项目 1–15 的 mypy/Ruff 均通过。 |
+| 章节结构审查 | `grep -Ec '^## [0-9]+\. ' 01_教材章节/chapters/<章节>.md` | 需要严格 25；练习配额见第 21–25 节。 |
 
 项目 1、6、7 的既有 Ruff 基线不含 `examples/`；全量回归沿用每个项目既有的 `src tests` 范围。项目 6、8 的 Starlette/httpx 弃用 warning 为记录中的第三方依赖 warning，不是测试失败。
 

@@ -1,7 +1,7 @@
 # 第 9.3 章：不要用一次成功代替质量——离线评测、提示注入与人工复核
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/09-llm-contract-client/`（版本 0.3.0）
+**项目连接：** `02_可运行项目/projects/09-llm-contract-client/`（版本 0.3.0）
   
 **前置章节：** 第 9.1 章的最小可观察客户端，以及第 9.2 章的严格结构化摘要与本地验证。
 
@@ -214,7 +214,7 @@ temporary_path.replace(path)
 本章对应 `09-llm-contract-client`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定模型/任务、严格 JSON Schema、本地重复验证、静态夹具和最小报告读取“模型只提议、应用才验证”的合同。
 
 ```bash
-cd projects/09-llm-contract-client
+cd 02_可运行项目/projects/09-llm-contract-client
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests
