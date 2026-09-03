@@ -121,10 +121,10 @@ print(task["done"])
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：查看待办/完成状态如何进入公开 JSON，而不是直接依赖字符串真假值。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：查看待办/完成状态如何进入公开 JSON，而不是直接依赖字符串真假值。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 实现并测试一个显式状态判断函数；拒绝未知状态，避免把非空字符串当作完成。

@@ -101,10 +101,10 @@ print(word_count("学习 函数 契约"))
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：比较纯文本分析与文件读取边界，找出副作用进入系统的位置。
+本章的课后项目应落到 `02_可运行项目/projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：比较纯文本分析与文件读取边界，找出副作用进入系统的位置。
 
 ```bash
-cd projects/02-text-analyzer && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/02-text-analyzer && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 把文件读取与统计分离；缺失文件应在边界失败，统计函数不接收路径。

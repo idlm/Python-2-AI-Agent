@@ -1,7 +1,7 @@
 # 第 5.3 章：Git 不只是备份——快照、提交边界与可审查协作
 
 **适用版本：** Git 2.x、Python 3.11+  
-**项目连接：** `projects/05-cli-tool-platform/`
+**项目连接：** `02_可运行项目/projects/05-cli-tool-platform/`
 
 ## 1. 本章目标
 
@@ -33,10 +33,10 @@ Git 官方 Pro Git 书将工作区、暂存区和 Git 目录描述为核心区�
 
 ## 6. 最小安全工作流
 
-在 `projects/05-cli-tool-platform/` 项目根目录中执行以下命令。首次初始化只需一次；不要在未知目录中盲目运行 `git add .`。
+在 `02_可运行项目/projects/05-cli-tool-platform/` 项目根目录中执行以下命令。首次初始化只需一次；不要在未知目录中盲目运行 `git add .`。
 
 ```bash
-cd projects/05-cli-tool-platform
+cd 02_可运行项目/projects/05-cli-tool-platform
 git init
 git status --short
 git add pyproject.toml README.md src tests .github .gitignore
@@ -68,7 +68,7 @@ docs: document JSON output example
 `.gitignore` 只告诉 Git 忽略**尚未被跟踪**的匹配文件。它不会自动停止追踪已经提交过的文件；若一个密钥曾被提交，后来加入 `.gitignore` 并不能从历史中移除它。[2] 因此忽略规则是预防生成物和本地文件污染的工具，不是泄露后的补救方案。
 
 ```gitignore
-# 文件：projects/05-cli-tool-platform/.gitignore
+# 文件：02_可运行项目/projects/05-cli-tool-platform/.gitignore
 .venv/
 __pycache__/
 .pytest_cache/
@@ -178,10 +178,10 @@ CI 通过 Git 提交或拉取请求触发，检出指定快照并运行质量命
 
 ### 本章项目映射
 
-本章建议直接在 `projects/05-cli-tool-platform/` 中完成可运行练习。先执行：结合 `.gitignore`、README 和 CI 阅读哪些文件应提交、哪些只应在本地存在。
+本章建议直接在 `02_可运行项目/projects/05-cli-tool-platform/` 中完成可运行练习。先执行：结合 `.gitignore`、README 和 CI 阅读哪些文件应提交、哪些只应在本地存在。
 
 ```bash
-cd projects/05-cli-tool-platform && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/05-cli-tool-platform && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 起草一次只包含单一合同变更的提交说明，列出应随之更新的测试、文档与 CI 证据。

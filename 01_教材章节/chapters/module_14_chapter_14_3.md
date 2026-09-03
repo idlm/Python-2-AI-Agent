@@ -112,7 +112,7 @@ ADR 记录采用/拒绝的方案、评测证据、门禁、例外、风险、数
 本章对应 `14-evaluation-gate-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从离线案例、最小 trace、基线/候选比较、硬阻断、软阈值与人工复核学习评测发布门禁。
 
 ```bash
-cd projects/14-evaluation-gate-kit
+cd 02_可运行项目/projects/14-evaluation-gate-kit
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

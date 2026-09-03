@@ -1,7 +1,7 @@
 # 第 9.1 章：模型调用不是魔法——最小可观察 LLM 客户端、消息合同与安全边界
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/09-llm-contract-client/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/09-llm-contract-client/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -209,7 +209,7 @@ subprocess.run(result.text, shell=True)
 本章对应 `09-llm-contract-client`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定模型/任务、严格 JSON Schema、本地重复验证、静态夹具和最小报告读取“模型只提议、应用才验证”的合同。
 
 ```bash
-cd projects/09-llm-contract-client
+cd 02_可运行项目/projects/09-llm-contract-client
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests
@@ -221,7 +221,7 @@ cd projects/09-llm-contract-client
 
 ## 参考资料
 
-[1]: `records/module_09_live_model_catalog.json`（本次写作获取的受控实时目录）与 `/home/ubuntu/skills/builtin-llm-models/SKILL.md`（代理调用形状与模型族参数）。
+[1]: `03_出版与审校记录/records/module_09_live_model_catalog.json`（本次写作获取的受控实时目录）与 `/home/ubuntu/skills/builtin-llm-models/SKILL.md`（代理调用形状与模型族参数）。
 [2]: https://developers.openai.com/api/docs/guides/structured-outputs "OpenAI: Structured model outputs"
 [3]: https://developers.openai.com/api/docs/guides/rate-limits "OpenAI: Rate limits"
 [4]: https://developers.openai.com/api/docs/guides/safety-best-practices "OpenAI: Safety best practices"

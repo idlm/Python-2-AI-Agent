@@ -1,7 +1,7 @@
 # 第 11.2 章：先看见循环，再允许循环——Agent 事件、静态夹具与审批评测
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/11-bounded-agent-core/`（v0.1.0）  
+**项目连接：** `02_可运行项目/projects/11-bounded-agent-core/`（v0.1.0）  
 **前置章节：** 第 11.1 章的有限状态、纯工具、预算与审批暂停。
 
 ## 1. 本章目标
@@ -118,7 +118,7 @@
 本章对应 `11-bounded-agent-core`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从有限状态、固定纯工具、独立预算、审批暂停、最小事件和静态回放理解无框架受限 Agent。
 
 ```bash
-cd projects/11-bounded-agent-core
+cd 02_可运行项目/projects/11-bounded-agent-core
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

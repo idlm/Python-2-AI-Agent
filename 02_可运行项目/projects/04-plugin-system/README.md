@@ -21,7 +21,7 @@
 从项目根目录创建隔离环境并以可编辑方式安装。`pyproject.toml` 的 `[project.scripts]` 声明安装后的 `course-safe-plugins` 命令；PyPA 将项目元数据和脚本入口作为标准项目配置的一部分。[1]
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/04-plugin-system
+cd "02_可运行项目/projects/04-plugin-system"
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[dev]"
 
@@ -105,7 +105,7 @@ task
 ## 测试与质量门禁
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/04-plugin-system
+cd "02_可运行项目/projects/04-plugin-system"
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

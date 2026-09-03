@@ -112,7 +112,7 @@ Runbook 应说明触发条件、影响判断、立即暂停动作、最小证据
 本章对应 `15-operational-readiness-kit`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从离线部署 profile、无秘密值元数据、drain、恢复演练、版本兼容和 Runbook 学习运行准备合同。
 
 ```bash
-cd projects/15-operational-readiness-kit
+cd 02_可运行项目/projects/15-operational-readiness-kit
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

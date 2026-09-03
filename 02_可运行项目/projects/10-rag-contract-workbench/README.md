@@ -11,7 +11,7 @@
 ## 安装与质量门禁
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/10-rag-contract-workbench
+cd "02_可运行项目/projects/10-rag-contract-workbench"
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[dev]"
 

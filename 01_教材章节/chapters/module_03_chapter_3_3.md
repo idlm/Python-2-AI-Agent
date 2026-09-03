@@ -102,10 +102,10 @@ print(json.loads(text)["title"])
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：检查操作清单 JSON 的字段闭集、版本和原子写入语义。
+本章的课后项目应落到 `02_可运行项目/projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：检查操作清单 JSON 的字段闭集、版本和原子写入语义。
 
 ```bash
-cd projects/03-auto-archive && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/03-auto-archive && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 扩展一个非敏感计数字段；未知字段、损坏 JSON 或重复记录必须有测试。

@@ -11,7 +11,7 @@
 ## 快速开始
 
 ```bash
-cd projects/02-text-analyzer
+cd "02_可运行项目/projects/02-text-analyzer"
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip

@@ -3,7 +3,7 @@
 **所属模块：** 模块 0·学习准备与逆向思维  
 **代码版本：** Python 3.11+  
 **本章示例：** `examples/module_00/runtime_snapshot.py`  
-**本章测试：** `tests/module_00/test_runtime_snapshot.py`（本轮随章节创建）
+**本章测试：** `05_教学测试/tests/module_00/test_runtime_snapshot.py`（本轮随章节创建）
 
 > **本章核心观点：** 当你在终端输入一条命令时，并不是“让电脑做魔法”。你是在指定一个程序、给它一份输入、让操作系统找到文件和解释器，再观察它产生的输出或错误。
 
@@ -232,7 +232,7 @@ Python 文档说明，解释器可以执行脚本、`-c` 参数中的代码和 `
 
 ## 18. 单元测试
 
-下面的测试验证 `describe_runtime()` 返回的不是随机文本：它必须包含解释器、版本、工作目录和脚本名四类信息。将文件保存为 `tests/module_00/test_runtime_snapshot.py`。
+下面的测试验证 `describe_runtime()` 返回的不是随机文本：它必须包含解释器、版本、工作目录和脚本名四类信息。将文件保存为 `05_教学测试/tests/module_00/test_runtime_snapshot.py`。
 
 ```python
 """第 0.2 章示例的单元测试。支持 Python 3.11+。"""
@@ -259,7 +259,7 @@ if __name__ == "__main__":
 在项目根目录执行：
 
 ```bash
-python3 -m unittest tests/module_00/test_runtime_snapshot.py
+python3 -m unittest 05_教学测试/tests/module_00/test_runtime_snapshot.py
 ```
 
 测试使用 `-m unittest`，意味着让 Python 按模块方式运行标准库中的测试工具；官方文档说明 `-m` 会按标准导入机制定位并执行指定模块。[1] 现在你不必掌握 `unittest` 的全部 API，只要注意测试检查的是“程序行为是否符合约定”，而不是“某次手工运行有没有看起来正常”。
@@ -317,7 +317,7 @@ python3 -m unittest tests/module_00/test_runtime_snapshot.py
 本章的课后项目应落到 `examples/module_00/`，而不是另起一个不可测试的临时脚本。建议先完成：运行环境快照与终端示例，比较脚本路径、当前目录和解释器信息。
 
 ```bash
-python3 -m unittest discover -s tests/module_00 -v
+python3 -m unittest discover -s 05_教学测试/tests/module_00 -v
 ```
 
 **主题化扩展：** 修改一个命令使其从错误目录失败，再用绝对/项目根目录方案解释如何恢复可复现性。

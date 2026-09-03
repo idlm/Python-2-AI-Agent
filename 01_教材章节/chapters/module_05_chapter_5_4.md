@@ -1,7 +1,7 @@
 # 第 5.4 章：配置与日志——让系统可调整、可诊断而不泄露
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/05-cli-tool-platform/`（版本 0.2.0）
+**项目连接：** `02_可运行项目/projects/05-cli-tool-platform/`（版本 0.2.0）
 
 ## 1. 本章目标
 
@@ -46,7 +46,7 @@ COURSE_APP_NAME、COURSE_LOG_LEVEL
 ## 6. 受控 TOML 配置示例
 
 ```toml
-# 文件：projects/05-cli-tool-platform/examples/settings.toml
+# 文件：02_可运行项目/projects/05-cli-tool-platform/examples/settings.toml
 app_name = "course-cli"
 log_level = "WARNING"
 ```
@@ -60,7 +60,7 @@ log_level = "WARNING"
 ## 8. 真实配置加载代码
 
 ```python
-# 文件：projects/05-cli-tool-platform/src/cli_tool_platform/settings.py（节选）
+# 文件：02_可运行项目/projects/05-cli-tool-platform/src/cli_tool_platform/settings.py（节选）
 def load_settings(*, config_path=None, environ=None) -> Settings:
     values = {"app_name": "cli-tool-platform", "log_level": "INFO"}
     if config_path is not None:
@@ -121,7 +121,7 @@ api_key = "<不要在配置文件中保存密钥>"
 ## 17. 真实日志配置代码
 
 ```python
-# 文件：projects/05-cli-tool-platform/src/cli_tool_platform/settings.py（节选）
+# 文件：02_可运行项目/projects/05-cli-tool-platform/src/cli_tool_platform/settings.py（节选）
 def configure_logging(settings: Settings, *, verbose: bool = False) -> None:
     level_name = "DEBUG" if verbose else settings.log_level
     logging.basicConfig(
@@ -137,7 +137,7 @@ def configure_logging(settings: Settings, *, verbose: bool = False) -> None:
 ## 18. 运行演示
 
 ```bash
-cd projects/05-cli-tool-platform
+cd 02_可运行项目/projects/05-cli-tool-platform
 .venv/bin/course-env-check --json
 COURSE_LOG_LEVEL=DEBUG .venv/bin/course-env-check --config examples/settings.toml --verbose
 ```
@@ -187,10 +187,10 @@ COURSE_LOG_LEVEL=DEBUG .venv/bin/course-env-check --config examples/settings.tom
 
 ### 本章项目映射
 
-本章建议直接在 `projects/05-cli-tool-platform/` 中完成可运行练习。先执行：阅读 TOML 字段闭集、环境变量优先级和 stderr 最小诊断，定位配置/日志边界。
+本章建议直接在 `02_可运行项目/projects/05-cli-tool-platform/` 中完成可运行练习。先执行：阅读 TOML 字段闭集、环境变量优先级和 stderr 最小诊断，定位配置/日志边界。
 
 ```bash
-cd projects/05-cli-tool-platform && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/05-cli-tool-platform && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 新增一个非敏感设置项；拒绝未知字段，并写测试证明日志不输出完整配置或环境变量。

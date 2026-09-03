@@ -1,7 +1,7 @@
 # 第 7.1 章：调用 API 不是“请求一下”——受控客户端、超时与有限重试
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/07-polite-api-collector/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/07-polite-api-collector/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -153,7 +153,7 @@ LOGGER.info("fetching url=%s", response.request.url)
 ## 21. 本章验收
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/07-polite-api-collector
+cd "02_可运行项目/projects/07-polite-api-collector"
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests
@@ -192,10 +192,10 @@ cd /home/ubuntu/python_private_course/projects/07-polite-api-collector
 
 ### 本章项目映射
 
-本章建议直接在 `projects/07-polite-api-collector/` 中完成可运行练习。先执行：阅读 HTTPS/主机允许列表、连接池、超时和有限重试，区分请求安全与业务许可。
+本章建议直接在 `02_可运行项目/projects/07-polite-api-collector/` 中完成可运行练习。先执行：阅读 HTTPS/主机允许列表、连接池、超时和有限重试，区分请求安全与业务许可。
 
 ```bash
-cd projects/07-polite-api-collector && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/07-polite-api-collector && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 增加一个不允许的基址测试，验证在发请求前受控拒绝且不输出认证信息。

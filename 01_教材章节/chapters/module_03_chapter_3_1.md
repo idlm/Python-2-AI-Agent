@@ -102,10 +102,10 @@ print((project_root / "examples").exists())
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读路径验证和归档目标计算，区分用户输入、允许根目录和真实文件系统。
+本章的课后项目应落到 `02_可运行项目/projects/03-auto-archive/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读路径验证和归档目标计算，区分用户输入、允许根目录和真实文件系统。
 
 ```bash
-cd projects/03-auto-archive && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/03-auto-archive && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为路径遍历或缺失目录添加测试，确保在任何移动前受控拒绝。

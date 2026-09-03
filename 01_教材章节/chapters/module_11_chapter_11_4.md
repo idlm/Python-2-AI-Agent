@@ -1,7 +1,7 @@
 # 第 11.4 章：能重放才可改进——受限 Agent 的评测、事件与人工复核
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/11-bounded-agent-core/`（v0.1.0）  
+**项目连接：** `02_可运行项目/projects/11-bounded-agent-core/`（v0.1.0）  
 **前置章节：** 第 11.1–11.3 章的有限状态、授权候选、审批、预算与静态夹具。
 
 ## 1. 本章目标
@@ -112,7 +112,7 @@ CLI 固定报告名称，而不接受任意输出路径。这样可避免把“�
 本章对应 `11-bounded-agent-core`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从有限状态、固定纯工具、独立预算、审批暂停、最小事件和静态回放理解无框架受限 Agent。
 
 ```bash
-cd projects/11-bounded-agent-core
+cd 02_可运行项目/projects/11-bounded-agent-core
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

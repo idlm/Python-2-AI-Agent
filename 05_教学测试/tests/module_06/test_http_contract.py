@@ -7,7 +7,7 @@ import sys
 import unittest
 
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "examples" / "module_06" / "http_contract.py"
+MODULE_PATH = Path(__file__).resolve().parents[3] / "examples" / "module_06" / "http_contract.py"
 SPEC = importlib.util.spec_from_file_location("http_contract", MODULE_PATH)
 assert SPEC and SPEC.loader
 http_contract = importlib.util.module_from_spec(SPEC)

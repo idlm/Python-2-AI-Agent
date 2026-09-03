@@ -124,10 +124,10 @@ print(priority + 1)
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读 CLI 的 JSON 输出，区分机器可读字段、用户显示文本和内部对象表示。
+本章的课后项目应落到 `02_可运行项目/projects/01-task-manager/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读 CLI 的 JSON 输出，区分机器可读字段、用户显示文本和内部对象表示。
 
 ```bash
-cd projects/01-task-manager && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/01-task-manager && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 新增一个受控格式化函数，使任务标题中的换行或超长文本不会破坏一行摘要。

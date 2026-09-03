@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DELIVERY_ROOT="/home/ubuntu/python_private_course_delivery"
+COURSE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+DELIVERY_ROOT="${DELIVERY_ROOT:-${COURSE_ROOT%/*}/python_private_course_delivery}"
 PACKAGE_ROOT="${DELIVERY_ROOT}/python_private_course_delivery"
-ARCHIVE_PATH="/home/ubuntu/python_private_course_delivery.zip"
+ARCHIVE_PATH="${DELIVERY_ROOT}.zip"
 
 rm -rf "${DELIVERY_ROOT}" "${ARCHIVE_PATH}"
 mkdir -p \
@@ -18,7 +18,7 @@ mkdir -p \
 copy_tree() {
   local source_rel="$1"
   local target_dir="$2"
-  tar -C "${SOURCE_ROOT}" \
+  tar -C "${COURSE_ROOT}" \
     --exclude='*/.venv' \
     --exclude='*/__pycache__' \
     --exclude='*/.pytest_cache' \
@@ -31,18 +31,21 @@ copy_tree() {
     --exclude='*.db' \
     --exclude='*.bak' \
     --exclude='*.log~' \
-    -cf - "${source_rel}" | tar -C "${target_dir}" -xf -
+    -cf - "${source_rel}" | tar -C "${target_dir}" --strip-components=1 -xf -
 }
 
-copy_tree "chapters" "${PACKAGE_ROOT}/01_教材章节"
-copy_tree "projects" "${PACKAGE_ROOT}/02_可运行项目"
-copy_tree "records" "${PACKAGE_ROOT}/03_出版与审校记录"
-copy_tree "tools" "${PACKAGE_ROOT}/04_辅助脚本"
-copy_tree "tests" "${PACKAGE_ROOT}/05_教学测试"
+copy_tree "01_教材章节/chapters" "${PACKAGE_ROOT}/01_教材章节"
+copy_tree "02_可运行项目/projects" "${PACKAGE_ROOT}/02_可运行项目"
+copy_tree "03_出版与审校记录/records" "${PACKAGE_ROOT}/03_出版与审校记录"
+copy_tree "04_辅助脚本/tools" "${PACKAGE_ROOT}/04_辅助脚本"
+copy_tree "05_教学测试/tests" "${PACKAGE_ROOT}/05_教学测试"
+if [[ -d "${COURSE_ROOT}/examples" ]]; then
+  copy_tree "examples" "${PACKAGE_ROOT}/examples"
+fi
 
 for root_file in README.md pyproject.toml .gitignore; do
-  if [[ -f "${SOURCE_ROOT}/${root_file}" ]]; then
-    cp "${SOURCE_ROOT}/${root_file}" "${PACKAGE_ROOT}/06_根目录配置/"
+  if [[ -f "${COURSE_ROOT}/${root_file}" ]]; then
+    cp "${COURSE_ROOT}/${root_file}" "${PACKAGE_ROOT}/06_根目录配置/"
   fi
 done
 

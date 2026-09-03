@@ -1,7 +1,7 @@
 # 第 9.2 章：把“看起来像 JSON”变成合同——严格结构化输出、本地验证与失败边界
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/09-llm-contract-client/`（版本 0.3.0）
+**项目连接：** `02_可运行项目/projects/09-llm-contract-client/`（版本 0.3.0）
   
 **前置章节：** 第 9.1 章的固定任务、模型允许列表、输入/输出上限、有限重试与最小日志。
 
@@ -189,7 +189,7 @@ CLI 的 `--structured` 模式将结构化结果打印到 stdout，因为它是�
 
 ## 16. 一次真实烟雾验收说明了什么
 
-在刷新 `records/module_09_live_model_catalog.json` 后，项目以固定 `gpt-5-mini`、47 个输入字符、128 个输出 token 上限和一次尝试执行了一次严格 Schema 调用。它记录模型、请求 ID、token 摘要、关键点数量、不确定性和“已本地验证”结论，但不保存 prompt 或响应正文；证据文件为 `records/module_09_structured_smoke_evidence.json`。[2]
+在刷新 `03_出版与审校记录/records/module_09_live_model_catalog.json` 后，项目以固定 `gpt-5-mini`、47 个输入字符、128 个输出 token 上限和一次尝试执行了一次严格 Schema 调用。它记录模型、请求 ID、token 摘要、关键点数量、不确定性和“已本地验证”结论，但不保存 prompt 或响应正文；证据文件为 `records/module_09_structured_smoke_evidence.json`。[2]
 
 这证明“当前环境的 SDK 接线、`response_format` 请求形状和本地解析链路”曾经工作。它不证明模型对其他文本准确、始终抗注入、价格稳定、能够并发服务，或已通过安全评测。单次成功是烟雾测试，不是质量报告。
 
@@ -268,7 +268,7 @@ return payload
 本章对应 `09-llm-contract-client`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从固定模型/任务、严格 JSON Schema、本地重复验证、静态夹具和最小报告读取“模型只提议、应用才验证”的合同。
 
 ```bash
-cd projects/09-llm-contract-client
+cd 02_可运行项目/projects/09-llm-contract-client
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests
@@ -281,6 +281,6 @@ cd projects/09-llm-contract-client
 ## 参考资料
 
 [1]: https://developers.openai.com/api/docs/guides/structured-outputs "OpenAI: Structured model outputs"
-[2]: `records/module_09_live_model_catalog.json`（2026-08-26 刷新的受控实时目录）与 `records/module_09_structured_smoke_evidence.json`（脱敏单次烟雾验收元数据）。
+[2]: `03_出版与审校记录/records/module_09_live_model_catalog.json`（2026-08-26 刷新的受控实时目录）与 `records/module_09_structured_smoke_evidence.json`（脱敏单次烟雾验收元数据）。
 [3]: https://developers.openai.com/api/docs/guides/rate-limits "OpenAI: Rate limits"
 [4]: https://developers.openai.com/api/docs/guides/safety-best-practices "OpenAI: Safety best practices"

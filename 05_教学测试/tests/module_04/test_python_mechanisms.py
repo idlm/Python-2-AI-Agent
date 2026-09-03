@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 
-EXAMPLES = Path(__file__).resolve().parents[2] / "examples" / "module_04"
+EXAMPLES = Path(__file__).resolve().parents[3] / "examples" / "module_04"
 
 
 def load_module(stem: str):

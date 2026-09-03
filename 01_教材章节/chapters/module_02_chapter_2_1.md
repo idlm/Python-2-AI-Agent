@@ -101,10 +101,10 @@ print(normalize_title("  学习函数  "))
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读 `src/text_analyzer` 中命名函数，标出每个函数负责的单一步骤。
+本章的课后项目应落到 `02_可运行项目/projects/02-text-analyzer/`，而不是另起一个不可测试的临时脚本。建议先完成：阅读 `src/text_analyzer` 中命名函数，标出每个函数负责的单一步骤。
 
 ```bash
-cd projects/02-text-analyzer && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/02-text-analyzer && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 从主流程提取一个纯函数，写出参数、返回值和两个单元测试。

@@ -1,7 +1,7 @@
 # 第 11.1 章：Agent 不是“会自己做事”——状态、工具、预算与审批合同
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/11-bounded-agent-core/`（v0.1.0）  
+**项目连接：** `02_可运行项目/projects/11-bounded-agent-core/`（v0.1.0）  
 **前置章节：** 模块 8 的状态机；模块 9 的受控模型输出；模块 10 的不可信数据、来源与评测。
 
 ## 1. 本章目标
@@ -125,7 +125,7 @@ OpenAI 区分应用自己管理循环和 SDK 管理循环。[1] 学会本章状�
 本章对应 `11-bounded-agent-core`。先在项目根目录阅读 README、`src/`、`tests/` 与公开静态夹具：从有限状态、固定纯工具、独立预算、审批暂停、最小事件和静态回放理解无框架受限 Agent。
 
 ```bash
-cd projects/11-bounded-agent-core
+cd 02_可运行项目/projects/11-bounded-agent-core
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests

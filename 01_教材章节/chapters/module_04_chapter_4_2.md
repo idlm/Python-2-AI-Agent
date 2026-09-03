@@ -104,10 +104,10 @@ Report 不继承 Formatter，而是接收一个 Formatter 对象；调用者可�
 
 ### 本章项目映射
 
-本章的课后项目应落到 `projects/04-plugin-system/`，而不是另起一个不可测试的临时脚本。建议先完成：比较 Protocol、组合对象和允许列表注册表，说明为什么不让继承层级决定权限。
+本章的课后项目应落到 `02_可运行项目/projects/04-plugin-system/`，而不是另起一个不可测试的临时脚本。建议先完成：比较 Protocol、组合对象和允许列表注册表，说明为什么不让继承层级决定权限。
 
 ```bash
-cd projects/04-plugin-system && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/04-plugin-system && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 用组合增加一个固定格式化能力；不要新增动态导入或让子类自动获得未允许权限。

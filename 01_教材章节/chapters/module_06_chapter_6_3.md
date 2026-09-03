@@ -1,7 +1,7 @@
 # 第 6.3 章：数据库不是字典文件——SQLite、事务与持久化边界
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/06-knowledge-api/`（版本 0.2.0）
+**项目连接：** `02_可运行项目/projects/06-knowledge-api/`（版本 0.2.0）
 
 ## 1. 本章目标
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS notes (
 ## 6. 数据值必须通过占位符绑定
 
 ```python
-# 文件：projects/06-knowledge-api/src/knowledge_api/core.py
+# 文件：02_可运行项目/projects/06-knowledge-api/src/knowledge_api/core.py
 cursor = connection.execute(
     "INSERT INTO notes (title, content) VALUES (?, ?)",
     (title, content),
@@ -203,7 +203,7 @@ row = connection.execute(sql).fetchone()
 ## 21. 本章验收
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/06-knowledge-api
+cd "02_可运行项目/projects/06-knowledge-api"
 .venv/bin/python -m pytest
 .venv/bin/python -m mypy
 .venv/bin/python -m ruff check src tests
@@ -242,10 +242,10 @@ cd /home/ubuntu/python_private_course/projects/06-knowledge-api
 
 ### 本章项目映射
 
-本章建议直接在 `projects/06-knowledge-api/` 中完成可运行练习。先执行：追踪 SQLite 仓储、参数化查询、事务与备份恢复测试，理解持久化的提交/回滚边界。
+本章建议直接在 `02_可运行项目/projects/06-knowledge-api/` 中完成可运行练习。先执行：追踪 SQLite 仓储、参数化查询、事务与备份恢复测试，理解持久化的提交/回滚边界。
 
 ```bash
-cd projects/06-knowledge-api && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/06-knowledge-api && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为一次写入失败补充回滚断言；不要直接拼接 SQL 或将数据库路径/正文写入公开错误。

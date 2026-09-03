@@ -1,7 +1,7 @@
 # 第 6.2 章：FastAPI 不是魔法——把 HTTP 合同变成可测试服务
 
 **适用版本：** Python 3.11+  
-**项目连接：** `projects/06-knowledge-api/`（版本 0.1.0）
+**项目连接：** `02_可运行项目/projects/06-knowledge-api/`（版本 0.1.0）
 
 ## 1. 本章目标
 
@@ -18,7 +18,7 @@ FastAPI 不是 API 设计本身，也不是生产质量的自动保证。它负�
 ## 4. 项目结构与责任
 
 ```text
-projects/06-knowledge-api/
+02_可运行项目/projects/06-knowledge-api/
 ├── pyproject.toml
 ├── src/knowledge_api/
 │   ├── core.py       # Note、NoteStore、领域缺失异常
@@ -161,7 +161,7 @@ Pydantic/ FastAPI 会在输入不合法时产生 `RequestValidationError`。项�
 ## 16. 本地启动是开发验收，不是部署方案
 
 ```bash
-cd /home/ubuntu/python_private_course/projects/06-knowledge-api
+cd "02_可运行项目/projects/06-knowledge-api"
 .venv/bin/course-notes-api --host 127.0.0.1 --port 8000
 ```
 
@@ -248,10 +248,10 @@ def unsafe_create(payload: dict) -> object:
 
 ### 本章项目映射
 
-本章建议直接在 `projects/06-knowledge-api/` 中完成可运行练习。先执行：阅读请求 ID、依赖注入与公开错误转换，区分 API 层、领域层和日志责任。
+本章建议直接在 `02_可运行项目/projects/06-knowledge-api/` 中完成可运行练习。先执行：阅读请求 ID、依赖注入与公开错误转换，区分 API 层、领域层和日志责任。
 
 ```bash
-cd projects/06-knowledge-api && .venv/bin/python -m pytest
+cd 02_可运行项目/projects/06-knowledge-api && .venv/bin/python -m pytest
 ```
 
 **主题化扩展：** 为一个领域错误增加稳定错误代码与请求 ID；测试响应不回显请求正文或内部堆栈。
